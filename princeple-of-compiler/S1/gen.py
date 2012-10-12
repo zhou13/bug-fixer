@@ -5,13 +5,6 @@ import os
 import subprocess
 import sys
 
-def read_txt_file(filename):
-    with open(filename,'r') as f:
-        txt = f.read().strip()
-    # Python should be able to do it automatically, but just in case...
-    txt = txt.replace('\r','')
-    return txt
-
 def main():
     decaf_jar = os.path.join('..', '..', 'result', 'decaf.jar')
     names = sys.argv[1:]
