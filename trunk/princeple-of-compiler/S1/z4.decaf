@@ -1,0 +1,29 @@
+// a program to solve the N-queens problem (from Cornell CS412 website)
+
+class Main {
+
+    static void main() {
+        new NQueue().init(8).solve();
+    }
+}
+
+class NQueues {
+    int N;
+    int[] col;
+    int[] row;
+    int[] di1;
+    int[] di2;
+
+
+    class NQueues init(int n) {
+        N = n;
+        a = d;
+        col = clearArray(new int[N]);
+        row = clearArray(new int[N]);
+        di1 = clearArray(new int[N]);
+        di2 = clearArray(new int[N]);
+
+        return this;
+    }
+    a=b;
+}
