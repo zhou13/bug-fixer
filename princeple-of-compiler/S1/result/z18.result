@@ -1,0 +1,62 @@
+program
+    class Main <empty>
+        static func main voidtype
+            formals
+            stmtblock
+                assign
+                    varref a
+                    neg
+                        varref a
+                assign
+                    varref a
+                    mul
+                        neg
+                            varref a
+                        varref b
+                assign
+                    varref a
+                    neg
+                        neg
+                            neg
+                                varref a
+                assign
+                    varref a
+                    add
+                        varref a
+                        neg
+                            varref a
+                assign
+                    varref a
+                    sub
+                        varref a
+                        neg
+                            neg
+                                neg
+                                    neg
+                                        varref a
+                assign
+                    varref a
+                    sub
+                        varref a
+                        neg
+                            neg
+                                neg
+                                    varref a
+                assign
+                    varref a
+                    sub
+                        varref a
+                        neg
+                            neg
+                                varref a
+                assign
+                    varref a
+                    sub
+                        varref a
+                        neg
+                            varref a
+                assign
+                    varref a
+                    sub
+                        varref a
+                        varref a
