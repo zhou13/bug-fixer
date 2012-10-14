@@ -1,0 +1,9 @@
+class Main {
+    static void main() {
+        a = -a;
+        a = -a*b;
+        a = ---a;
+        a = a + -a;
+        a = a -+ a;
+    }
+}
