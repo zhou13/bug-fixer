@@ -1,0 +1,72 @@
+program
+    class a a
+        func main inttype
+            formals
+            stmtblock
+                vardef c inttype
+                assign
+                    varref c
+                    geq
+                        add
+                            sub
+                                sub
+                                    neg
+                                        neg
+                                            neg
+                                                neg
+                                                    neg
+                                                        varref c
+                                    varref c
+                                neg
+                                    neg
+                                        varref c
+                            mod
+                                div
+                                    div
+                                        mul
+                                            neg
+                                                neg
+                                                    varref c
+                                            varref c
+                                        neg
+                                            varref c
+                                    neg
+                                        neg
+                                            neg
+                                                varref c
+                                neg
+                                    varref c
+                        neg
+                            neg
+                                varref c
+                if
+                    equ
+                        gtr
+                            varref c
+                            intconst 0
+                        intconst 23123
+                    if
+                        les
+                            varref c
+                            intconst 0
+                        assign
+                            varref c
+                            varref c
+                    else
+                        assign
+                            varref c
+                            neg
+                                varref c
+                else
+                    if
+                        neg
+                            neg
+                                varref c
+                        assign
+                            varref c
+                            sub
+                                intconst 1
+                                varref c
+                return
+                    neg
+                        varref c
