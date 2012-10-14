@@ -1,0 +1,12 @@
+class Main {
+    static void main() {
+        a = -a;
+        a = -a*b;
+    }
+};;
+
+class NQueues {
+    class NQueues init(int n) {
+        ;
+    }
+}
