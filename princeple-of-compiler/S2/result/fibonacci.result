@@ -1,0 +1,15 @@
+GLOBAL SCOPE:
+    (3,1) -> class Main
+    (22,1) -> class Fibonacci
+    CLASS SCOPE OF 'Main':
+        (6,17) -> static function main : void
+        FORMAL SCOPE OF 'main':
+            LOCAL SCOPE:
+                (7,13) -> variable i : int
+                (8,25) -> variable F : class : Fibonacci
+    CLASS SCOPE OF 'Fibonacci':
+        (25,9) -> function get : class : Fibonacci->int->int
+        FORMAL SCOPE OF 'get':
+            (25,9) -> variable @this : class : Fibonacci
+            (25,17) -> variable @index : int
+            LOCAL SCOPE:
