@@ -11,6 +11,7 @@
 *** Error at (17,15): incompatible operands: bool 4 int
 *** Error at (18,18): undeclared variable 'c'
 *** Error at (19,14): incompatible operands: class : Main = int
+*** Error at (20,11): incompatible operands: int = class : Main
 *** Error at (20,18): incompatible operands: class : Main A int
 *** Error at (21,15): incompatible operands: int ; bool
 *** Error at (22,15): incompatible operands: int = bool
