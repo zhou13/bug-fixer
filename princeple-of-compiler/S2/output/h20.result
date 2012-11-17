@@ -1,6 +1,0 @@
-*** Error: no legal Main class named 'Main' was found
-*** Error at (8,9): class 'extends_1' not found
-*** Error at (13,19): class 'a' not found
-*** Error at (16,17): class 'a' not found
-*** Error at (16,27): declaration of 'c' here conflicts with earlier declaration at (13,33)
-*** Error at (26,21): declaration of 'c' here conflicts with earlier declaration at (13,33)

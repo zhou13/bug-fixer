@@ -1,0 +1,67 @@
+class Main
+{
+        int c(int[][][][] a, int[][][] c)
+        {
+                return;
+        }
+        static int c2(int[][][][] a, int[][][] c)
+        {
+                return;
+        }
+        static void cd()
+        {
+                return false;
+        }
+        void cd2()
+        {
+                return;
+        }
+        static int cd3()
+        {
+                return cd3() + c(null, null);
+        }
+
+        static void main()
+        {
+                for (a = 1; true; a = "1")
+                {
+                        int a;
+                        for (; a == a; a = a + 1)
+                                break;
+                }
+                for (; true; );
+
+                int[][][][] d;
+                d=new int[][][][4];
+                d[0] = new int[][][2];
+                d[0][1] = new int[1];
+                d[0][1] = new int[][][1];
+                d[0][1] = new int[][][null];
+                d[0][1] = new int[][1];
+                d[0][1][2] = new int[c(d,d[0])];
+                d[0][1][2] = new int[c2(d[0],d+d)];
+                d[0][0][0][0] = 1;
+
+                if (false); else if (false); else
+                if (false) if(false) if (false);
+                else; else; else
+                        Print(main());
+
+                cd = cd;
+                cd = cd2;
+                cd2 = cd;
+
+                Print(cd2 == cd2, main == main);
+
+                if ("a"!="b")
+                {
+                        x=1;
+                        Print(x);
+                        int x;
+                        x=1;
+                        Print(x);
+                }
+                Print(d[0].length(), d.length(), d[0][0][0][0].length(), d[1][1][-1].length());
+
+        }
+}
