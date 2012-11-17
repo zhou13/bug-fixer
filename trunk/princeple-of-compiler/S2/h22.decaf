@@ -1,0 +1,17 @@
+class a extends a
+{
+        int main()
+        {
+                int c;
+                c = -----c-c---c+--c*c/-c/---c%-c>=--c;
+                if (c>0==23123)
+                        if (c<0)
+                                c = c;
+                        else
+                                c = -c;
+                else
+                        if (--c)
+                                c = 1-c;
+                return -c;
+        }
+}
