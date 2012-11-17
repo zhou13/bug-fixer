@@ -1,0 +1,16 @@
+class Main {
+    static void main() {
+        return;
+        Print("hello world");
+    }
+    static int main1() {
+        Print("hello world");
+    }
+    void main2() {
+        int main1;
+        int main2;
+        main1();
+        main1 = main1();
+    }
+}
+
