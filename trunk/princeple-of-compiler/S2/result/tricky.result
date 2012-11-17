@@ -19,6 +19,7 @@
 *** Error at (43,38): can not reference a non-static field 'c' from static method 'main'
 *** Error at (44,41): incompatible argument 1: int[][][] given, int[][][][] expected
 *** Error at (44,47): incompatible operands: int[][][][] A int[][][][]
+*** Error at (44,47): incompatible argument 2: int[][][][] given, int[][][] expected
 *** Error at (50,31): incompatible argument 1: void given, int/bool/string expected
 *** Error at (52,20): incompatible operands: void = void
 *** Error at (53,20): incompatible operands: void = class : Main->void
