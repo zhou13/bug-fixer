@@ -1,0 +1,19 @@
+class Main {
+        static void main() {
+                class Main a;
+                if (Main == a || a == Main || Main != Main) {
+                        a = Main;
+                        Print(Main);
+                }
+                
+                if (main == main && main != C.ma()) {
+                        C.ma();
+                }
+        }
+}
+
+class C extends Main {
+        static void ma() {
+                return;
+        }
+}
