@@ -1,0 +1,24 @@
+*** Error at (5,17): incompatible return: void given, int expected
+*** Error at (9,17): incompatible return: void given, int expected
+*** Error at (13,17): incompatible return: bool given, void expected
+*** Error at (21,32): can not reference a non-static field 'c' from static method 'cd3'
+*** Error at (21,34): incompatible argument 1: null given, int[][][][] expected
+*** Error at (21,40): incompatible argument 2: null given, int[][][] expected
+*** Error at (26,22): undeclared variable 'a'
+*** Error at (26,35): undeclared variable 'a'
+*** Error at (37,25): incompatible operands: int[][] = int[]
+*** Error at (38,25): incompatible operands: int[][] = int[][][]
+*** Error at (39,25): incompatible operands: int[][] = int[][][]
+*** Error at (39,39): new array length must be an integer
+*** Error at (41,38): can not reference a non-static field 'c' from static method 'main'
+*** Error at (42,41): incompatible argument 1: int[][][] given, int[][][][] expected
+*** Error at (42,47): incompatible operands: int[][][][] A int[][][][]
+*** Error at (48,31): incompatible argument 1: void given, int/bool/string expected
+*** Error at (50,20): incompatible operands: void = void
+*** Error at (51,20): incompatible operands: void = class : Main->void
+*** Error at (52,21): incompatible operands: class : Main->void = void
+*** Error at (54,27): incompatible operands: class : Main->void 8 class : Main->void
+*** Error at (54,40): incompatible operands: void 8 void
+*** Error at (58,25): undeclared variable 'x'
+*** Error at (59,31): undeclared variable 'x'
+*** Error at (64,64): 'length' can only be applied to arrays
