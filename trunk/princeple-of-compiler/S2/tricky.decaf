@@ -30,6 +30,8 @@ class Main
                                 break;
                 }
                 for (; true; );
+                
+                for (a=a; a==a; a=a);
 
                 int[][][][] d;
                 d=new int[][][][4];
