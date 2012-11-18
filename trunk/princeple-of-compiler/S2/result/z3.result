@@ -1,40 +1,42 @@
 *** Error at (10,9): undeclared variable 'c'
 *** Error at (11,11): incompatible operands: bool = int
 *** Error at (12,11): incompatible operands: string = bool
-*** Error at (13,15): incompatible operands: int A string
-*** Error at (14,15): incompatible operands: int B bool
+*** Error at (13,15): incompatible operands: int + string
+*** Error at (14,15): incompatible operands: int - bool
 *** Error at (15,9): undeclared variable 'c'
 *** Error at (15,13): undeclared variable 'c'
-*** Error at (16,15): incompatible operands: bool D bool
-*** Error at (17,15): incompatible operands: int E bool
+*** Error at (16,11): incompatible operands: bool = int
+*** Error at (16,15): incompatible operands: bool / bool
+*** Error at (17,15): incompatible operands: int % bool
 *** Error at (18,13): incompatible operand: ! int
-*** Error at (19,15): incompatible operands: bool 4 int
+*** Error at (19,15): incompatible operands: bool && int
 *** Error at (20,18): undeclared variable 'c'
-*** Error at (21,14): incompatible operands: class : Main = int
-*** Error at (22,11): incompatible operands: int = class : Main
-*** Error at (22,18): incompatible operands: class : Main A int
-*** Error at (23,15): incompatible operands: int ; bool
-*** Error at (24,15): incompatible operands: int = bool
-*** Error at (25,15): incompatible operands: int : bool
-*** Error at (26,15): incompatible operands: bool < bool
-*** Error at (27,15): incompatible operands: int 9 bool
-*** Error at (28,15): incompatible operands: int 8 bool
+*** Error at (21,9): undeclared variable 'Main'
+*** Error at (22,13): undeclared variable 'Main'
+*** Error at (23,15): incompatible operands: int > bool
+*** Error at (24,15): incompatible operands: int >= bool
+*** Error at (25,15): incompatible operands: int < bool
+*** Error at (26,15): incompatible operands: bool <= bool
+*** Error at (27,15): incompatible operands: int != bool
+*** Error at (28,15): incompatible operands: int == bool
 *** Error at (29,16): test expression must have bool type
 *** Error at (30,15): test expression must have bool type
-*** Error at (31,11): incompatible operands: int = void
-*** Error at (31,20): incompatible operands: void A void
-*** Error at (32,11): incompatible operands: int = void
-*** Error at (32,18): incompatible operands: void A void
-*** Error at (33,11): incompatible operands: int = class : Main
-*** Error at (33,18): incompatible operands: class : Main A void
-*** Error at (34,11): incompatible operands: int = class : Main
-*** Error at (34,18): incompatible operands: class : Main A class : Main
-*** Error at (35,11): incompatible operands: int = class : Main->int
-*** Error at (35,15): incompatible operands: class : Main->int A class : Main->int
-*** Error at (36,16): incompatible operands: class : Main->int ; class : Main->int
-*** Error at (37,16): incompatible operands: class : Main->int = class : Main->int
-*** Error at (38,15): incompatible operands: bool ; bool
+*** Error at (31,20): incompatible operands: void + void
+*** Error at (32,13): undeclared variable 'main'
+*** Error at (32,20): undeclared variable 'main'
+*** Error at (33,13): undeclared variable 'Main'
+*** Error at (33,20): undeclared variable 'main'
+*** Error at (34,13): undeclared variable 'Main'
+*** Error at (34,20): undeclared variable 'Main'
+*** Error at (35,13): undeclared variable 'ii'
+*** Error at (35,16): undeclared variable 'ii'
+*** Error at (36,13): undeclared variable 'ii'
+*** Error at (36,18): undeclared variable 'ii'
+*** Error at (37,13): undeclared variable 'ii'
+*** Error at (37,19): undeclared variable 'ii'
+*** Error at (38,15): incompatible operands: bool > bool
 *** Error at (41,18): undeclared variable 'c'
 *** Error at (42,11): incompatible operands: string = bool
-*** Error at (42,15): incompatible operands: string 4 string
-*** Error at (43,15): incompatible operands: string A string
+*** Error at (42,15): incompatible operands: string && string
+*** Error at (43,11): incompatible operands: string = int
+*** Error at (43,15): incompatible operands: string + string

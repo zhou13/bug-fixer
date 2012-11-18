@@ -1,0 +1,9 @@
+class Main {
+        static void main() {
+                0=0;
+                1+1=1+1;
+                Main a;
+                null = a;
+        }
+}
+
