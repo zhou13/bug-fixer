@@ -14,6 +14,7 @@ class Main {
         d = d / d;
         a = a % d;
         d = !a;
+        d = -a;
         d = d && b;
         d = d || c;
         Main = 1;

@@ -1,7 +1,9 @@
-*** Error at (4,26): incompatible operands: class : Main 8 class : Main
-*** Error at (4,36): incompatible operands: class : Main 8 class : Main
-*** Error at (4,52): incompatible operands: class : Main 9 class : Main
-*** Error at (5,27): incompatible operands: class : Main = class : Main
-*** Error at (6,31): incompatible argument 1: class : Main given, int/bool/string expected
-*** Error at (9,26): incompatible operands: void 8 void
-*** Error at (9,42): incompatible operands: void 9 void
+*** Error at (4,21): undeclared variable 'Main'
+*** Error at (4,39): undeclared variable 'Main'
+*** Error at (4,47): undeclared variable 'Main'
+*** Error at (4,55): undeclared variable 'Main'
+*** Error at (5,29): undeclared variable 'Main'
+*** Error at (6,31): undeclared variable 'Main'
+*** Error at (9,21): undeclared variable 'main'
+*** Error at (9,29): undeclared variable 'main'
+*** Error at (9,37): undeclared variable 'main'
