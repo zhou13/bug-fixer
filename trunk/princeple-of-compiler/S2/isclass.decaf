@@ -5,7 +5,7 @@ class Main {
                         a = Main;
                         Print(Main);
                 }
-                
+
                 if (main == main && main != C.ma()) {
                         C.ma();
                 }
