@@ -2,7 +2,7 @@
 \usepackage{multicol}
 \usepackage{listings}
 \usepackage{fourier}
-\usepackage{amsmath}
+\usepackage{mathtools}
 
 \usepackage{tikz}
 \tikzstyle{every picture}+=[remember picture]
@@ -663,8 +663,8 @@
 			$X_n=\sum_j Y_{nj}$.
 		Then 
 		\[
-			\E[X_n]=\sum_{1\le j\le k^{n}} \E[Y_{nj}]=
-			\E[X_n]=\sum_{1\le j\le k^{n}} p^{n-1} = R_0^{n}.
+			\E[X_n]=\sum_{\mathclap{1\le j\le k^{n}}} \E[Y_{nj}]=
+			\E[X_n]=\sum_{\mathclap{1\le j\le k^{n}}} p^{n-1} = R_0^{n}.
 		\]
 		Since $\E[X_n]=\sum_{a\ge 1} \Pr[X_n\ge a]$,
 			know $q_n=\Pr[X_n\ge 1]\le \E[X_n]=R_0^n$.
@@ -755,7 +755,7 @@
 		\]
 	\subsubsection{Unprofitable Solicitor Bypassing (USB)}
 		$\{m,p\}\subset N(T_S)$,
-		new node $n$: $T_n\cap T_S = \O$.
+		new node $n$: $T_n\cap T_S = \emptyset$.
 		\textbf{(1)} $n$ join as child of $m$: $T'_S=T_S\cup T_n\cup\{(m,n)\}$.
 		\textbf{(2)} $n$ join as child of $p$: $T''_S=T_S\cup T_n\cup\{(p,n)\}$.
 		Then
@@ -767,9 +767,9 @@
 	\subsubsection{Unprofitable Sybil Attack (USA)}
 		$\{p\}\cup Q \subset N(T_S)$,
 		new node $n$: $n\notin N(T_S)$,
-		which can appear as new node set $S$: $\S\cap N(T_S)=\O$.
+		which can appear as new node set $S$: $S\cap N(T_S)=\emptyset$.
 		$C(S)\le C(n)$.
-		$n$ may solicit forest $F_H$: $F_H\cap T_S=\O$.
+		$n$ may solicit forest $F_H$: $F_H\cap T_S=\emptyset$.
 
 		\textbf{(1)} $n$ join as child of $p$:
 			$T'_S=T_S\cup\{n,(p,n)\}\cup\{(n,h):h\in H\}\cup F_H$.
@@ -801,3 +801,5 @@
 %\end{landscape}
 %\end{multicols}
 \end{document}
+
+% vim: set sw=8 noet indentexpr=  :
