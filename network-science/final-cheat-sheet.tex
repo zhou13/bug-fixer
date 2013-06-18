@@ -27,9 +27,9 @@
 	\setlength\belowdisplayskip{3pt}
 }
 \usepackage{titlesec}
-\titlespacing{\section}{0pt}{5pt}{5pt}
-\titlespacing{\subsection}{0pt}{5pt}{5pt}
-\titlespacing{\subsubsection}{0pt}{5pt}{3pt}
+\titlespacing{\section}{0pt}{5pt}{3pt}
+\titlespacing{\subsection}{0pt}{5pt}{3pt}
+\titlespacing{\subsubsection}{0pt}{2pt}{0pt}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -678,10 +678,11 @@
 		Assume all people are in a clique.
 		Let $S(t)=$number of S at time $t$, $X(t)=$number of I at $t$.
 		At each time, each person will meet another $\beta$ person.
-		\[ \begin{split}
-			\frac{\dd X}{\dd t} &= X \beta \frac{S}{n} \\
-			\frac{\dd S}{\dd t} &= -X \beta \frac{S}{n}. \\
-		\end{split} \]
+		\[
+			\frac{\dd X}{\dd t} = X \beta \frac{S}{n},
+			\textrm{~~~~}
+			\frac{\dd S}{\dd t} = -X \beta \frac{S}{n}.
+		\]
 		Let $s=S/n,x=X/n$, have
 		\[
 			\pte{\frac{\dd x}{\dd t} = \beta(1-x)x}
@@ -691,11 +692,13 @@
 	
 	\subsubsection{SIR Model}
 		R=recovered. Let $\gamma=$ recover rate and $r=$ prop of recover people.
-		\[ \begin{split}
-			\frac{\dd s}{\dd t} &= -\beta s x \\
-			\frac{\dd x}{\dd t} &= \beta s x - \gamma x \\
-			\frac{\dd r}{\dd t} &= \gamma x.
-		\end{split} \]
+		\[
+			\frac{\dd s}{\dd t} = -\beta s x,
+			\textrm{~~~~}
+			\frac{\dd x}{\dd t} = \beta s x - \gamma x,
+			\textrm{~~~~}
+			\frac{\dd r}{\dd t} = \gamma x.
+		\]
 		Get differential eq which is hard to solve (only numerically):
 		\[
 			\frac{\dd r}{\dd t} =
@@ -717,6 +720,68 @@
 		\[
 			\E[W]=\E\left[\sum_{2\le i\le k} W_i\right]\approx 2N\pte{1-\frac{1}{k}}.
 		\]
+
+\subsection{Lottery Tree (Lottree)}
+	\subsubsection{Continuing Contribution Incentive (CCI)}
+		If $m\in N(T_S)$, $C'(m)>C(m)$,
+		and $\forall n\neq m: C'(n)=C(n)$, then
+		\[
+			L(T_S,C',m)>L(T_S,C,m).
+		\]
+	\subsubsection{Value Probortional to Contribution (VPC)}
+		($L$ satisfies $\varphi$-VPC for some $\varphi>0$.)
+		If $m\in N(T_S)$, $c_m=C(m)/C(T_S)$, then
+		\[
+			L(T_S,C,m) \ge \varphi c_m.
+		\]
+	\subsubsection{Strong Solicitation Incentive (SSI)}
+		$T_m\subset T_S, p\in N(T_m)$,
+		consider new node $n\notin N(T_S)$ with $C(n)>0$.
+		If $n$ join as child of $p$:
+			$T'_S=T_S\cup\{n,(p,n)\}$,
+		then
+		\[
+			L(T'_S,C,m) > L(T_S,C,m).
+		\]
+	\subsubsection{Weak Solicitation Incentive (WSI)}
+		$T_m\subset T_S, C(m)>0$.
+		$p\in N(T_m), q\in N(T_S\setminus T_m)$,
+			new node $n\notin N(T_S)$ with $C(n)>0$.
+		\textbf{(1)} $n$ join as child of $p$: $T'_S=T_S\cup\{n,(p,n)\}$.
+		\textbf{(2)} $n$ join as child of $q$: $T''_S=T_S\cup\{n,(q,n)\}$.
+		Then
+		\[
+			L(T'_S,C,m) > L(T''_S,C,m).
+		\]
+	\subsubsection{Unprofitable Solicitor Bypassing (USB)}
+		$\{m,p\}\subset N(T_S)$,
+		new node $n$: $T_n\cap T_S = \O$.
+		\textbf{(1)} $n$ join as child of $m$: $T'_S=T_S\cup T_n\cup\{(m,n)\}$.
+		\textbf{(2)} $n$ join as child of $p$: $T''_S=T_S\cup T_n\cup\{(p,n)\}$.
+		Then
+		\[
+			L(T',C,n) \ge L(T''_S,C,n)
+			\Longrightarrow
+			L(T',C,n) = L(T''_S,C,n).
+		\]
+	\subsubsection{Unprofitable Sybil Attack (USA)}
+		$\{p\}\cup Q \subset N(T_S)$,
+		new node $n$: $n\notin N(T_S)$,
+		which can appear as new node set $S$: $\S\cap N(T_S)=\O$.
+		$C(S)\le C(n)$.
+		$n$ may solicit forest $F_H$: $F_H\cap T_S=\O$.
+
+		\textbf{(1)} $n$ join as child of $p$:
+			$T'_S=T_S\cup\{n,(p,n)\}\cup\{(n,h):h\in H\}\cup F_H$.
+		\textbf{(2)} $S$ join as descendents of $Q$:
+			$T''_S=T_S\cup S\cup\{(\varepsilon q:q\in Q\cup S, s): s\in S\}
+			\cup \{(\varepsilon s:s\in S,h): h\in H\} \cup F_H$.
+		Then
+		\[
+			L(T'_S,C,n) \ge \sum_{s\in S} L(T''_S,C,s).
+		\]
+	\subsubsection{Zero Value to Root (ZVR)}
+		$L(T_S,C,Sys)=0$.
 		
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Appendix}
