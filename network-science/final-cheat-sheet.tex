@@ -1,0 +1,728 @@
+\documentclass[a4paper,twocolumn,10pt]{article}
+\usepackage{multicol}
+\usepackage{listings}
+\usepackage{fourier}
+\usepackage{amsmath}
+
+\usepackage{tikz}
+\tikzstyle{every picture}+=[remember picture]
+\usetikzlibrary{arrows,decorations.pathreplacing,decorations.markings}
+\usepackage{listings}
+\lstset{
+	numbers=left,
+	basicstyle=\small\ttfamily,
+	numberstyle=\it\scriptsize\sffamily,
+	keywordstyle=\bf,
+	commentstyle=\color{red!50!green!50!blue!50},
+	frame=single,
+	%breaklines=true,
+}
+
+\usepackage{geometry}
+\geometry{left=0.7cm,right=0.7cm,top=0.7cm,bottom=1.3cm}
+%\linespread{1.0} 
+
+\AtBeginDocument{%
+%	\setlength\abovedisplayskip{2pt}
+%	\setlength\belowdisplayskip{2pt}
+}
+\usepackage{titlesec}
+%\titlespacing{\section}{0pt}{5pt}{5pt}
+%\titlespacing{\subsection}{0pt}{5pt}{5pt}
+\titlespacing{\subsubsection}{0pt}{5pt}{0pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\newcommand{\floor}[1]{\left\lfloor {#1} \right\rfloor}
+\newcommand{\ceil}[1]{\left\lceil {#1} \right\rceil}
+\newcommand{\ang}[1]{\left\langle {#1} \right\rangle}
+\newcommand{\lc}{\left(}
+\newcommand{\rc}{\right)}
+\newcommand{\parentheses}[1]{\left({#1}\right)}
+\newcommand{\pte}[1]{\left({#1}\right)}
+\newcommand{\labs}{\left|}
+\newcommand{\rabs}{\right|}
+\newcommand{\abs}[1]{\left|{#1}\right|}
+\newcommand{\op}{\operatorname}
+\newcommand{\E}{\operatorname{E}}
+\newcommand{\spt}{\operatorname{support}}
+\newcommand{\mA}{\mathcal{A}}
+\newcommand{\mB}{\mathcal{B}}
+\newcommand{\mC}{\mathcal{C}}
+\newcommand{\mD}{\mathcal{D}}
+\newcommand{\mE}{\mathcal{E}}
+\newcommand{\mJ}{\mathcal{J}}
+\newcommand{\mK}{\mathcal{K}}
+\newcommand{\mL}{\mathcal{L}}
+\newcommand{\mM}{\mathcal{M}}
+\newcommand{\mU}{\mathcal{U}}
+\newcommand{\mV}{\mathcal{V}}
+\newcommand{\mW}{\mathcal{W}}
+\newcommand{\mX}{\mathcal{X}}
+\newcommand{\bR}{\mathbb{R}}
+\newcommand{\bZ}{\mathbb{Z}}
+\newcommand{\bN}{\mathbb{N}}
+\newcommand{\bC}{\mathbb{C}}
+\newcommand{\uge}{\succcurlyeq}
+\newcommand{\Tr}{\op{Tr}}
+\newcommand{\dd}{\op{d}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+%\begin{multicols}{3}
+\section*{\textsc{Net Science}'s Sheet {\large by Feng Qiwei}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Biblographic Coupling}
+	B.C. of $(i,j)$ is $\#$ of other nodes to which both $i,j$ point:
+	$B=A^T A$.
+
+\subsection{Degree}
+	\[
+		k_i=\# \textrm{ of edges connected to }i, \\
+	\]
+	\[
+		\rho(G)=\frac{m}{\binom{n}{2}} = \frac{c}{n-1}\textrm{ where }c=\ang{k_i}.
+	\]
+
+\subsection{Transitivity}
+	\[
+	\textrm{clustering cofficient} =
+		\frac{\#\textrm{ closed paths of len 2}} {\#\textrm{ paths of len 2}}, \\
+	\]
+	\[
+	\textrm{local c.c.} =
+		\frac{\#\textrm{ pairs of connected neighbors}} {\#\textrm{ pairs of neighbors}}.
+	\]
+
+\subsection{Centrality}
+	\subsubsection{Eigenvector}
+		Let $x(t)=A^t x(0)$ where $x(0)=\sum_i c_i v_i$,
+		then $x(t)=\sum_i c_i \lambda_i^t v_i=\lambda_1^t \sum_i c_i (\lambda_i/\lambda_1)^tv_i$.
+		For $t\to\infty$, know $(\lambda_i/\lambda_1)^t\to 0$ so $x(t)\to c_1\lambda_1^t v_1$, so
+		\[
+			\pte{Ax = \lambda_1 x} \Longrightarrow
+			\pte{x_i=\lambda_1^{-1} \sum_j A_{ij} x_j}.
+		\]
+		\textbf{Prob.}
+		Only vertices in out-component(s) of SCC of two or more vertices can have
+			non-zero E.C..
+
+	\subsubsection{Katz}
+		\[
+			\pte{x_i = \alpha\sum_j A_{ij} x_j + \beta}
+			\Longleftrightarrow
+			\pte{x=\alpha Ax+\beta 1}.
+		\]
+		Set $\beta=1$ (should have $\alpha<\lambda_1^{-1}$):
+			$x=(I-\alpha A)^{-1} \cdot 1$.
+		
+	\subsubsection{Pagerank}
+		\[
+			\pte{x_i = \alpha \sum_j A_{ij} \frac{x_j}{k_j^{out}} + \beta}
+			\Longleftrightarrow
+			\pte{x=D(D-\alpha A)^{-1}\cdot \beta1}.
+		\]
+	
+	\subsubsection{Hubs and Authorities}
+		\[
+			x=\alpha A y, y=\beta A^T x.
+		\]
+
+	\subsubsection{Closeness}
+		\[
+			d_{ij}=\textrm{ len of SP bet. $i$ and $j$},
+			\textrm{~~~~}
+			l_i=\frac{1}{n-1} \sum_{j\neq i} d_{ij},
+			\textrm{~~~~}
+			c_i=\frac{1}{l_i}.
+		\]
+		
+	\subsubsection{Betweeness}
+		\[
+			n_{s,t}^i=\#\textrm{ of SP $s\to t$ through $i$},
+			\textrm{~~~~}
+			g_{s,t}=\#\textrm{ of SP $s\to t$},
+		\] \[
+			\textrm{B.C. of $i$}=x_i=\sum_{s,t} \frac{n_{s,t}^i}{g_{s,t}}.
+		\]
+
+	\subsubsection{Flow}
+		\[
+			x_i = \sum_{s,t} m_{s,t},
+			\textrm{~~~~}
+			m_{s,t}=\textrm{ flow through $i$ in a max $s$-$t$ flow}.
+		\]
+
+\subsection{Similarity}
+	\textbf{Structral s.:} if share many of the same neighbors.
+	\textbf{Regular s.:} if neighbors are similar.
+
+	\subsubsection{Consine}
+		\[
+			\sigma_{ij} = \frac{\sum_k A_{ik} A_{kj}} {\sqrt{\sum_k A_{ik}^2}\sqrt{\sum_k A_{kj}^2}}
+			=\textrm{(in unweight G)}=\frac{n_{ij}}{\sqrt{k_i k_j}}.
+		\]
+	\subsubsection{Pearson Coefficients}
+		\[ \begin{split}
+			\op{cov}(A_i,A_j)
+			&= \#\textrm{common neighbors} - \#\textrm{exp. com. neighs} \\
+			&= \sum_k A_{ik} A_{jk} - \frac{k_i k_j}{n} 
+			= \sum_k \pte{A_{ik}-\ang{A_i}} \pte{A_{jk}-\ang{A_j}}, \\
+		\end{split} \]
+		\[ \begin{split}
+			r_{ij}
+			&= \textrm{standard Pearson corellation coefficient} \\
+			&= \frac{\sum_k \pte{A_{ik}-\ang{A_i}} \pte{A_{jk}-\ang{A_j}}}
+				{\sqrt{\pte{A_{ik}-\ang{A_i}}^2} \sqrt{\pte{A_{jk}-\ang{A_j}}^2}}. \\
+		\end{split} \]
+
+\subsection{Homiphily and Assortive Mixing}
+	\subsubsection{A.M. by Enumerative Characteristics}
+		\[ \begin{split}
+			Q &= \textrm{modularity} \\
+			&= \frac{1}{m} \pte{\#\textrm{same type edges} - \#\textrm{exp. same type edges}} \\
+			&= \frac{1}{2m} \sum_{ij} \pte{A_{ij} - \frac{k_i k_j}{2m}} \delta(c_i,c_j)
+			=\sum_r e_{rr} - a_r^2. \\
+			e_{rs} &= \frac{1}{2m} \sum_{ij} A_{ij} \delta(c_i,r) \delta(c_j,s), \\
+			a_r &= \frac{1}{2m} \sum_i k_i \delta(c_i,r). \\
+		\end{split} \]
+	
+	\subsubsection{A.M. by Scalar Characteristics}
+		\[ \begin{split}
+			r &= \textrm{assortativity coefficient} \\
+			&= \frac{\textrm{covariances over nodes}}{\textrm{cov. in perfectly mixed network}} \\
+			&= \frac{\sum_{ij} \pte{A_{ij} - k_i k_j / 2m} x_i x_j}
+				{\sum_{ij} \pte{k_i \delta_{ij} - k_i k_j /2m} x_i x_j}.
+		\end{split} \]
+
+\subsection{Power Law Distribution}
+	\[
+		p_k = C k^{-\alpha} \textrm{ where $\alpha$ in $[2,3]$ are typical}.
+	\]
+	\[
+		P_k = \sum_{i=k}^\infty p_i
+			\approx C \int_k^\infty x^{-\alpha} \dd x
+			=\frac{C}{\alpha-1} k^{-(\alpha-1)}.
+	\]
+	\[ \begin{split}
+		\alpha &= 1 + N\left[ \sum_i \ln \frac{k_i}{k_{min} - 1/2} \right]^{-1}, \\
+		\sigma &= \sqrt{N} \left[ \sum_i \ln \frac{k_i}{k_{min} - 1/2} \right]^{-1}
+			= \frac{\alpha-1}{\sqrt{N}}.
+	\end{split} \]
+
+\subsection{Graph Laplacian}
+	Diffusion $\frac{\dd \psi_i}{\dd t}=c \sum_j A_{ij} (\psi_j-\psi_i)
+		=c\sum_j(A_{ij}-\delta_{ij}k_i)\psi_j
+		\Longrightarrow \frac{\dd \psi}{\dd t}=c(A-D)\psi$.
+	Define $L=D-A$, then $\frac{\dd \psi}{\dd t}+cL\psi=0$.
+	Need to solve $\psi(t)=\sum_i a_i(t) v_i$.
+	Have $\sum_i (\frac{\dd a_i}{\dd t} + c\lambda_i a_i) v_i = 0$,
+	then $\frac{\dd a_i}{\dd t} + c \lambda_i a_i=0$ since $v_i\perp v_j$.
+	So $a_i(t)=a_i(0) e^{-c\lambda_i t}$.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Big Things}
+
+\subsection{Random Graph}
+	\subsubsection{Poisson Random Graph}
+		Poisson r. g. $G(n,p)$:
+		$n$ nodes where $\forall u,v$, $\Pr[\exists (u,v)\in G]=p$:
+		\begin{itemize}
+			\item mean $\#$ edges: $\binom{n}{2} p$;
+			\item avg. deg.: $(n-1)p=c$;
+			\item deg. distr.: $p_k=\binom{n-1}{k} p^k (1-p)^{n-1-k}$,
+				and for large $n$: $p_k=e^{-c} \frac{c^k}{k!}$ (Poisson deg. distr.);
+			\item cluster coefficient $= p = \frac{c}{n-1} \to 0$.
+		\end{itemize}
+	
+	\subsubsection{Giant Component}
+		$u$: fraction of vertices that do \textbf{NOT} belong to the giant $T$.
+		If $i\notin T$, then $\forall j$, either
+		\begin{itemize}
+			\item $i$ is not connected to $j$: $1-p$;
+			\item $i$ is connected to $j$ but $j\notin T$: $pu$.
+		\end{itemize}
+		Total: $1-p+pu$. Probability that $i\notin T$ is
+		\[
+			u=(1-p+pu)^{n-1}=\pte{1-\frac{c}{n-1}(1-u)}^{n-1},
+		\]
+		%= (n-1) \ln\pte{1-\frac{c}{n-1}(1-u)}
+		\[
+			\ln u 
+			\approx -(n-1) \frac{c}{n-1} (1-u) = -c(1-u)
+		\]
+		\[
+			\Longrightarrow u=e^{-c(1-u)}
+			\Longrightarrow 1-u=S=1-e^{-cS}.
+		\]
+		Phase transition takes place when
+		\[
+			\left.\frac{\dd}{\dd S} \pte{1-e^{-cS}} = c e^{-cS} = 1 \right|_{S=0}
+			\Longrightarrow c=1.
+		\]
+		Core $C(Q)$ and periphery $P(Q)$: $s=|C(Q)|+|P(Q)|$.
+		A node in $P(Q)$ has $p(n-s)\approx c$ neighbors outside, so
+		\[
+			P(Q') \approx c P(Q), C(Q') = Q.
+		\]
+		If $c>1$, periphery grows; if $c<1$, it shrinks.
+	
+	\subsubsection{Small Components}
+		$\pi_s$: prob that a randomly selected node belongs to a small component of size $s$.
+		Fraction of nodes not in the giant: $\sum_{s=0}^\infty \pi_s = 1-S$.
+
+		Observation: s.c. are trees.
+		Consider tree of $s$ nodes.
+		Remain place of edge: $\binom s 2 - (s-1) = \frac 1 2 (s-1)(s-2)$,
+			so exp $\#$ non-tree edges: $\frac 1 2 (s-1)(s-2) p =
+			\frac 1 2 (s-1)(s-2) c / (n-1) \to 0$,
+			if $s$ increase slowly than $\sqrt n$.
+
+		Consider $i$'s neighbors $n_1,...,n_k$ with component size $s_1,...,s_k$.
+		$P(s|k)$: $i$ belongs to component of size $s$.
+		\[
+			P(s|k)=\sum_{s_1=1}^\infty ... \sum_{s_k=1}^\infty
+			\pte{\prod_{j=1}^k \pi_{s_j}} \delta(s-1,\sum_j s_j).
+		\]
+		Know $\pi_s = \sum_{k=0}^\infty p_k P(s|k)$.
+		(Generating function now!)
+		Let $h(z)=\sum_{s=1}^\infty \pi_s z^s$,
+			then $\pi_s=\left. \frac{1}{s!} \frac{\dd^s h}{\dd z^s} \right|_{z=0}$.
+		Consider $h(z)$:
+		\[ \begin{split}
+			h(z) &= \sum_{s=1}^\infty z^s \sum_{k=0}^\infty p_k
+			\sum_{s_1=1}^\infty ... \sum_{s_k=1}^\infty
+			\pte{\prod_{j=1}^k \pi_{s_j}} \delta(s-1,\sum_j s_j) \\
+			&= \sum_{s=1}^\infty z^s e^{-c} \sum_{k=0}^\infty \frac{c^k}{k!}
+			\sum_{s_1=1}^\infty ... \sum_{s_k=1}^\infty
+			\pte{\prod_{j=1}^k \pi_{s_j}} \delta(s-1,\sum_j s_j) \\
+			&= e^{-c} \sum_{k=0}^\infty \frac{c^k}{k!}
+			\sum_{s_1=1}^\infty ... \sum_{s_k=1}^\infty
+			\pte{\prod_{j=1}^k \pi_{s_j}} z^{1+\sum_j s_j} \\
+			&= z e^{-c} \sum_{k=0}^\infty \frac{c^k}{k!}
+			\sum_{s_1=1}^\infty ... \sum_{s_k=1}^\infty
+			\pte{\prod_{j=1}^k \pi_{s_j} z^{s_j}} \\
+			&= z e^{-c} \sum_{k=0}^\infty \frac{c^k}{k!}
+			\pte{\sum_{s=1}^\infty \pi_{s} z^{s}}^k 
+			= z e^{-c} \sum_{k=0}^\infty \frac{c^k}{k!} h^k(z) 
+			= z e^{c(h(z)-1)}.
+		\end{split} \]
+
+		No closed-form solution for $h(z)$.
+		$\ang{s}=\frac{\sum_s s\pi_s}{\sum_s \pi_s}=\frac{h'(1)}{1-S}$.
+		Know
+		\[
+			h'(z)=e^{c(h(z)-1)} + czh'(z)e^{c(h(z)-1)} = \frac{h(z)}{z} + ch(z)h'(z)
+		\]
+		\[
+			\Longrightarrow h'(z)=\frac{h(z)}{z(1-ch(z))}.
+		\]
+		$h(1)=\sum_s \pi_s=1-S \Longrightarrow \ang{s}=\frac{1}{1-c+cS}$.
+		If $c<1$, no giant so $\ang{s}=\frac{1}{1-c}$.
+	
+		$n_s$: $\#$ components of size $s$. $\pi_s = s n_s/n$.
+		Avg size of component: $$R=\frac{\sum_s s n_s}{\sum_s n_s}
+			= \frac{n \sum_s \pi_s}{n \sum_s \pi_s / s}
+			= \frac{1-S}{\sum_s \pi_s/s}.$$
+		Noting that
+		\[
+			\int_0^1 \frac{h(z)}{z} \dd z = \sum_{s=1}^\infty \int_0^1 z^{s-1} \dd z
+			= \sum_{s=1}^\infty \frac{\pi_s}{s}.
+		\]
+		Have $\frac{h(z)}{z} = (1-ch(z)) \frac{\dd h}{\dd z}$,
+			so $$\sum_{s=1}^\infty \frac{\pi_s}{s}
+			=\int_0^1 (1-ch(z)) \frac{\dd h}{\dd z} \dd z
+			=\int_0^{1-S}(1-ch) \dd h = 1-S-\frac 1 2 c(1-S)^2.$$
+		(Upper integration limit $ = h(1)= 1-S$.)
+		Finally $R=\frac{2}{2-c+cS}$.
+		(\textbf{NOTE:}
+		$G(n,p)$ is connected if $p(n)=\frac{\log n}{n}$,
+			then diameter $D=A+\frac{\ln n}{\ln c}$.)
+
+	\subsubsection{Configuration Model}
+		Specify degree distr $p$, randomly pick endpoints to form edges.
+
+\subsection{Preferential Attachment}
+	Each new paper cite $c$ old papers randomly:
+	\[ \begin{split}
+		p_q(n) &= \textrm{fraction of nodes with deg $q$}, \\
+		q_i &= \textrm{in-degree of node $i$}, \\
+	\end{split} \]
+	\[
+		\Pr[i\textrm{ get citation}] = \frac{q_i+a}{\sum_j (q_j+a)} = \frac{q_i+a}{n(c+a)}. \\
+	\]
+	\[
+		\E[\textrm{new cites deg $q$ nodes}]
+			=n p_q(n) c \frac{q+a}{n(c+a)} = \frac{c(q+a)}{c+a} p_q(n).
+	\]
+	\subsubsection{Master Equation}
+		\[ \begin{split}
+			(n+1)p_q(n+1)&=np_q(n)
+				+\frac{c(q-1+a)}{c+a}p_{q-1}(n)- \frac{c(q+a)}{c+a}p_q(n) \\
+			(n+1)p_0(n+1)&=np_0(n)+1-\frac{ca}{c+a}p_0(n).
+		\end{split} \]
+		\[
+			n\to\infty\Longrightarrow
+			p_0=\frac{1+\frac{a}{c}}{a+1+\frac{a}{c}},
+			p_q=\frac{q+a-1}{q+a+1+\frac{a}{c}}p_{q-1},
+		\]
+		\[
+			\Longrightarrow
+			p_q=\frac{(q+a-1)(q+a-2)\cdots a}{(a+a+1+\frac{a}{c})\cdots(a+1+\frac{a}{c})}.
+		\]
+		% TODO: Gamma Beta
+		For large $q$,
+			$p_q\sim (q+a)^{-\alpha}$ or simply $p_q\sim q^{-\alpha}$,
+			where $\alpha=2+\frac{a}{c}$.
+	
+	\subsubsection{Mean-Field Approximation}
+		One link with $p$ choose uniform, $q=1-p$ choose by P.A..
+		\[ \begin{split}
+			x_i(t) &= \textrm{in-degree of $i$ at time $t$ with $x_i(i)=0$}, \\
+			\Delta_t &= \E[x_i(t+1)-x_i(t)]  = \frac{p}{t} + \frac{(1-p)x_i(t)}{t}.
+		\end{split} \]
+		Consider a deterministic process in which a nodes degree increased by exact $\Delta_t$.
+		Find distribution of expected degrees.
+		\[
+			d_i(i) = 0, \frac{\partial d_i(t)}{\partial t} = \frac{p}{t} + \frac{(1-p)d_i(t)}{t}.
+		\]
+		\[
+			\Longrightarrow \int \frac{1}{p+q d_i} \frac{\partial d_i}{\partial t} \dd t = \int \frac{1}{t} \dd t \\
+		\] \[
+			\Longrightarrow \ln(p+q d_i) = q \ln t + c \\
+		\] \[
+			\Longrightarrow p+q d_i = A t^q, \\
+		\] \[
+			\textrm{set $d_i(i)=0$,}\Longrightarrow d_i(t) = \frac{p}{q}\pte{\pte{\frac{t}{i}}^q-1}.
+		\]
+		$i_t(k)$: node with expected degree exactly $k$ at time $t$:
+		\[
+			d_{i_t(k)}(t) = k = \frac{p}{q}\pte{\pte{\frac{t}{i_t(k)}}^q-1}
+			\Longrightarrow
+			i_t(k)=t\pte{\frac{p}{q}k+1}^{-\frac{1}{q}}.
+		\]
+		Fraction of nodes with degree $>k$:
+			$F_k(t) = \pte{\frac{q}{p}k+1} ^ {-\frac{1}{q}}$,
+		\[
+			\Longrightarrow
+			p_k=-\frac{\partial F_k}{\partial k}
+			=\frac{1}{p}\pte{\frac{q}{p}k+1}^{-1-\frac{1}{q}}
+			\sim k^{-\pte{1+\frac{1}{q}}}.
+		\]
+
+\subsection{Small World}
+	Each node is connected with all neighbors of distance $\le c/2$.
+	For $nc/2$ times pick random pair and add shortcut w.p. $p$.
+
+	\subsubsection{Degree Distribution}
+		\[
+			k_i = c + s_i = c + (\#\textrm{shortcuts attacked to $v_i$}).
+		\]
+		There are $ncp$ endpoints of shortcuts. $s_i$ is Poisson distributed
+			with mean $cp$:
+		\[
+			p_s = e^{-cp}\frac{(cp)^s}{s!} \Longrightarrow
+			p_k = e^{-cp}\frac{(cp)^{k - c}}{(k - c)!}, \textrm{ for }k \ge c.
+		\]
+	
+	\subsubsection{Clustering Coefficient}
+		$C=(\#\textrm{triangles}\times 3)/(\#\textrm{connected tripes})$.
+		\begin{enumerate}
+			\item $\#$ triangles
+			\begin{enumerate}
+				\item in ring: $n\binom{c/2}{2}=\frac{1}{4}nc(\frac{c}{2} - 1)$.
+				\item due to shortcuts:
+					prob $u,v$ connected by shortcut$=\frac{ncp/2}{n(n-1)/2}\approx \frac{cp}{n}$.
+					A shortcut complete a triangle for $u,v$ with dist $\frac{c}{2}\sim c$,
+						$\#$ of such $u,v$ is proportional to $n$.
+					$\Longrightarrow \sim n\cdot \frac{cp}{n} = cp =$
+					const $\to$ ignore.
+					
+			\end{enumerate}
+			\item $\#$ connected tripes
+			\begin{enumerate}
+				\item in ring: $n\binom{c}{2}=\frac{1}{2}nc(c - 1)$.
+				\item through shortcuts: $(ncp/2)\times 2\times c$.
+				\item through pairs of shortcuts: for node with $m$ shortcuts,
+					has $\binom{m}{2}$ triples.
+					Let $m=cp$ (mean of Poisson distr) then total triples
+					$=(nc^2p^2)/2$.
+			\end{enumerate}
+		\end{enumerate}
+		\[
+			C=\frac{3(c-2)}{4(c-1)+8cp+4cp^2}.
+		\]
+	
+	\subsubsection{Path length}
+		No exact expr for mean distance in WS model.
+		Consider $c=2$. Let $l=$ average len of SP.
+		$s=\#$ shortcuts.
+
+		Avg dist between shortcuts on ring $\tau=\frac{n}{2s}$
+			$\Longrightarrow$ $n,\tau$ completely specify the model.
+
+		Consider dimensionless $\frac{l}{n}$.
+		$\frac{l}{n}=F(\frac{n}{\tau})=F(2s)$
+		($F$: universal).
+		If density of shortcuts is low then for general $c$:
+		$l=\frac{2n}{c} F(2s) = \frac{n}{c} f(ncp)$.
+		Simulate $f$:
+		\[
+			f(x) = \frac{2}{\sqrt{x^2+4x}}\op{tanh}^{-1}\sqrt{\frac{x}{x+4}}
+		\]
+		\[
+			\Rightarrow x\to\infty
+			\Rightarrow f(x) = \frac{\ln x}{x}
+			\Rightarrow l = \frac{\ln(ncp)}{c^2p}.
+		\]
+
+	\subsubsection{Milgram}
+		Short paths exists and can be found efficiently in decentralized way.
+		WS model: $c=2$; $K=$ nodes with dist $\le\sqrt{n}$ of $t$.
+		$\Pr[\textrm{a shortcut points into $K$}]=2/\sqrt{n}$
+			$\to$ need at least $\sqrt{n}/2$ steps into $K$.
+		Crossing $K$ step-by-step at least $\sqrt{n}/2$ steps.
+		Thus need $\Omega(\sqrt n)$ steps.
+	
+	\subsubsection{Kleinberg}
+		Choose shortcuts s.t.
+			$\Pr[\textrm{shortcut between $u,v$ at dist $r$}]=\kappa r^{-\alpha}$.
+		Choose shortcut len from distribution.
+		Place edge randomly in network.
+		Total prob that shortcut between two nodes is $p\kappa r^{-\alpha}$.
+		Normalization const $\kappa$:
+		\[
+			\kappa\sum_{r = 1}^{\frac{1}{2}(n - 1)}r^{-\alpha} = 1.
+		\]
+		We can approximate the sum:
+		\[
+			\sum\limits_{r= 1}^{\frac{1}{2}(n - 1)} r^{-\alpha}
+			\approx\int_{1}^{\frac{1}{2}(n - 1)} r^{-\alpha}\dd r
+			+\frac{1}{2}+\frac{1}{2}\pte{\frac{1}{2}(n - 1)}^{-\alpha},
+		\]
+		where $\int_{1}^{(n - 1)/2} r^{-\alpha}\dd r=((n-1)/2)^{1-\alpha}/(1-\alpha)$.
+		For $n\to\infty$:
+		\[
+			\kappa\approx\left\{\begin{array}{ll}
+				(1-\alpha)(\frac{1}{2}n)^{\alpha - 1} &\alpha<1\\
+				\ln^{-1}(\frac{1}{2}n) &\alpha = 1\\
+				\frac{2(\alpha-1)}{\alpha+1} &\alpha>1
+			\end{array}\right..
+		\]
+		Divide nodes into classes that $C_k$ consists of $v_i$ with
+			$2^{k-1}\le d(v_i,t)<2^k$.
+		Nodes in $C_0,...,C_{k-1}$:
+			$\sum_{m=0}^{k-1}n_m = \sum_{m=0}^{k-1}2^m = 2^k-1 > 2^{k-1}$.
+		All these are at most a dist $3 * 2^k < 2^{k+2}$ from $v_{cur}$ in $C_k$.
+		Prob of having a shortcut to one of the nodes:
+		\[
+			p\kappa 2^{-(k+2)\alpha}*2^{k-1}=p\kappa 2^{k-1-(k+2)\alpha}.
+		\]
+		If $v_{cur}$ has no shortcut, pass msg to neighbor.
+		Exp $\#$ moves until find a shortcut to $C_0,...,C_{k-1}$ is 
+		\[
+			\frac{1}{p\kappa} 2^{2\alpha+1} 2^{(\alpha-1)k}.
+		\]
+		In wrost case msg goes through all classes:
+		\[
+			l \le \frac{1}{p\kappa}*2^{2\alpha+1}*
+				\sum_{k=0}^{\log(m+1)}2^{(\alpha-1)k}
+			= \frac{1}{p\kappa}*2^{2\alpha+1}
+				\frac{(2(n+1))^{\alpha-1}-1}{2^{\alpha-1}-1}.
+		\]
+		Plugging the value of $\kappa$ for $n\to\infty$:
+		\[
+			l=\left\{\begin{array}{ll}
+				A n^{1-\alpha} &\alpha<1\\
+				B \log^2 n &\alpha = 1\\
+				C n^{\alpha-1} &\alpha>1
+			\end{array}\right..
+		\]
+
+\subsection{Stable Outcome}
+	\subsubsection{Nash Bargain Solution}
+		$A$ and $B$ with outside option $x$ and $y$.
+		If $x+y>1$ then no agreement possible.
+		If $x+y\le 1$ then has surplus $s=1-x-y$.
+
+		NBS: devide surplus evenly.
+	
+	\subsubsection{Stable Outcome}
+		$G=(V,E)$, edge weight $w:E\to R^+$. Each $v\in V$ is a player.
+		
+		\textbf{Outcome}: matching $M$ among players and vector $x$
+			describing each players payoff.
+			$\forall(u,v)\in M$, $x_u+x_v=w_{u,v}$; $\forall u\notin M$, $x_u=0$.
+		
+		\textbf{Stable outcome}: outcome with no unstable edge.
+
+		\textbf{Balanced outcome} (generalization of NBS):
+			$\forall (u,v)\in M$, split of money represents the NBS
+				for $u,v$ given the best outside option for $u,v$
+				provided by values in the rest of the network.
+
+		$\to$ A balanced outcome exists iff a stable outcome exists.
+
+		$\to$ A balanced outcome can be computed in poly-time.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Unknown}
+
+\subsection{Cascades}
+	\subsubsection{Network Effects \textsc{(Things That I Cannot Understand!)}}
+		Decisions: $\{R,A\}$;
+		States: $\{G,B\}$ w.p. $\{p,1-p\}$.
+		Payoffs: $0$ for reject and $(G ? v_g>0 : v_b<0)$ for accept
+			($p v_g + (1-p) v_b = 0$).
+
+		Signals: gets a private signal before decision:
+			$H$ (high sig) = "accepting is good",
+			$L$ (low) = "..is bad".
+			$\Pr[H|G]=\Pr[L|B]=q>1/2$, 
+			$\Pr[L|G]=\Pr[H|B]=1-q$.
+
+		Know sequence $S$ of independently generated signals.
+		$a=\# H\in S$, $b=\# L\in S$.
+		\[
+			\Pr[G|S]=\frac{\Pr[G]\Pr[S|G]}{\Pr[S]}
+				=\frac{pq^a(1-q)^b}{pq^a(1-q)^b+(1-p)(1-q)^aq^b}.
+		\]
+		For $a>b$, $\Pr[G|S]>p$.
+		For $a<b$, $\Pr[G|S]<p$.
+		For $a=b$, $\Pr[G|S]=p$.
+
+
+	\subsubsection{Economy with Network Effect}
+		When $z$-fraction of customers buy, ceservation price of $x$ is $r(x)f(z)$.
+		$r$: intrinsic interest ($r(1)=0$).
+		$f$: benefit (increasing in $z$, $f(0)=0$).
+		
+		Everyone expect $z=0$ $\to$ R.P.$=0<p$ $\to$ no one will buy.
+		Everyone expect $z\in(0,1)$ $\to$ $0..z$ will buy
+			$\to$ R.P.$=r(z)f(z)=p$.
+		Stability: strong equlibrium OR tripping point.
+
+		If $[0,\hat z]$ buy, then $r(\hat z)=\frac{p^*}{f(z)} \Longrightarrow
+			\hat z=r^{-1}\pte{\frac{p^*}{f(z)}}$.
+		If $z\ge 0$ then $\hat z=g(z)$ where $g(z)=r^{-1}\pte{\frac{p^*}{f(z)}}$
+			for $\frac{p^*}{f(z)}\le r(0)$, $=0$ otherwise.
+
+		NOW, consider $f(0)>0$. Let $r(x)f(z)=(1-x)(1+az^2)$.
+		If exp $\hat z$ then $g(z)=r^{-1}\pte{\frac{p^*}{f(z)}}=1-\frac{p^*}{f(z)}$.
+		Samll changes in price can have big effects,
+		$\to$ slightly lower price $\tilde p,\tilde g(z)=$
+			shifts curve upwards $\to$ only one equlibrium remains.
+
+	\subsubsection{Network Cascades}
+		$A,B$ have qualities $a,b$.
+		Initially everyone except $S$ choose $B$.
+		A node adopts $A$ if at least $q=\frac{b}{a+b}$ of his neighbors adopt $A$.
+
+		\textbf{Def (Density of Cluster).}
+			Cluster $C\subseteq V$ is density $x$ if $\forall v\in C$,
+				$|N(v)\in C|/|N(v)| \ge x$.
+
+		\textbf{Thm.}
+			A complete cascade occurs iff $\nexists$ cluster of density $\ge 1-q$
+				in $G\setminus S$.
+
+		Given an infinite network,
+		the \textbf{cascade capacity} is largest threshold $q$ at which
+		$\exists$ finite set of initial adopters that cause a complete cascade.
+
+	\subsubsection{Compatibility}
+		Allow $AB$ (bilingual) with fixed cost $c$.
+		Set $b=1$ and scale $a$ and $c$.
+	
+	\subsubsection{Locality in Networks}
+		$G=(V,E)$, each node is a decision maker.
+		Nodes have goal to compute min dominating set (greedy gives $O(\log n)$-approx,
+			better is NP-hard).
+		Every node knows its $k$-hoo neighbors.
+
+		\textbf{Thm.}
+		With local neighborhood info, no algorithm can approximate
+			MDS, MVC, MMatching within $\Omega(n^{c/k^2})$ and $\Omega(\Delta^{1/k})$
+			($\Delta=$max degree).
+
+		\textbf{Cor.}
+		In order to get a constant or poly-log approx, every algo has to  have knowledge
+			of $\Omega(\sqrt{\log n})$ or $\Omega(\log \Delta)$ neighborhood.
+
+\subsection{Epidemics}
+	\subsubsection{Branch Model}
+		Beginning: one person infected.
+		Step: each contacts $k$ person, infected w.p. $p$.
+		Claim: if $R_0=pk<1$ disease stop in finite steps.
+		
+		Let $q_n=\Pr[\textrm{some person in level $n$ get infected}]$,
+		$q^*=\lim_{n\to\infty} q_n$.
+		Let $Y_{nj}=1$ iff $j$-th person in level $n$ get infected,
+			$X_n=\sum_j Y_{nj}$.
+		Then 
+		\[
+			\E[X_n]=\sum_{1\le j\le k^{n}} \E[Y_{nj}]=
+			\E[X_n]=\sum_{1\le j\le k^{n}} p^{n-1} = R_0^{n}.
+		\]
+		Since $\E[X_n]=\sum_{a\ge 1} \Pr[X_n\ge a]$,
+			know $q_n=\Pr[X_n\ge 1]\le \E[X_n]=R_0^n$.
+		Thus $q^*=0$ when $R_0<1$.
+		
+		For $R_0>1$, have $q_n=(1-p q_{n-1})^k$.
+		Let $f(x)=1-(1-px)^k$, then $q^*=f(f(...f(1)))>0$. (Plot to see.)
+	
+	\subsubsection{SI Model}
+		S=susceptible, I=infectious.
+		Assume all people are in a clique.
+		Let $S(t)=$number of S at time $t$, $X(t)=$number of I at $t$.
+		At each time, each person will meat another $\beta$ person.
+		\[ \begin{split}
+			\frac{\dd X}{\dd t} &= X \beta \frac{S}{n} \\
+			\frac{\dd S}{\dd t} &= -X \beta \frac{S}{n}. \\
+		\end{split} \]
+		Let $s=S/n,x=X/n$, have
+		\[
+			\pte{\frac{\dd x}{\dd t} = \beta(1-x)x}
+			\Longrightarrow
+			\pte{x(t)=\frac{x_0 e^{\beta t}}{1-x_0+x_0 e^{\beta t}}}.
+		\]
+	
+	\subsubsection{SIR Model}
+		R=recovered. Let $\gamma=$ recover rate and $r=$ prop of recover people.
+		\[ \begin{split}
+			\frac{\dd s}{\dd t} &= -\beta s x \\
+			\frac{\dd x}{\dd t} &= \beta s x - \gamma x \\
+			\frac{\dd r}{\dd t} &= \gamma x.
+		\end{split} \]
+		Get differential eq which is hard to solve (only numerically):
+		\[
+			\frac{\dd r}{\dd t} =
+				r\pte{1-r-s_0 e^{-\beta r/\gamma}}.
+		\]
+
+	\subsubsection{Genealogy and Mitochondrial Eve}
+		$N=$ population. Consider $k$ individuals($k\ll N$).
+		\[
+		\Pr[\textrm{no collision}] = \pte{1-\frac{1}{N}} \pte{1-\frac{2}{N}}
+		... \pte{1-\frac{k-1}{N}} \approx 1 - \frac{k(k-1)}{2N} + O\pte{\frac{1}{N^2}}.
+		\]
+		Let $W_i$ be number of generations it takes to generate collision when
+			number of interesting nodes is $i$.
+		Then
+		\[
+			\E[W_i]\approx \frac{2N}{i(i-1)},
+		\]
+		\[
+			\E[W]=\E\left[\sum_{2\le i\le k} W_i\right]\approx 2N\pte{1-\frac{1}{k}}.
+		\]
+		
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Appendix}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\end{multicols}
+%\end{landscape}
+%\end{multicols}
+\end{document}
