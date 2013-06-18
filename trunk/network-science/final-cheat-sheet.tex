@@ -66,7 +66,7 @@
 \newcommand{\bC}{\mathbb{C}}
 \newcommand{\uge}{\succcurlyeq}
 \newcommand{\Tr}{\op{Tr}}
-\newcommand{\dd}{\op{d}}
+\newcommand{\dd}{\mathrm{d}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{document}
@@ -515,12 +515,12 @@
 			$2^{k-1}\le d(v_i,t)<2^k$.
 		Nodes in $C_0,...,C_{k-1}$:
 			$\sum_{m=0}^{k-1}n_m = \sum_{m=0}^{k-1}2^m = 2^k-1 > 2^{k-1}$.
-		All these are at most a dist $3 * 2^k < 2^{k+2}$ from $v_{cur}$ in $C_k$.
+		All these are at most a dist $3 * 2^k < 2^{k+2}$ from $v_{\mathrm{cur}}$ in $C_k$.
 		Prob of having a shortcut to one of the nodes:
 		\[
 			p\kappa 2^{-(k+2)\alpha}*2^{k-1}=p\kappa 2^{k-1-(k+2)\alpha}.
 		\]
-		If $v_{cur}$ has no shortcut, pass msg to neighbor.
+                If $v_{\mathrm{cur}}$ has no shortcut, pass msg to neighbor.
 		Exp $\#$ moves until find a shortcut to $C_0,...,C_{k-1}$ is 
 		\[
 			\frac{1}{p\kappa} 2^{2\alpha+1} 2^{(\alpha-1)k}.
