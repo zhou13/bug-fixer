@@ -1,80 +1,116 @@
-\documentclass[a4paper,twocolumn,10pt]{article}
-\usepackage{multicol}
-\usepackage{listings}
-\usepackage{fourier}
-\usepackage{amsmath}
+\documentclass[12pt]{scrartcl}
 
+%<<< Preamble
 \usepackage{tikz}
-\tikzstyle{every picture}+=[remember picture]
-\usetikzlibrary{arrows,decorations.pathreplacing,decorations.markings}
+\usepackage{array}
+\usepackage{pifont}
+\usepackage{engord}
 \usepackage{listings}
-\lstset{
-	numbers=left,
-	basicstyle=\small\ttfamily,
-	numberstyle=\it\scriptsize\sffamily,
-	keywordstyle=\bf,
-	commentstyle=\color{red!50!green!50!blue!50},
-	frame=single,
-	%breaklines=true,
-}
-
-\usepackage{geometry}
-\geometry{left=0.7cm,right=0.7cm,top=0.7cm,bottom=1.3cm}
-%\linespread{1.0} 
-
-\AtBeginDocument{%
-	\setlength\abovedisplayskip{3pt}
-	\setlength\belowdisplayskip{3pt}
-}
 \usepackage{titlesec}
-\titlespacing{\section}{0pt}{5pt}{5pt}
-\titlespacing{\subsection}{0pt}{5pt}{5pt}
-\titlespacing{\subsubsection}{0pt}{5pt}{3pt}
+\usepackage{fancyhdr}
+\usepackage{fancyvrb}
+\usepackage{multicol}
+\usepackage{pgfplots}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage[plain]{fancyref}
+\usepackage[unicode]{hyperref}
+\usepackage{graphicx,tabularx}
+\usepackage[shortlabels]{enumitem}
+\usepackage[retainorgcmds]{IEEEtrantools}
+\usepackage{amsmath,amssymb,amsthm,amscd,amstext}
+\usepackage{mathtools}
+\usepackage{exscale}
+\usepackage{relsize}
+\usepackage{mathrsfs}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{setspace}
+\usepackage{lastpage}
+\usepackage{extramarks}
+\usepackage{chngpage}
 
+\usepackage{lmodern}
+\usepackage{mathpazo}
 
-\newcommand{\floor}[1]{\left\lfloor {#1} \right\rfloor}
-\newcommand{\ceil}[1]{\left\lceil {#1} \right\rceil}
-\newcommand{\ang}[1]{\left\langle {#1} \right\rangle}
-\newcommand{\lc}{\left(}
-\newcommand{\rc}{\right)}
-\newcommand{\parentheses}[1]{\left({#1}\right)}
-\newcommand{\pte}[1]{\left({#1}\right)}
-\newcommand{\labs}{\left|}
-\newcommand{\rabs}{\right|}
-\newcommand{\abs}[1]{\left|{#1}\right|}
-\newcommand{\op}{\operatorname}
-\newcommand{\E}{\operatorname{E}}
-\newcommand{\spt}{\operatorname{support}}
-\newcommand{\mA}{\mathcal{A}}
-\newcommand{\mB}{\mathcal{B}}
-\newcommand{\mC}{\mathcal{C}}
-\newcommand{\mD}{\mathcal{D}}
-\newcommand{\mE}{\mathcal{E}}
-\newcommand{\mJ}{\mathcal{J}}
-\newcommand{\mK}{\mathcal{K}}
-\newcommand{\mL}{\mathcal{L}}
-\newcommand{\mM}{\mathcal{M}}
-\newcommand{\mU}{\mathcal{U}}
-\newcommand{\mV}{\mathcal{V}}
-\newcommand{\mW}{\mathcal{W}}
-\newcommand{\mX}{\mathcal{X}}
-\newcommand{\bR}{\mathbb{R}}
-\newcommand{\bZ}{\mathbb{Z}}
-\newcommand{\bN}{\mathbb{N}}
-\newcommand{\bC}{\mathbb{C}}
-\newcommand{\uge}{\succcurlyeq}
-\newcommand{\Tr}{\op{Tr}}
-\newcommand{\dd}{\mathrm{d}}
+\pgfplotsset{compat=1.6}
+\usetikzlibrary{arrows}
+\usetikzlibrary{patterns}
+\usetikzlibrary{positioning}
+\usetikzlibrary{automata}
+\usepackage{tikz-3dplot}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title
+\tikzset{ alert/.style={ very thick, draw=red!80, fill=red!20 } }
+\tikzset{ fancy/.style={ very thick, draw=blue!80, fill=blue!20 } }
+\tikzset{
+  dot/.style={
+    very thick,circle,draw=black,fill=black,inner sep=0,minimum size=5pt
+  }
+}
+\tikzset { every state/.style={fancy} }
+\tikzset {
+  general/.style = {
+    shorten >=2pt, node distance=2.5cm, on grid, thick,>=stealth', auto
+  }
+}
+\newcommand{\mathhuge}[1]{\mathlarger{\mathlarger{\mathlarger{#1}}}}
+% \newcommand{\mathtiny}[1]{\mathsmaller{\mathlarger{\mathlarger{#1}}}}
+\numberwithin{equation}{section}
+\mathtoolsset{centercolon}
+
+% Theorem environment <<<
+\theoremstyle{definition}   \newtheorem{definition}{Definition}[section]
+\theoremstyle{plain}        \newtheorem{theorem}{Theorem}[section]
+\theoremstyle{plain}        \newtheorem{observation}{Observation}[section]
+\theoremstyle{plain}        \newtheorem{fact}{Fact}[section]
+\theoremstyle{plain}        \newtheorem{claim}{Claim}[section]
+\theoremstyle{plain}        \newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{plain}        \newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}       \newtheorem{example}{Example}[section]
+\theoremstyle{remark}       \newtheorem{remark}{Remark}[section]
+\newcommand*{\fancyrefdeflabelprefix}{def}
+\newcommand*{\fancyrefthmlabelprefix}{thm}
+\newcommand*{\fancyreflemlabelprefix}{lem}
+\newcommand*{\fancyrefcorlabelprefix}{cor}
+\newcommand*{\fancyrefalglabelprefix}{alg}
+\newcommand*{\fancyreflnlabelprefix}{ln}
+\frefformat{plain}{\fancyreflnlabelprefix}{line #1}
+\Frefformat{plain}{\fancyreflnlabelprefix}{Line #1}
+\frefformat{plain}{\fancyrefalglabelprefix}{algorithm (#1)}
+\Frefformat{plain}{\fancyrefalglabelprefix}{Algorithm (#1)}
+\frefformat{plain}{\fancyrefdeflabelprefix}{definition (#1)}
+\Frefformat{plain}{\fancyrefdeflabelprefix}{Definition (#1)}
+\frefformat{plain}{\fancyrefthmlabelprefix}{theorem (#1)}
+\Frefformat{plain}{\fancyrefthmlabelprefix}{Theorem (#1)}
+\frefformat{plain}{\fancyreflemlabelprefix}{lemma (#1)}
+\Frefformat{plain}{\fancyreflemlabelprefix}{Lemma (#1)}
+\frefformat{plain}{\fancyrefcorlabelprefix}{corollary (#1)}
+\Frefformat{plain}{\fancyrefcorlabelprefix}{Corollary (#1)}
+%>>>
+% Alter some LaTeX Float for better treatment of figures: <<<
+% See p.105 of "TeX Unbound" for suggested values.
+% See pp. 199-200 of Lamport's "LaTeX" book for details.
+%   General parameters, for ALL pages:
+\renewcommand{\topfraction}{0.9}	% max fraction of floats at top
+\renewcommand{\bottomfraction}{0.8}	% max fraction of floats at bottom
+\setcounter{topnumber}{2}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}     % 2 may work better
+\setcounter{dbltopnumber}{2}    % for 2-column pages
+\renewcommand{\dbltopfraction}{0.9}	% fit big float above 2-col. text
+\renewcommand{\textfraction}{0.07}	% allow minimal text w. figs
+\renewcommand{\floatpagefraction}{0.7}	% require fuller float pages
+\renewcommand{\dblfloatpagefraction}{0.7}	% require fuller float pages
+
+\allowdisplaybreaks[4]
+
+%>>>
+%>>>
+\title %<<< Title Region
 {
 	Centrality and Activity for Envolving Networks
 }
 \author
-{
+{ \normalfont
 	Pufan He\\
 	\href{mailto:hpfdf@126.com}{hpfdf@126.com}\\
 	Tsinghua University.
@@ -103,8 +139,11 @@
 {
 	June 25, 2013
 }
+%>>>
+
 \begin{document}
 \maketitle
+\newpage
 \begin{abstract}
 
 \end{abstract}
@@ -116,4 +155,4 @@
 
 \end{document}
 
-% vim: set ts=8 sw=8 noet sts=8 tw=79 indentexpr=:
+% vim: set ts=8 sw=8 noet sts=8 tw=79 indentexpr= fdm=marker foldmarker=<<<,>>>:
