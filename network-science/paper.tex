@@ -1,4 +1,4 @@
-\documentclass[12pt]{scrartcl}
+\documentclass[12pt,abstract=true]{scrartcl}
 
 %<<< Preamble
 \usepackage{tikz}
@@ -53,7 +53,9 @@
   }
 }
 \newcommand{\mathhuge}[1]{\mathlarger{\mathlarger{\mathlarger{#1}}}}
-% \newcommand{\mathtiny}[1]{\mathsmaller{\mathlarger{\mathlarger{#1}}}}
+\newcommand{\mathtiny}[1]{\mathsmaller{\mathlarger{\mathlarger{#1}}}}
+
+\newcommand\Mark[1]{\textsuperscript#1}
 \numberwithin{equation}{section}
 \mathtoolsset{centercolon}
 \bibliographystyle{plain}
@@ -106,37 +108,28 @@
 
 %>>>
 %>>>
-\title %<<< Title Region
-{
-	Metrics and Algorithms for Evolving Social Networks
-}
-\author
-{
-	Pufan He\\
-	\href{mailto:hpfdf@126.com}{hpfdf@126.com}
-	\and
-	Yichao Zhou\\
-	\href{mailto:broken.zhou@gmail.com}{broken.zhou@gmail.com}
-	\and
-	Qiwei Feng\\
-	\href{mailto:gdfqw93@163.com}{gdfqw93@163.com}
-	\and
-	Yu Yan\\
-	\href{mailto:whyvine@hotmail.com}{whyvine@hotmail.com}
-	\and
-	Qingyang Li\\
-	\href{mailto:591527324@qq.com}{591527324@qq.com}
-	\and
-	Xin Xing\\
-	\href{mailto:823291634@qq.com}{823291634@qq.com}
-}
-\date{}
-
-%>>>
 
 \begin{document}
-\maketitle
-\newpage
+
+\begin{center}
+	\Large \textbf{\textsf{
+		Metrics and Algorithms for Evolving Social Networks}} \\[1.5em]
+	\small
+		Pufan He\Mark{1}, Yichao Zhou\Mark{2}, Qiwei Feng\Mark{3},
+		Yu Yan\Mark{4}, Qingyang Li\Mark{5} and Xin Xing\Mark{6}\\[1em]
+	\begin{tabular}{*{3}{>{\centering}p{.25\textwidth}}}
+		\href{mailto:hpfdf@126.com}{hpfdf@126.com} &%
+		\href{mailto:broken.zhou@gmail.com}{broken.zhou@gmail.com} &%
+		\href{mailto:gdfqw93@163.com}{gdfqw93@163.com} \tabularnewline
+
+		\href{mailto:whyvine@hotmail.com}{whyvine@hotmail.com} &
+		\href{mailto:591527324@qq.com}{591527324@qq.com} &
+		\href{mailto:823291634@qq.com}{823291634@qq.com}
+	\end{tabular} \\[1em]
+
+	\normalsize IIIS, Tsinghua University \\[1em]
+\end{center} \par
+
 \begin{abstract}
 We address the dynamic properties of typical social networks, in which person
 is considered as vertex while relation is considered as edge. We suppose the
