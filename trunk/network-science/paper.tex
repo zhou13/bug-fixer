@@ -23,6 +23,7 @@
 \usepackage{exscale}
 \usepackage{relsize}
 \usepackage{mathrsfs}
+\usepackage{tocloft}
 
 \usepackage{setspace}
 \usepackage{lastpage}
@@ -54,6 +55,15 @@
 }
 \newcommand{\mathhuge}[1]{\mathlarger{\mathlarger{\mathlarger{#1}}}}
 \newcommand{\mathtiny}[1]{\mathsmaller{\mathlarger{\mathlarger{#1}}}}
+
+\renewcommand\cftsecfont{\normalsize}
+\renewcommand\cftsecpagefont{\normalsize}
+\renewcommand\cftsecafterpnum{\par}
+\setlength{\cftbeforesecskip}{0.3em}
+
+\renewcommand\cftsubsecfont{\small}
+\renewcommand\cftsubsecpagefont{\small}
+\renewcommand\cftsubsecafterpnum{\par}
 
 \newcommand\upper[1]{\textsuperscript#1}
 \numberwithin{equation}{section}
@@ -113,21 +123,22 @@
 
 \begin{center} %<<< Title
 	\Large \textbf{\textsf{
-		Metrics and Algorithms for Evolving Social Networks}} \\[1.5em]
-	\small
+		Metrics and Algorithms for Evolving Social Networks}} \\[1.2em]
+	\normalsize 
 		Pufan He\upper{1}, Yichao Zhou\upper{2}, Qiwei Feng\upper{3},
 		Yu Yan\upper{4}, Qingyang Li\upper{5} and Xin Xing\upper{6}\\[1em]
+	\small
 	\begin{tabular}{*{3}{>{\centering}p{.3\textwidth}}}
 		\upper{1}\small\href{mailto:hpfdf@126.com}{hpfdf@126.com} &%
 		\upper{2}\href{mailto:broken.zhou@gmail.com}{broken.zhou@gmail.com} &%
 		\upper{3}\href{mailto:gdfqw93@163.com}{gdfqw93@163.com} \tabularnewline
-
 		\upper{4}\href{mailto:whyvine@hotmail.com}{whyvine@hotmail.com} &
 		\upper{5}\href{mailto:591527324@qq.com}{591527324@qq.com} &
 		\upper{6}\href{mailto:823291634@qq.com}{823291634@qq.com}
 	\end{tabular} \\[1em]
 
-	\normalsize IIIS, Tsinghua University \\[1.5em]
+	\small Institute for Interdisciplinary Information Sciences,
+	Tsinghua University \\[1.5em]
 \end{center} \par %>>>
 
 \begin{abstract}
@@ -145,9 +156,11 @@ queries. Finally, we put the result of experiment with a couple of authentic
 data.
 
 \smallskip
-\noindent \textbf{Keywords.} social network, dynamic graph, centrality,
+\noindent \textbf{Keywords:} social network, dynamic graph, centrality,
 activity, algorithm.
 \end{abstract}
+\tableofcontents
+\newpage
 
 \section{Introduction}
 % TODO
@@ -167,7 +180,7 @@ activity, algorithm.
 % TODO
 \subsection{Design and Analysis}
 % TODO
-\section{Algorithm}
+\section{Algorithms}
 % TODO
 \subsection{Maintaining the basic graph structure}
 % TODO
