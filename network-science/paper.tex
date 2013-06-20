@@ -32,7 +32,7 @@
 \usepackage{lmodern}
 \usepackage{mathpazo}
 
-%\pgfplotsset{compat=1.6}
+\pgfplotsset{compat=1.6}
 \usetikzlibrary{arrows}
 \usetikzlibrary{patterns}
 \usetikzlibrary{positioning}
@@ -56,6 +56,7 @@
 % \newcommand{\mathtiny}[1]{\mathsmaller{\mathlarger{\mathlarger{#1}}}}
 \numberwithin{equation}{section}
 \mathtoolsset{centercolon}
+\bibliographystyle{plain}
 
 % Theorem environment <<<
 \theoremstyle{definition}   \newtheorem{definition}{Definition}[section]
@@ -130,6 +131,7 @@
 	\href{mailto:823291634@qq.com}{823291634@qq.com}
 }
 \date{}
+
 %>>>
 
 \begin{document}
@@ -137,7 +139,7 @@
 \newpage
 \begin{abstract}
 We address the dynamic properties of typical social networks, in which person
-is considered as vertex while friendship is considered as edge. We suppose the
+is considered as vertex while relation is considered as edge. We suppose the
 evolution of a social network overtime only includes bidirectional new
 connections between existing or newly created nodes, and we assume the graph
 will evolve as a typical social network. We study the centrality and activity
@@ -154,11 +156,12 @@ activity, algorithm.
 \end{abstract}
 
 \section{Introduction}
-social network
+social network 
 \section{}
 \section{}
 \section{Conclusion}
-
+\nocite{*}
+\bibliography{paper.bib}
 \end{document}
 
 % vim: set ts=8 sw=8 noet sts=8 tw=79 indentexpr= fdm=marker foldmarker=<<<,>>>:
