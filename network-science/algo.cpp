@@ -25,7 +25,7 @@ void add_edge(int x, int y) {
 	++edge_n;
 	edge_x[edge_n]=x;
 	edge_y[edge_n]=y;
-	edge_t[edge_n]=t;
+	edge_t[edge_n]=cur_time;
 	// about degree
 	if(b_deg) {
 		ex[x].push_back(cur_time);
@@ -45,7 +45,7 @@ void add_edge(int x, int y) {
 int deg_query(int t, int x) {
 	if(!b_deg) return 0;
 	if(ex[x].size()==0) return 0;
-	return (int)(lower_bound(ex[x].begin(), ex[x].end(), t) - e[x].begin());
+	return (int)(lower_bound(ex[x].begin(), ex[x].end(), t+1) - ex[x].begin());
 }
 
 int vio_deg_query(int t, int x) {
@@ -112,7 +112,7 @@ int main(int argc, char *argv[]) {
 		ufs_sz[i]=1;
 	}
 	FILE *inf=fopen(s_inf, "r");
-	FILE *ouf=(s_ouf==NULL ? stdout : fopen(s_out, "w"));
+	FILE *ouf=(s_ouf==NULL ? stdout : fopen(s_ouf, "w"));
 	fscanf(inf, "%d%d", &n, &query_cnt);
 	for(int cur_q=1; cur_q<=query_cnt; ++cur_q) {
 		char op[99], sop[99]; fscanf(inf, "%s", op);
@@ -121,6 +121,7 @@ int main(int argc, char *argv[]) {
 			fscanf(inf, "%d%d", &x,&y);
 			++cur_time;
 			add_edge(x, y);
+			fprintf(ouf, "%d: a %d %d\n", cur_time, x, y);
 		}
 		if(op[0]=='q') {
 			fscanf(inf, "%s", sop);
@@ -137,7 +138,7 @@ int main(int argc, char *argv[]) {
 			if(sop[1]=='d') {
 				fscanf(inf, "%d%d", &t,&x);
 				bool ans=deg_query(t, x);
-				fprintf(ouf, "%d: qc %d %d -> %d", cur_time, t,x, ans);
+				fprintf(ouf, "%d: qd %d %d -> %d", cur_time, t,x, ans);
 				if(b_vio) {
 					bool std=vio_deg_query(t, x);
 					fprintf(ouf, " / %d [%s]", std, (std==ans)?"yes":"error");
