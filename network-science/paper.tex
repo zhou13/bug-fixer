@@ -146,7 +146,7 @@ We address the dynamic properties of typical social networks, in which person
 is considered as vertex while relation is considered as edge. We suppose the
 evolution of a social network overtime only includes bidirectional new
 connections between existing or newly created nodes, and we assume the graph
-will evolve as a typical social network. We study the centrality and activity
+will evolve as a typical social network. We study the activity and centrality
 metrics for nodes in such graphs by regulate a series of reasonable properties
 the metrics should satisfy. We then formally define our metrics and give their
 mathematical analysis. We have developed a practical based framework to
@@ -156,22 +156,51 @@ queries. Finally, we put the result of experiment with a couple of authentic
 data.
 
 \smallskip
-\noindent \textbf{Keywords:} social network, dynamic graph, centrality,
-activity, algorithm.
+\noindent \textbf{Keywords:} social network, dynamic graph, activity,
+centrality, algorithm.
 \end{abstract}
 \tableofcontents
 \newpage
 
 \section{Introduction}
-% TODO
+Social networks is a surprising interdisciplinary field of social science and
+computer science, allowing helpful analysis of large-scaled social behavior
+and tendency. In this paper, we will take more information of social networks,
+the time dimension, and make the similar study to the social behaviors. We
+build metrics for evolving social networks and design the algorithm to
+calculate them. We compare how different the outcome by our method would be
+against the classical analysis with un-timestamped data mining.
+
 \subsection{Dynamic Metrics}
+Networks contain too much information to be easily observed by people without
+any abstraction. To study a network, people exploited the basic form of
+quantification to concentrate on specific features of the whole graph, or an
+individual vertex. Our work is to promote this methodology to the dynamic
+graphs. We basically design the new dynamic metrics according to existing
+successful static ones, but we will point out a important metric that can be
+only observed in time evolving networks, the activity. Intuitively speaking,
+a vertex with high activity indicates more frequent recent social actions, and
+the vertex is more willing to make new change by the structural sense of graph.
+The accuracy of activity will be quite vital to recommendation algorithms of
+advertisement, new friends, or search results. Activity can be also used by
+other metrics, so that the computation of other metrics will no longer need the
+time information directly, but referring to the activity instead.
+
 Centrality, usually defined on vertices, is frequently used to measure the
 importance of a specific node in graphs of all kinds. There are many previous
 studies about the static graph centralities[?], and there are many useful
 network analysis algorithms that used some kind of graph centralities. However,
 most social networks change over time, and even more unfortunately, some of the
 networks are large-scaled, which could make the analysis become hard and
-costly, hence limit the scale of meaningful data mining. The 
+costly, hence limit the scale of meaningful data mining. Moreover, the time
+effect can also become a factor of the centrality, that is, the same graph with
+different evolving sequence may have totally different metrics. On an
+intuitive level, the node connected with more higher activity nodes should be
+more important at that time, even if other node have much more silent
+neighbors. If we do not excavate the information on the time dimension, we will
+lose tremendous information and also the possibility of accumulative
+computation which could be helpful in enhancement the speed of answering
+consistent quering.
 
 In Section 3 we will concentrate on centrality and activity in evolving social
 network. We will define what centrality or activity is good, and we will design
@@ -181,25 +210,108 @@ online data structure which maintains the evolving social network. We will also
 show how to quickly locate significant vertices that has high activity or
 centrality at a specific time. In Section 5, we will show the metrics make
 sense with real world data.
+
 \subsection{Algorithms}
 Graph theory is very successful on storing and solving variant problems on
 static networks, we have sophisticated methodology on finding the shortest
-paths, stratch a minimal spanning tree, finding the maximal $S$-$T$ flow, and
-we also have a well-established theoretical system to study problems that do
-not seems to have perfect solutions. However, dynamic on-line queries can be
-very hard for general graphs.
+paths, stratch a minimal spanning tree, finding the maximal $S$-$T$ flow, etc.
+And we also have a well-established theoretical system to study problems that
+do not seems to have perfect solutions. However, dynamic online queries can be
+very hard for general graphs. Best known solutions for many dynamic basic graph
+problems still remain unsatisfiable for general demands. So to design metrics
+for an general evolving network is a very challenging and open problem. We
+concentrate on the popular studied social networks and try to create meaningful
+and available approaches of operation on such networks.
 
 In Section 2 we will discuss the known properties of a typical social network,
 which could be helpful for our algorithm designs. In Section 4, we will
 establish a framework of data structure and algorithms to solve series of
-possible queries about a evolving social network.
+possible queries including computing the metrics about a evolving social
+network.
+
 \section{Evolving Social Network}
-% TODO
+In some related research on evolving graphs, the time dimension is represented
+by constructing a sequence of graphs $EG=\{G_t(V_t,E_t)\}$ on different time
+spots $t$. This model is highly expressive and universal in mathematical
+statement, thus we adopt in. However, we constrain the relation of
+time-adjacent graphs in order to simplify the analysis and remain the highest
+possible loyalty to the reality. We build the \textbf{pure growing model},
+which care about the new connection forming among vertices, neglecting the
+anti-growing operations such as edge deletions. We assume the existence of
+every connection will contribute to the metrics, even if the connection is
+later erased, so we do not delete edges or nodes in our model, instead we
+could add an decay mechanism to reduce the affect of old formed links, which
+will be discussed in the next section. Note that in pure growing model, we
+will assign every edge a timestamp, namely when the edge is created. And thus
+there could be more than one edges between a pair of nodes, with different
+timestamp.
+
 \subsection{Definition}
-% TODO
+\definition A \textbf{pure growing model} for an evolving graph $EG$ is defined
+in pair \begin{equation}
+EG=(V,E),
+\end{equation}
+where $V$ is the set of all nodes in the network, and $E$
+is the set of edges, formally an edge $e\in E$ for $e=(u,v,t)$,
+where $u,v\in V$ are the two end points of the edge, $u<v$ (to ensure
+bidirectional), $t\in \mathbb{N}$. The $t$ component stored the forming time of
+the graph. As for weighted evolving graph model, we modifies $e\in E$ for
+$e=(u,v,t,w)$, where $w\in\mathbb{R}^+$ stands for the multiplicity of the
+edge, which might be useful in some circumstances, and the others stay the same
+meaning. In the unweighted case, we can simply set $w=1$ for all edges.
+
+\definition The historical edge set $E_t$
+\begin{equation}
+E_t=\{e\;|\;e(u,v,t',w)\in E\text{ and }t'\leq t\}.
+\end{equation}
+An immediate statement one can ensure is
+\begin{equation}
+\forall t, E_t\subseteq E\text{ and }p\leq q\implies E_p\subseteq E_q.
+\end{equation}
+
+Define $G_t$ to be the graph formed by $V$ and $E_t$. So $G_t$ is the snapshot
+of the whole network at time $t$.
+
+Now we define the update of an evolving graph in our model. First we assume all
+possible active vertices has been already defined, so $V$ does not change.
+\definition 
+$EG^*=(V,E^*)$ where $E\subseteq E^*$. We assume the edges are added to the
+model by correct time order, so
+\begin{equation}
+\forall e\in E^*\setminus E, \forall e'\in E, e=(u,v,t,w)\text{ and }
+e'=(u',v',t',w'), t\geq t'.
+\end{equation}
+
+And we define the notation of some frequently used basic functions:
+
+\definition The adjacency matrix.
+\begin{equation}
+A(G_t)=\begin{pmatrix}a_{ij}\end{pmatrix}_{n\times n},\text{ where }n=|V|,
+a_{ij}\in \mathbb{R}^+,
+\end{equation}
+is the adjacency matrix of the graph at time $t$. More detailed
+\begin{equation}
+a_{ij}=\begin{cases}
+0&(i=j)\\
+\sum_{e\in E_t\text{ and }e=(i,j,t,w)}w &(i<j)\\
+a_{ji}&(i>j)
+\end{cases}
+\end{equation}
+
+
+\begin{definition}
+The degree function $k(G_t,v)$.
+\begin{equation}
+k(G_t,v)=\sum_{\mathclap{e\in E_t, e=(x,y,t,w)}}w(1-\delta(x,v)\delta(y,v)),
+\end{equation}
+where \begin{equation}
+\delta(x,y)=\begin{cases}1&(x\neq y)\\0&(x=y)\end{cases}.
+\end{equation}
+\end{definition}
+
 \subsection{Properties}
 % TODO
-\section{Centrality and Activity}
+\section{Activity and Centrality}
 % TODO
 \subsection{Desiderata}
 % TODO
