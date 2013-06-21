@@ -13,7 +13,7 @@ using namespace std;
 const int MAXN=1000010;
 const int MAXQ=1000010;
 
-bool b_deg, b_con, b_vio;
+bool b_deg, b_con, b_vio, b_info;
 int n;
 int cur_time;
 
@@ -52,9 +52,10 @@ int deg_query(int t, int x) {
 
 int vio_deg_query(int t, int x) {
 	int ans=0;
-	for(int i=1; i<=edge_n && edge_t[i]<=t; ++i)
-		if(edge_x[i]==x || edge_y[i]==x)
-			++ans;
+	for(int i=1; i<=edge_n && edge_t[i]<=t; ++i) {
+		if(edge_x[i]==x) ++ans;
+		if(edge_y[i]==x) ++ans;
+	}
 	return ans;
 }
 
@@ -87,7 +88,7 @@ void print_usage(char *s) {
 }
 
 int main(int argc, char *argv[]) {
-	b_con=b_deg=b_vio=false;
+	b_con=b_deg=b_vio=b_info=false;
 	char *s_inf=NULL;
 	char *s_ouf=NULL;
 	for(int i=1; i<argc; ++i) {
@@ -97,6 +98,8 @@ int main(int argc, char *argv[]) {
 			b_deg=true;
 		if(strcmp(argv[i], "-vio")==0)
 			b_vio=true;
+		if(strcmp(argv[i], "-info")==0)
+			b_info=true;
 		if(strcmp(argv[i], "-i")==0)
 			s_inf=argv[++i];
 		if(strcmp(argv[i], "-o")==0)
@@ -125,36 +128,44 @@ int main(int argc, char *argv[]) {
 			fscanf(inf, "%d%d", &x,&y);
 			++cur_time;
 			add_edge(x, y);
-			fprintf(ouf, "%d: a %d %d\n", cur_time, x, y);
+			if(b_info)
+				fprintf(ouf, "%d: a %d %d\n", cur_time, x, y);
 		}
 		if(op[0]=='q') {
 			fscanf(inf, "%s", sop);
 			if(sop[1]=='c') {
 				fscanf(inf, "%d%d%d", &t,&x,&y);
 				bool ans=con_query(t, x, y);
-				fprintf(ouf, "%d: qc %d %d %d -> %d", cur_time, t,x,y, ans);
+				if(b_info)
+					fprintf(ouf, "%d: qc %d %d %d -> %d", cur_time, t,x,y, ans);
 				if(b_vio) {
 					bool std=vio_con_query(t, x, y);
-					fprintf(ouf, " / %d [%s]", std, (std==ans)?"yes":"error");
+					if(b_info)
+						fprintf(ouf, " / %d [%s]", std, (std==ans)?"yes":"error");
 					if(std==ans) ++n_yes; ++n_tot;
 				}
-				fprintf(ouf, "\n");
+				if(b_info)
+					fprintf(ouf, "\n");
 			}
 			if(sop[1]=='d') {
 				fscanf(inf, "%d%d", &t,&x);
 				int ans=deg_query(t, x);
-				fprintf(ouf, "%d: qd %d %d -> %d", cur_time, t,x, ans);
+				if(b_info)
+					fprintf(ouf, "%d: qd %d %d -> %d", cur_time, t,x, ans);
 				if(b_vio) {
 					int std=vio_deg_query(t, x);
-					fprintf(ouf, " / %d [%s]", std, (std==ans)?"yes":"error");
+					if(b_info)
+						fprintf(ouf, " / %d [%s]", std, (std==ans)?"yes":"error");
 					if(std==ans) ++n_yes; ++n_tot;
 				}
-				fprintf(ouf, "\n");
+				if(b_info)
+					fprintf(ouf, "\n");
 			}
 		}
 	}
-	fprintf(ouf, "Finish:\n");
-	fprintf(ouf, " correct %d/%d (%.1lf)\n", n_yes, n_tot, (double)n_yes/(double)n_tot);
+	fprintf(ouf, "Finish.\n");
+	if(b_vio)
+		fprintf(ouf, " correct %d/%d (%.5lf)\n", n_yes, n_tot, (double)n_yes/(double)n_tot);
 	
 	return 0;
 }
