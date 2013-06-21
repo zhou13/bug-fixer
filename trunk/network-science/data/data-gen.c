@@ -4,6 +4,7 @@
 #include <stdbool.h>
 #include <assert.h>
 #include <time.h>
+#include <limit.h>
 
 static int state = 1;
 
