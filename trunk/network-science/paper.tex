@@ -165,9 +165,34 @@ activity, algorithm.
 \section{Introduction}
 % TODO
 \subsection{Dynamic Metrics}
-% TODO
+Centrality, usually defined on vertices, is frequently used to measure the
+importance of a specific node in graphs of all kinds. There are many previous
+studies about the static graph centralities[?], and there are many useful
+network analysis algorithms that used some kind of graph centralities. However,
+most social networks change over time, and even more unfortunately, some of the
+networks are large-scaled, which could make the analysis become hard and
+costly, hence limit the scale of meaningful data mining. The 
+
+In Section 3 we will concentrate on centrality and activity in evolving social
+network. We will define what centrality or activity is good, and we will design
+some instance of those metrics by the standard we set. In Section 4, we will
+give the algorithms to compute our designed centrality and activity from the
+online data structure which maintains the evolving social network. We will also
+show how to quickly locate significant vertices that has high activity or
+centrality at a specific time. In Section 5, we will show the metrics make
+sense with real world data.
 \subsection{Algorithms}
-% TODO
+Graph theory is very successful on storing and solving variant problems on
+static networks, we have sophisticated methodology on finding the shortest
+paths, stratch a minimal spanning tree, finding the maximal $S$-$T$ flow, and
+we also have a well-established theoretical system to study problems that do
+not seems to have perfect solutions. However, dynamic on-line queries can be
+very hard for general graphs.
+
+In Section 2 we will discuss the known properties of a typical social network,
+which could be helpful for our algorithm designs. In Section 4, we will
+establish a framework of data structure and algorithms to solve series of
+possible queries about a evolving social network.
 \section{Evolving Social Network}
 % TODO
 \subsection{Definition}
