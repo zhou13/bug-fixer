@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
 
     my_srand(time(NULL));
 
-    printf("%d %d\n", n, m);
+    printf("%d\n", n);
     for (int i = 0; i < m; ++i) {
         printf("a %d %d\n", 1+my_rand()%n, 1+my_rand()%n);
         while ((double)my_rand()/INT_MAX < p) {
