@@ -29,7 +29,7 @@ void my_srand(time_t seed)
 int main(int argc, char *argv[])
 {
     if (argc == 1) {
-        puts("data-gen [number of vertices] [number of edges] [number of question per edge] ");
+        puts("data-gen [number of vertices] [number of edges] [question density] ");
         // puts("data-gen -e filename [number of question]");
         return 0;
     }
