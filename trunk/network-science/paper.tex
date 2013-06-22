@@ -59,7 +59,7 @@
 \renewcommand\cftsecfont{\normalsize}
 \renewcommand\cftsecpagefont{\normalsize}
 \renewcommand\cftsecafterpnum{\par}
-\setlength{\cftbeforesecskip}{0.3em}
+\setlength{\cftbeforesecskip}{0.2em}
 
 \renewcommand\cftsubsecfont{\small}
 \renewcommand\cftsubsecpagefont{\small}
@@ -156,8 +156,8 @@ queries. Finally, we put the result of experiment with a couple of authentic
 data.
 
 \smallskip
-\noindent \textbf{Keywords:} social network, dynamic graph, activity,
-centrality, algorithm.
+\noindent \textbf{Keywords:} social network, dynamic graph, vertex activity,
+vertex centrality, online algorithm.
 \end{abstract}
 \tableofcontents
 \newpage
@@ -310,9 +310,49 @@ where \begin{equation}
 \end{definition}
 
 \subsection{Properties}
-% TODO
+In most social networks, people have their own friendship circles, and the
+average circle size is quite limited because people do less interaction with
+strangers than their close friends or family members. We call this phenomenon
+the \textbf{sparsity} of social network.
+\definition Reduced edge set (historical) $E_t^\bullet=\{(x_i,y_i)\}$:
+\begin{equation}
+(x,y)\in E_t^\bullet \iff \exists e(x,y,t,w)\in E_t.
+\end{equation}
+\definition Reduced degree $k^\bullet(G_t,v)$:
+\begin{equation}
+k^\bullet(G_t,v)=\#\{u\;|\;(u,v)\in E_t^\bullet\text{ or }(v,u)\in
+E_t^\bullet\}.
+\end{equation}
+
+We then have
+\begin{equation}
+\left<k^\bullet\right>=2\left|E^\bullet\right|/\left|V\right|,
+\end{equation}
+where $\left|E^\bullet\right|/\left|V\right|$ only depends on the structure of
+the network at a time spot. In many available online datasets, such as [?]%TODO
+we can assume $\left<k^\bullet\right>$ is limited by a constant $K$, typically
+$10^2$.
+\definition Sparcity constant $K=\left<k^\bullet\right>$.
+
+\begin{observation} $K=O(1)$.
+\end{observation}
+So if we only use the reduced edge list in our framework as additional memory
+requirements, or similarly speaking, consider the adjacency matrix to be a
+sparse matrix and only store the non-zero entries, the space expense would then
+be just $O(n)$, which is highly available. However this does not means we can
+handle neighbor updating operations in $O(1)$ time, because
+\begin{equation}\max k^\bullet\geq
+\left<k^\bullet\right>=K \end{equation} and the former one may be very large.
+We cannot trivially assert the amortized time complexity to be $O(1)$ neither,
+because the nodes with high degrees may requires more operations over time,
+just like the famous friendship paradox[?].
+
+Another famouse property of social networks is known as the small world
+effect[?], for that the giant component contains nearly all active nodes and it
+has very small diameter.
+
 \section{Activity and Centrality}
-% TODO
+
 \subsection{Desiderata}
 % TODO
 \subsection{Design and Analysis}
