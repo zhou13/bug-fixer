@@ -428,7 +428,70 @@ todo
 \subsection{Optimization and Parallelizability}
 % TODO
 \section{Experiment}
-% TODO
+
+We have implemented two of the algorithms using C++ language.
+The program maintains a dynamic graph which contains $n$ vertices and does not have
+any edge at the beginning.
+It support the following operations:
+\begin{itemize}
+	\item \textsc{Add $u,v$:} increase the time counter by one, and then add an edge
+		between vertex $u$ and vertex $v$.
+	\item \textsc{QueryDeg $t,u$:} ask for the degree of $u$ at time $t$.
+	\item \textsc{QueryCon $t,u,v$:} ask that whether vertices $u,v$ is connected or not
+		$u$ at time $t$.
+\end{itemize}
+Note that the time counter is initially zero.
+Each operation cost $O(\log n)$ time in our implemented algorithm.
+
+\subsection{Checking for Correctness}
+We implemented a simple algorithm together which cost $O(\max\{n,m\})$ time for each operation,
+	where $m$ is the number of edges before the operation.
+We have generated several small test cases and compare the results between the simple program
+	and our $O(\log n)$ program.
+There is no difference found between outputs of the two programs.
+
+\subsection{Checking for Time Complexity}
+We have generated several huge test cases to test the running time of the program.
+The following tabular shows the informations about the cases and the running results.
+\begin{center} \begin{tabular}{|c|c|c|c|c|}
+	\hline
+	Case & Number of & Number of & Density of & Running \\
+	ID & vertices & operations & query & time \\
+	\hline
+	1 & 100000 & 200000 & 0.5 & 0.504 \\
+	\hline
+	2 & 100000 & 200000 & 0.5 & 0.524 \\
+	\hline
+	3 & 100000 & 200000 & 0.5 & 0.516 \\
+	\hline
+	4 & 200000 & 400000 & 0.5 & 1.072 \\
+	\hline
+	5 & 200000 & 400000 & 0.5 & 1.092 \\
+	\hline
+	6 & 200000 & 400000 & 0.5 & 1.072 \\
+	\hline
+	7 & 500000 & 500000 & 0.5 & 1.464 \\
+	\hline
+	8 & 500000 & 500000 & 0.5 & 1.492 \\
+	\hline
+	9 & 500000 & 1000000 & 0.5 & 2.772 \\
+	\hline
+	10 & 500000 & 1000000 & 0.5 & 2.732 \\
+	\hline
+	11 & 500000 & 2000000 & 0.5 & 5.232 \\
+	\hline
+	12 & 500000 & 2000000 & 0.5 & 5.256 \\
+	\hline
+	13 & 1000000 & 2000000 & 0.5 & 5.652 \\
+	\hline
+	14 & 1000000 & 2000000 & 0.5 & 5.808 \\
+	\hline
+	15 & 1000000 & 3000000 & 0.5 & 8.417 \\
+	\hline
+\end{tabular} \end{center}
+We can see that the running time grows as linear as number of operations,
+	but grows much slower when number of vertices grows (as $\log$).
+
 \section{Conclusion and Perspective}
 % TODO
 \nocite{*}

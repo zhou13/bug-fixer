@@ -11,7 +11,7 @@
 using namespace std;
 
 const int MAXN=1000010;
-const int MAXQ=1000010;
+const int MAXQ=3000010;
 
 bool b_deg, b_con, b_vio, b_info;
 int n;
