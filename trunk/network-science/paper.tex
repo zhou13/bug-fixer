@@ -363,7 +363,7 @@ related people than unfamiliars.
 \section{Activity and Centrality}
 
 \subsection{Desiderata}
-Suppose $Act(G_t,v)$ returns the activity of node $v$ in the evolving graph in
+\definition $Act(G_t,v)$ returns the activity of node $v$ in the evolving graph in
 time $t$. Then $Act(G_t,v)$ should be a deterministic function of $v$ and
 $E_t$.
 \begin{itemize}
@@ -395,8 +395,9 @@ E_{t+1}=E_t\cup\{e(u,v,t,w)\}\implies Act(G_{t+1},v)>Act(G_{t},v).
 
 \item \textbf{attenuation}:
 
-If the network keeps silent, the activity metric of any node $v$ should be decreasing
-over time by intuition. Because there is a lower bound for activity and we want
+If the network keeps silent, the activity metric of any node $v$ should be
+decreasing over time by intuition. Because there is a lower bound for activity
+and we want
 the attenuation process to be infinity long since a node changed the network
 once in past time is potential to make another. So we make the decay rate
 of activity for silent nodes to be also decreasing. However in our pure growing
@@ -408,7 +409,7 @@ G_t=G_{\lfloor t \rfloor}\text{ and } E_t=E_{\lfloor t \rfloor},
 to make $Act(G,v)$ a well defined $\mathbb{R}\to [0,1]$ function.
 
 \begin{equation}
-
+todo
 \end{equation}
 
 \end{itemize}
