@@ -123,10 +123,11 @@
 
 \begin{center} %<<< Title
 	\Large \textbf{\textsf{
-		Metrics and Algorithms for Evolving Social Networks}} \\[1.2em]
+		Metrics and Algorithms for Evolving Social Networks}} \\[2em]
 	\normalsize 
 		Pufan He\upper{1}, Yichao Zhou\upper{2}, Qiwei Feng\upper{3},
-		Yu Yan\upper{4}, Qingyang Li\upper{5} and Xin Xing\upper{6}\\[1em]
+		Yu Yan\upper{4}, Qingyang Li\upper{5} and Xin
+		Xing\upper{6}\\[1.5em]
 	\small
 	\begin{tabular}{*{3}{>{\centering}p{.3\textwidth}}}
 		\upper{1}\small\href{mailto:hpfdf@126.com}{hpfdf@126.com} &%
@@ -135,10 +136,12 @@
 		\upper{4}\href{mailto:whyvine@hotmail.com}{whyvine@hotmail.com} &
 		\upper{5}\href{mailto:591527324@qq.com}{591527324@qq.com} &
 		\upper{6}\href{mailto:823291634@qq.com}{823291634@qq.com}
-	\end{tabular} \\[1em]
+	\end{tabular} \\[1.5em]
 
 	\small Institute for Interdisciplinary Information Sciences,
-	Tsinghua University \\[1.5em]
+	Tsinghua University \\[2em]
+	\normalsize
+	June 24, 2013\\[3em]
 \end{center} \par %>>>
 
 \begin{abstract}
@@ -153,14 +156,13 @@ give their mathematical analysis. We have developed a practical based framework
 to maintain the evolving large-scale network and the algorithm to compute our
 metrics in preferable time and space consumption, including historical queries.
 Finally, we use a simple model to generate data and apply our results to such
-experiments.
+experiments.\\[1.5em]
 
-\smallskip
 \noindent \textbf{Keywords:} social network, dynamic graph, vertex activity,
 vertex centrality, online algorithm.
 \end{abstract}
 % \tableofcontents
-% \newpage
+\newpage
 
 \section{Introduction}
 Social networks is a surprising interdisciplinary field of social science and
@@ -189,7 +191,7 @@ time information directly, but referring to the activity instead.
 Centrality, usually defined on vertices, is frequently used to measure the
 importance of a specific node in graphs of all kinds. There are many previous
 studies about the static graph centralities\cite{newman2010networks}, such as
-page rank algorithm\cite{page1999pagerank}, and there are many useful
+PageRank algorithm\cite{page1999pagerank}, and there are many useful
 network analysis algorithms that used some kind of graph centralities. However,
 most social networks change over time, and even more unfortunately, some of the
 networks are large-scaled, which could make the analysis become hard and
@@ -546,9 +548,12 @@ evolving activity satisfies integrity.
 \definition \textbf{evolving centrality} $\textbf{x}(G_t)$ is a vector in space
 $\mathbb{R}^{|V|}$, where
 \begin{equation}
-\mathbf{x}=\alpha DA \mathbf{x} + \beta\mathbf{1},
+\mathbf{x}=\alpha DA^\bullet \mathbf{x} + \beta\mathbf{1},
 \end{equation}
-$A$ is the adjacency matrix of $G_t$, and $D$ is a diagonal matrix that
+$A^\bullet$ is the 0/1 adjacency matrix of $E^\bullet_t$ as defined in Section 2,
+because centrality accentuate more on the structure of the network but not the
+intensity of edges. And
+$D$ is a diagonal matrix that
 \begin{equation}
 D_{ij}=\begin{cases}
 0&(i\neq j)\\
@@ -558,9 +563,37 @@ D_{ij}=\begin{cases}
 Then $\textbf{x}_i(G_t)$ is the centrality for node $v_i$ in $G_t$, and is
 scale-relative to the influence of $v_i$ in the network at time $t$.
 
-The equivalent form of $x(G_t,v_i)$ is 
+The equivalent form of evolving centrality $x(G_t,v_i)$ is 
 \begin{equation}
-x_i(G_t,v_i)=\alpha\sum_jA_{ij}\mathit{Act}(G_t,v_j)x_j(G_t,v_j)+\beta.
+x_i(G_t,v_i)=\alpha\sum_jA^\bullet_{ij}
+\mathit{Act}(G_t,v_j)x_j(G_t,v_j)+\beta.
+\end{equation}
+
+We can also change the model into a directional graph, and study the network as
+a citation network:
+
+\definition \textbf{evolving PageRank} $\textbf{x}(G_t)$ is a vector in space
+$\mathbb{R}^{|V|}$, where
+\begin{equation}
+\mathbf{x}=\alpha DKA \mathbf{x} + \beta\mathbf{1},
+\end{equation}
+where $A_{ij}$ stands for the total weight of edges from $j$ to $i$,
+\begin{equation}
+D_{ij}=\begin{cases}
+0&(i\neq j)\\
+\mathit{Act}(G_t,v_i)&(i=j)
+\end{cases};\qquad
+K_{ij}=\begin{cases}
+0&(i\neq j)\\
+k_{\mathrm{out}}(G_t,v_i)&(i=j)
+\end{cases}.
+\end{equation}
+
+The equivalent form of evolving PageRank $x(G_t,v_i)$ is 
+\begin{equation}
+x_i(G_t,v_i)=\alpha\sum_j
+\frac{A_{ij}\mathit{Act}(G_t,v_j)x_j(G_t,v_j)}{k_{\mathrm{out}}(G_t,v_j)}
++\beta.
 \end{equation}
 
 \section{Data structure and Algorithms}
@@ -570,10 +603,10 @@ create algorithmic functions to the data structure.
 
 A evolving network $G_t(V,E_t)$ is stored in following contents:
 \begin{itemize}
-\item \textsc{CurrentTime}, a non-negative real number.
-\item \textsc{EdgeList}[$1\dots|V|$][$1\dots\textsc{EdgeListLen}$], an array with fixed length, every of
-whose entry points to a sorted array, consisting of the out edges of $v_i$
-in the graph, with elements 
+\item \textit{currentTime}, a non-negative real number.
+\item \textit{edgeList}[$1\dots|V|$], an array that every of
+whose entry points to a sorted array again, consisting the description of the
+in edges of $v_i$ in the graph, each with elements:
 \begin{itemize}
 \item $u$, the other end point of the edge.
 \item $t$, the time when this edge is added. (the array is sorted by $t$)
@@ -582,8 +615,30 @@ in the graph, with elements
 edge.
 \end{itemize}
 
+\item \textit{edgeListReduced}[$1\dots|V|$], an array that every of
+whose entry points to a sorted array again, consisting the description of the
+neighbors of $v_i$ in the graph, each with a element $u$ (sorted by $u$).
+
+\item \textit{father}[$1\dots|V|$], an array exploited by the historicall
+union-find algorithm, which will be discussed later. Each of the elements
+contains:
+\begin{itemize}
+\item $u$, the identity of $v_i$'s father node if $u\neq 0$, otherwise $v_i$
+is a root node.
+\item $t$, the time when $u$ becomes non-zero.
+\end{itemize}
 
 \end{itemize}
+\textbf{Space complexity:} $O(|V|+|E|)$.
+
+\begin{algorithm}
+\caption{Add a new edge $e(v_i,v_j,t,w)$ to $G_t$}
+\begin{algorithmic}[1]
+\Require $1\leq i,j\leq |V|$, $t\geq currentTime$, $w>0$.
+\Ensure $G_t$ is up-to-date.
+\State 
+\end{algorithmic}
+\end{algorithm}
 \subsection{Computing Metrics}
 % TODO
 \subsection{Optimization and Parallelizability}
@@ -670,8 +725,8 @@ We can see that the running time grows as linear as number of operations,
 
 \section{Conclusion and Perspective}
 % TODO
-\nocite{*}
-\bibliography{paper.bib}
+
+\bibliography{paper}
 \end{document}
 
 % vim: set ts=8 sw=8 noet sts=8 tw=79 indentexpr= fdm=marker foldmarker=<<<,>>>:
