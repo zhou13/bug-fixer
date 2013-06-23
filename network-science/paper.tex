@@ -142,18 +142,18 @@
 \end{center} \par %>>>
 
 \begin{abstract}
-We address the dynamic properties of typical social networks, in which person
-is considered as vertex while relation is considered as edge. We suppose the
-evolution of a social network overtime only includes bidirectional new
-connections between existing or newly created nodes, and we assume the graph
+We address the dynamic properties of typical social networks, in which people
+are considered as vertices while relations are considered as edges. We suppose
+the evolution of a social network overtime only includes bidirectional new
+connections between existing or newly created nodes, and also assume the graph
 will evolve as a typical social network. We study the activity and centrality
-metrics for nodes in such graphs by regulate a series of reasonable properties
-the metrics should satisfy. We then formally define our metrics and give their
-mathematical analysis. We have developed a practical based framework to
-maintain the evolving large-scale network and the algorithm to compute our
-metrics with preferable time and space consumption, including historical
-queries. Finally, we put the result of experiment with a couple of authentic
-data.
+metrics for nodes in such graphs by regulating a series of reasonable
+properties the metrics should satisfy. We then formally define our metrics and
+give their mathematical analysis. We have developed a practical based framework
+to maintain the evolving large-scale network and the algorithm to compute our
+metrics in preferable time and space consumption, including historical queries.
+Finally, we use a simple model to generate data and apply our results to such
+experiments.
 
 \smallskip
 \noindent \textbf{Keywords:} social network, dynamic graph, vertex activity,
@@ -165,9 +165,9 @@ vertex centrality, online algorithm.
 \section{Introduction}
 Social networks is a surprising interdisciplinary field of social science and
 computer science, allowing helpful analysis of large-scaled social behavior
-and tendency. In this paper, we will take more information of social networks,
-the time dimension, and make the similar study to the social behaviors. We
-build metrics for evolving social networks and design the algorithm to
+and tendency. In this paper, we will deal with more information of social
+networks, the time dimension, and make a similar study to the social behaviors.
+We build metrics for evolving social networks and design an algorithm to
 calculate them. We compare how different the outcome by our method would be
 against the classical analysis with un-timestamped data mining.
 
@@ -176,7 +176,7 @@ Networks contain too much information to be easily observed by people without
 any abstraction. To study a network, people exploited the basic form of
 quantification to concentrate on specific features of the whole graph, or an
 individual vertex. Our work is to promote this methodology to the dynamic
-graphs. We basically design the new dynamic metrics according to existing
+graphs. We basically design new dynamic metrics according to existing
 successful static ones, but we will point out a important metric that can be
 only observed in time evolving networks, the activity. Intuitively speaking,
 a vertex with high activity indicates more frequent recent social actions, and
@@ -188,8 +188,8 @@ time information directly, but referring to the activity instead.
 
 Centrality, usually defined on vertices, is frequently used to measure the
 importance of a specific node in graphs of all kinds. There are many previous
-studies about the static graph centralities[?], such as page rank
-algorithm\cite{page1999pagerank}, and there are many useful
+studies about the static graph centralities\cite{newman2010networks}, such as
+page rank algorithm\cite{page1999pagerank}, and there are many useful
 network analysis algorithms that used some kind of graph centralities. However,
 most social networks change over time, and even more unfortunately, some of the
 networks are large-scaled, which could make the analysis become hard and
@@ -213,9 +213,9 @@ centrality at a specific time. In Section 5, we will show the metrics make
 sense with real world data.
 
 \subsection{Algorithms}
-Graph theory is very successful on storing and solving variant problems on
+Graph theory is very successful on storing and solving various problems on
 static networks, we have sophisticated methodology on finding the shortest
-paths, stratch a minimal spanning tree, finding the maximal $S$-$T$ flow, etc.
+paths, get a minimal spanning tree, finding the maximal $S$-$T$ flow, etc.
 And we also have a well-established theoretical system to study problems that
 do not seems to have perfect solutions. However, dynamic online queries can be
 very hard for general graphs. Best known solutions for many dynamic basic graph
@@ -345,11 +345,11 @@ handle neighbor updating operations in $O(1)$ time, because
 \left<k^\bullet\right>=K \end{equation} and the former one may be very large.
 We cannot trivially assert the amortized time complexity to be $O(1)$ neither,
 because the nodes with high degrees may requires more operations over time,
-just like the famous friendship paradox[?].
+just like the famous friendship paradox\cite{feld1991your}.
 
-Another famouse property of social networks is known as the small world
-effect[?], for that the giant component contains nearly all active nodes and it
-has very small diameter.
+Another famous property of social networks is known as the small world
+effect\cite{buchanan2003nexus}, for that the giant component contains nearly
+all active nodes and it has very small diameter.
 
 The clustering coefficient[?], namely
 \begin{equation}
@@ -362,67 +362,229 @@ related people than unfamiliars.
 \section{Activity and Centrality}
 
 \subsection{Desiderata}
-\definition $Act(G_t,v)$ returns the activity of node $v$ in the evolving graph in
-time $t$. Then $Act(G_t,v)$ should be a deterministic function of $v$ and
+\definition $\mathit{Act}(G_t,v)$ returns the activity of node $v$ in the evolving graph in
+time $t$. Then $\mathit{Act}(G_t,v)$ should be a deterministic function of $v$ and
 $E_t$.
 \begin{itemize}
-\item \textbf{normalization}:
+\item \textbf{(normalization)}:
 
 We want the metrics to derive other functions, so it will be nice if we can
 limit the range of the function.
 \begin{equation}
-0\leq Act(G_t,v) \leq 1.
+0\leq \mathit{Act}(G_t,v) \leq 1.
 \end{equation}
 
-\item \textbf{initialization}:
+\item \textbf{(initialization)}:
 
 A node with no neighbors is totally inactive.
 \begin{equation}
-k(G_t,v)=0\implies Act(G_t,v)=0.
+k(G_t,v)=0\implies \mathit{Act}(G_t,v)=0.
+\end{equation}
+Also we declare
+\begin{equation}
+k(G_{-\infty},v)=0.
 \end{equation}
 
 \item \textbf{monotonicity}:
 
-If a vertex $v$ performs an interaction $(v,u)$ at time $t$, and suppose the
-interaction is the only change to the graph at time $t$, then the activity of
-$v$ should enhance.
+If a vertex $v$ performs an interaction $(v,u)$ at time $t$, i.e., a new edge
+is added to $G_t$, and suppose the interaction is the only change to the graph
+at time $t$, then the activity of $v$ should be greater than if the edge is not
+added.
 
 \begin{equation}
-E_{t+1}=E_t\cup\{e(u,v,t,w)\}\implies Act(G_{t+1},v)>Act(G_{t},v).
+E_t=E'_t\cup\{e(u,v,t,w)\}\implies \mathit{Act}(G_{t},v)>\mathit{Act}(G'_{t},v
+),\label{eq-mono}
 \end{equation}
 
+\item \textbf{symmetry}:
 
-\item \textbf{attenuation}:
+For a node $v$ who created new connections at time $t$, we do not care about
+the connection's target nor how is $v$ like before the connection, so
+maintaining the change of $\mathit{Act}$ only depends on its current
+$\mathit{Act}$ value and the $w$ values in the new edges. This property makes
+activity a fair metric for all vertices, and also simplifies the computation.
 
-If the network keeps silent, the activity metric of any node $v$ should be
-decreasing over time by intuition. Because there is a lower bound for activity
-and we want
-the attenuation process to be infinity long since a node changed the network
-once in past time is potential to make another. So we make the decay rate
-of activity for silent nodes to be also decreasing. However in our pure growing
-model, the change of network structure must happen at integral time. So we
-expand the definition
-\begin{equation}
-G_t=G_{\lfloor t \rfloor}\text{ and } E_t=E_{\lfloor t \rfloor},
-\end{equation}
-to make $Act(G,v)$ a well defined $\mathbb{R}\to [0,1]$ function.
+There exists a function $g$, such that for any possible change
+$E_{t+1}=E_t\cup\{e_i(u_i,v_i,t+1,w_i)\}|_{i=1}^n$,
 
 \begin{equation}
-todo
+\mathit{Act}(G_{t+\varepsilon},v)=g(\mathit{Act}(G_t,v),n,\{w_i\},\varepsilon),
+\qquad (0<\varepsilon<2)\label{eq-sym}
 \end{equation}
+
+\item \textbf{locality}:
+
+We make activity the own property of a single node, so the actions in the
+network in which the node did not participate will not affect the metric.
+
+\begin{equation}
+p<q\text{ and }k(G_p,v)=k(G_q,v)\implies \mathit{Act}(G_q,v)=\mathit{Act}(G'_q,v),\label{eq-loc}
+\end{equation}
+where $G'_q$ has exactly the same structure of $G_p$, excepting for the time
+shift from $p$ to $q$.
+
+\item \textbf{integrity}:
+
+The quantity of actions for a node over time is a discrete function, so we
+cannot define its deriviation $f(t,v)=\frac{\mathrm{d}}{\mathrm{d}t}k(G_t,v)$
+directly. However, we reverse this property, and let $\int_{-\infty}^t
+f(\tau,v)\mathrm{d}\tau\approx k(G_t,v)$, then $f$ will prove soundness
+representing the change rate of degree.
+
+Namely, there exists constants $M>0$, such that for any
+graph $G_T$ with $T$ as the final updating time, if $k(G_T,v)\neq 0$,
+\begin{equation}
+\int_{-\infty}^{\infty} \mathit{Act}(G_t,v)\mathrm{d}t/k(G_T,v)\in\left[\frac{1}{M},M\right].
+\label{eq-int}
+\end{equation}
+
+\definition the \textbf{integral quality} of $\mathit{Act}$ is the minimal such $M$.
+
+The smaller $M$ to be, the more precise is the integration.
 
 \end{itemize}
+
+Then we move on the dynamic centrality, by expanding the often used model
+for static network named Katz centrality[?], which is actually a generalized
+version of eigenvalue centrality[?] which estimate the influence of a node in
+social networks by counting the total number of walks between a pair of
+node[?]. We try to combine the activity and the clasical centrality metric and
+expect to define a new centrality model that is mode sensitive to immediate
+effect.
+
 \subsection{Design and Analysis}
-% TODO
-\section{Algorithms}
-% TODO
+
+\definition $a_{\mu,\eta}(G_t,v)$ is the \textbf{evolving activity} for node $v$, if
+\begin{equation}
+a(G_t,v)=\begin{cases}
+0& (z\geq 0)\\
+\mu^{1/z} & (z<0)
+\end{cases},
+\end{equation}
+where $0<\mu<1$ is the \textbf{decay rate}, and $z$ is a status variable that can
+be determined by the following routine:
+\begin{itemize}
+\item $z=0$ initially, and $z$ can never exceed $0$.
+\item $z$ decrease by $\left(\eta\sum_i w_i\right)$, when new edges with weight
+$w_i$'s are created by $v$, as discussed in \eqref{eq-sym}, Here $\eta>0$ is the
+\textbf{activity delay}.
+\item $z$ increase consistently by time, at the same rate of $t$.
+\end{itemize}
+
+\begin{theorem}
+evolving activity satisfies both normalization and initialization.
+\end{theorem}
+\begin{proof}
+Since the initial value of $z$ is $0$ and $z\leq 0$, by definition we have
+$a(G_t,v)=0$ if $v$ is never changed, because there are no chance for $z$
+to be less than $0$.
+
+Since $0<\mu<1$, and $z\in\mathbb{R}$, we have $0<a(G_t,v)<1$.
+\end{proof}
+
+\begin{theorem}
+evolving activity satisfies monotonicity.
+\end{theorem}
+\begin{proof}
+Refer to \eqref{eq-mono}, we have $z$ for $G$ at time $t$ is decreased, and
+is thus at least $\eta w$ less than $z'$ for $G'$ at time $t$, namely
+\begin{equation}z\leq z'-\eta w<0.\end{equation}
+If $z'=0$, then
+\begin{equation}
+a(G'_t,v)=0<a(G_t,v)=\mu^{1/z}.
+\end{equation}
+Otherwise if $z'<0$,
+\begin{equation}
+z<z'\implies \mu^{1/z}>\mu^{1/z'},
+\end{equation}
+hence
+\begin{equation}
+a(G_t,v)>a(G'_t,v).
+\end{equation}
+\end{proof}
+
+\begin{theorem}
+evolving activity satisfies symmetry.
+\end{theorem}
+\begin{proof}
+Refer to \eqref{eq-sym}, we can write
+\begin{equation}
+g(a(G_t,v),n,\left\{w_i\right\},\varepsilon)=\begin{cases}
+0 &(z^*\geq 0)\\
+\mu^{1/z^*}& (z^*=0)
+\end{cases},
+\end{equation}
+where
+\begin{equation}
+z^*=z+\varepsilon-\eta \sum_i w_i,
+\end{equation}
+and
+\begin{equation}
+z=\begin{cases}
+0&(a(G_t,v)=0)\\
+1/\log_{\mu}a(G_t,v)&(a(G_t,v)>0)
+\end{cases}.
+\end{equation}
+So such $g$ exists.
+\end{proof}
+
+\begin{theorem}
+evolving activity satisfies locality.
+\end{theorem}
+\begin{proof}
+By definition, $z$ will not be affected by non-local change.
+\end{proof}
+
+\begin{theorem}
+evolving activity satisfies integrity.
+\end{theorem}
+\begin{proof}
+	%TODO
+\end{proof}
+
+\definition \textbf{evolving centrality} $\textbf{x}(G_t)$ is a vector in space
+$\mathbb{R}^{|V|}$, where
+\begin{equation}
+\mathbf{x}=\alpha DA \mathbf{x} + \beta\mathbf{1},
+\end{equation}
+$A$ is the adjacency matrix of $G_t$, and $D$ is a diagonal matrix that
+\begin{equation}
+D_{ij}=\begin{cases}
+0&(i\neq j)\\
+\mathit{Act}(G_t,v_i)&(i=j)
+\end{cases}
+\end{equation}
+Then $\textbf{x}_i(G_t)$ is the centrality for node $v_i$ in $G_t$, and is
+scale-relative to the influence of $v_i$ in the network at time $t$.
+
+The equivalent form of $x(G_t,v_i)$ is 
+\begin{equation}
+x_i(G_t,v_i)=\alpha\sum_jA_{ij}\mathit{Act}(G_t,v_j)x_j(G_t,v_j)+\beta.
+\end{equation}
+
+\section{Data structure and Algorithms}
 \subsection{Maintaining the basic graph structure}
-% TODO
-\subsection{Historical Queries}
-% TODO
+We formally define the abstract data type for the pure growing model, and
+create algorithmic functions to the data structure.
+
+A evolving network $G_t(V,E_t)$ is stored in following contents:
+\begin{itemize}
+\item \textsc{CurrentTime}, a non-negative real number.
+\item \textsc{EdgeList}[$1\dots|V|$][$1\dots\textsc{EdgeListLen}$], an array with fixed length, every of
+whose entry points to a sorted array, consisting of the out edges of $v_i$
+in the graph, with elements 
+\begin{itemize}
+\item $u$, the other end point of the edge.
+\item $t$, the time when this edge is added. (the array is sorted by $t$)
+\item $w$, the weight of the edge, can be reduced if the network is unweighted.
+\item $a$, the evolving activity of node $v_i$ at time $t$ after updating this
+edge.
+\end{itemize}
+
+
+\end{itemize}
 \subsection{Computing Metrics}
-% TODO
-\subsection{Mining Significant Data}
 % TODO
 \subsection{Optimization and Parallelizability}
 % TODO
@@ -508,8 +670,8 @@ We can see that the running time grows as linear as number of operations,
 
 \section{Conclusion and Perspective}
 % TODO
-\bibliography{paper}
+\nocite{*}
+\bibliography{paper.bib}
 \end{document}
 
 % vim: set ts=8 sw=8 noet sts=8 tw=79 indentexpr= fdm=marker foldmarker=<<<,>>>:
-
