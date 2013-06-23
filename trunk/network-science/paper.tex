@@ -159,8 +159,8 @@ data.
 \noindent \textbf{Keywords:} social network, dynamic graph, vertex activity,
 vertex centrality, online algorithm.
 \end{abstract}
-\tableofcontents
-\newpage
+% \tableofcontents
+% \newpage
 
 \section{Introduction}
 Social networks is a surprising interdisciplinary field of social science and
@@ -201,7 +201,7 @@ more important at that time, even if other node have much more silent
 neighbors. If we do not excavate the information on the time dimension, we will
 lose tremendous information and also the possibility of accumulative
 computation which could be helpful in enhancement the speed of answering
-consistent quering.
+consistent querying.
 
 In Section 3 we will concentrate on centrality and activity in evolving social
 network. We will define what centrality or activity is good, and we will design
@@ -236,16 +236,15 @@ by constructing a sequence of graphs $EG=\{G_t(V_t,E_t)\}$ on different time
 spots $t$. This model is highly expressive and universal in mathematical
 statement, thus we adopt in. However, we constrain the relation of
 time-adjacent graphs in order to simplify the analysis and remain the highest
-possible loyalty to the reality. We build the \textbf{pure growing model},
-which care about the new connection forming among vertices, neglecting the
-anti-growing operations such as edge deletions. We assume the existence of
+possible loyalty to the real data generation. We build the \textbf{pure growing
+model}, which care about the new connection forming among vertices, neglecting
+the anti-growing operations such as edge deletions. We assume the existence of
 every connection will contribute to the metrics, even if the connection is
-later erased, so we do not delete edges or nodes in our model, instead we
-could add an decay mechanism to reduce the affect of old formed links, which
-will be discussed in the next section. Note that in pure growing model, we
-will assign every edge a timestamp, namely when the edge is created. And thus
-there could be more than one edges between a pair of nodes, with different
-timestamp.
+later erased, so we do not delete edges or nodes in our model, instead we could
+add an decay mechanism to reduce the affect of old formed links, which will be
+discussed in the next section. Note that in pure growing model, we will assign
+every edge a timestamp, namely when the edge is created. And thus there could
+be more than one edges between a pair of nodes, with different timestamp.
 
 \subsection{Definition}
 \definition A \textbf{pure growing model} for an evolving graph $EG$ is defined
@@ -428,16 +427,31 @@ todo
 \subsection{Optimization and Parallelizability}
 % TODO
 \section{Experiment}
+\subsection{Data Generation} 
+Our data generation is base on real social network provided by \cite{database1,
+database2}.  Because the real dynamic graph is hard to obtain, we only use
+these graph as a final state of the dynamic graph, which means the evolving
+graph generated will satisfy all the property that we discussed in section 2.
+Then we artificially add a timeline into that graph to make it become an
+evolving graph.
 
+Another way to generate data is to use the method given by
+\cite{kumar2010structure}.  The author in that paper propose a method to
+simulate the real timeline of a social network, which has same component
+properties and very good similarity with the actual network.  Unfortunately,
+because of the time limitation, we have not implemented this brilliant
+technique.
+
+\subsection{Program}
 We have implemented two of the algorithms using C++ language.
 The program maintains a dynamic graph which contains $n$ vertices and does not have
 any edge at the beginning.
 It support the following operations:
 \begin{itemize}
-	\item \textsc{Add $u,v$:} increase the time counter by one, and then add an edge
+	\item \textsc{Add Edge$(u,v)$:} increase the time counter by one, and then add an edge
 		between vertex $u$ and vertex $v$.
-	\item \textsc{QueryDeg $t,u$:} ask for the degree of $u$ at time $t$.
-	\item \textsc{QueryCon $t,u,v$:} ask that whether vertices $u,v$ is connected or not
+	\item \textsc{Query Degree$(t,u)$:} ask for the degree of $u$ at time $t$.
+	\item \textsc{Query Connectivity$(t,u,v)$:} ask that whether vertices $u,v$ is connected or not
 		$u$ at time $t$.
 \end{itemize}
 Note that the time counter is initially zero.
