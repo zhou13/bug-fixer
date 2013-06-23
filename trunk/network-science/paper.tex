@@ -188,7 +188,8 @@ time information directly, but referring to the activity instead.
 
 Centrality, usually defined on vertices, is frequently used to measure the
 importance of a specific node in graphs of all kinds. There are many previous
-studies about the static graph centralities[?], and there are many useful
+studies about the static graph centralities[?], such as page rank
+algorithm\cite{page1999pagerank}, and there are many useful
 network analysis algorithms that used some kind of graph centralities. However,
 most social networks change over time, and even more unfortunately, some of the
 networks are large-scaled, which could make the analysis become hard and
@@ -351,10 +352,66 @@ Another famouse property of social networks is known as the small world
 effect[?], for that the giant component contains nearly all active nodes and it
 has very small diameter.
 
+The clustering coefficient[?], namely
+\begin{equation}
+c.c=\frac{\#\text{closed paths of len 2}}{\#\text{paths of len 2}},
+\end{equation}
+for a typical social network is a possitive
+number, which means people are more willing to make interactions with close
+related people than unfamiliars. 
+
 \section{Activity and Centrality}
 
 \subsection{Desiderata}
-% TODO
+Suppose $Act(G_t,v)$ returns the activity of node $v$ in the evolving graph in
+time $t$. Then $Act(G_t,v)$ should be a deterministic function of $v$ and
+$E_t$.
+\begin{itemize}
+\item \textbf{normalization}:
+
+We want the metrics to derive other functions, so it will be nice if we can
+limit the range of the function.
+\begin{equation}
+0\leq Act(G_t,v) \leq 1.
+\end{equation}
+
+\item \textbf{initialization}:
+
+A node with no neighbors is totally inactive.
+\begin{equation}
+k(G_t,v)=0\implies Act(G_t,v)=0.
+\end{equation}
+
+\item \textbf{monotonicity}:
+
+If a vertex $v$ performs an interaction $(v,u)$ at time $t$, and suppose the
+interaction is the only change to the graph at time $t$, then the activity of
+$v$ should enhance.
+
+\begin{equation}
+E_{t+1}=E_t\cup\{e(u,v,t,w)\}\implies Act(G_{t+1},v)>Act(G_{t},v).
+\end{equation}
+
+
+\item \textbf{attenuation}:
+
+If the network keeps silent, the activity metric of any node $v$ should be decreasing
+over time by intuition. Because there is a lower bound for activity and we want
+the attenuation process to be infinity long since a node changed the network
+once in past time is potential to make another. So we make the decay rate
+of activity for silent nodes to be also decreasing. However in our pure growing
+model, the change of network structure must happen at integral time. So we
+expand the definition
+\begin{equation}
+G_t=G_{\lfloor t \rfloor}\text{ and } E_t=E_{\lfloor t \rfloor},
+\end{equation}
+to make $Act(G,v)$ a well defined $\mathbb{R}\to [0,1]$ function.
+
+\begin{equation}
+
+\end{equation}
+
+\end{itemize}
 \subsection{Design and Analysis}
 % TODO
 \section{Algorithms}
