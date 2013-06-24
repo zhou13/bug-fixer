@@ -119,7 +119,9 @@ int main(int argc, char *argv[])
                 e_inq[idx] = true;
 
                 ++num_nodes;
-                time_delta = max(1, INT_MAX / 100 / num_nodes);
+                double flt = INT_MAX / 1000000. / num_nodes;
+                if (flt > 1)
+                    time_delta = max(1, 
                 timer += time_delta;
                 printf("d %d\n", time_delta);
 
