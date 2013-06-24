@@ -494,23 +494,22 @@ $w_i$'s are created by $v$, as discussed in \eqref{eq-sym}, Here $\eta>0$ is the
 \end{itemize}
 \end{definition}
 
-\begin{center} \begin{tikzpicture}
-  \begin{axis}[ 
-    xlabel={$z$},
-    ylabel={evolving activity}
-  ] 
-  \addplot[color=blue!50!black,samples=300,domain=-20:-0.001] {exp(ln(10)*(1/x))}; 
-  \addplot[color=green!50!black,samples=300,domain=-20:-0.001] {exp(ln(100)*(1/x))}; 
-  \addplot[color=red!50!black,samples=300,domain=-20:-0.001] {exp(ln(1000)*(1/x))}; 
-  \end{axis}
-\end{tikzpicture}
-
-\begin{color}{blue!50!black}blue
-\end{color}: $\mu=10$,
-\begin{color}{green!50!black}green
-\end{color}: $\mu=100$,
-\begin{color}{red!50!black}red
-\end{color}: $\mu=1000$\end{center}
+\begin{center} \begin{tikzpicture} \begin{axis}[ 
+	thick,
+	xmax=5, ymax=1,
+	axis line style=very thick,
+	axis x line=bottom,
+	axis y line=left,
+	xlabel={$z$},
+	ylabel={evolving activity},
+        legend pos=outer north east
+] 
+	\addplot[color=blue!50!black,samples=300,domain=-20:-0.001] {exp(ln(10)*(1/x))}; 
+	\addplot[color=green!50!black,samples=300,domain=-20:-0.001] {exp(ln(100)*(1/x))}; 
+	\addplot[color=red!50!black,samples=300,domain=-20:-0.001] {exp(ln(1000)*(1/x))}; 
+	\legend{$\mu=10$,$\mu=100$,$\mu=1000$};
+	\end{axis} \end{tikzpicture} 
+\end{center}
 
 \begin{theorem}
 Evolving activity satisfies both normalization and initialization.
@@ -893,22 +892,27 @@ $\lambda_1(A)$ is the maximal possitive eigenvalue of matrix $A$.
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{Optimization and Parallelizability}
-
+\subsection{Optimization and Parallelization}
 In most cases, we only need to query the latest properties of the graph, i.e.,
-$t=\mathit{currentTime}$. And we observe that in Algorithm \ref{alg-con},
+$t=\mathit{currentTime}$. And we observe that in algorithm \ref{alg-con},
 \ref{alg-deg} and \ref{alg-act}, the binary search can be replace by simply find
 the last entry of the argument sequence. So those three algorithms can be done
 in $O(1)$ time if we do not perform historical queries.
 
-Algorithm \ref{alg-cen} actually repeat the computation of the multiplication
-of a sparse matrix to a vector, which is highly parallelizable[?]. So in a large
-scale distributed system, we can perform very efficient analysis to an evolving
-graph, by our model.
+What algorithm \ref{alg-cen} do is only the multiplication of a sparse matrix
+to a vector, which is a classical problem called sparse matrix-vector
+multiplication (SpMV). This problem can be easily solve in both
+throughput-oriented and latency-oriented processors in
+parallel\cite{williams2009optimization, bell2008efficient,
+bell2009implementing, catalyurek1999hypergraph, zhuo2005sparse}.  This is a
+good news to us because nowadays parallel machine is much more common in
+company, research facilities and even with desktop computer, thanks to the
+emergence of GPGPU platforms such as CUDA and OpenCL.
+
 \section{Experiment}
 \subsection{Data Generation} 
 Our data generation is base on real social networks provided by \cite{database1,
-database2}. Unfortunatly, those databases do not contain evolving history
+database2}. Unfortunately, those databases do not contain evolving history
 recorded data, so we simulate the evolving history by use the
 authentic graph as the final state of the tested dynamic graph.
 We give a random permutation to the edges, in a way such that there will always
