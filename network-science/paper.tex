@@ -239,14 +239,14 @@ spots $t$. This model is highly expressive and universal in mathematical
 statement, thus we adopt in. However, we constrain the relation of
 time-adjacent graphs in order to simplify the analysis and remain the highest
 possible loyalty to the real data generation. We build the \textbf{pure growing
-model}, which care about the new connection forming among vertices, neglecting
+model}, which cares about the new connection forming among vertices, neglecting
 the anti-growing operations such as edge deletions. We assume the existence of
 every connection will contribute to the metrics, even if the connection is
-later erased, so we do not delete edges or nodes in our model, instead we could
+later erased. So we do not delete edges or nodes in our model, instead we could
 add an decay mechanism to reduce the affect of old formed links, which will be
-discussed in the next section. Note that in pure growing model, we will assign
-every edge a timestamp, namely when the edge is created. And thus there could
-be more than one edges between a pair of nodes, with different timestamp.
+discussed in the next section. In pure growing model, we will assign every edge
+a timestamp, namely what time the edge is created. Thus there could be more
+than one edges between a pair of nodes with different timestamps.
 
 \subsection{Definition}
 \begin{definition}
