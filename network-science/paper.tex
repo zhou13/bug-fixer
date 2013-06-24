@@ -789,11 +789,11 @@ The following plots shows the informations about the cases and the running resul
 	\draw (0,0) -- coordinate (y axis mid) (0, 19);
 	%ticks
 	\foreach \x in {2,4,...,30}
-		\draw (\x,1pt) -- (\x,-3pt) node[anchor=north] {\scriptsize \x0};
+		\draw (\x,1pt) -- (\x,-3pt) node[anchor=north] {\scriptsize \x};
 	\foreach \y in {2,4,...,18}
 		\draw (1pt,\y) -- (-3pt,\y) node[anchor=east] {\scriptsize \y};
 	%labels      
-	\node[below=0.5cm] at (x axis mid) {\scriptsize Number of Querys ($\times10^3$)};
+	\node[below=0.5cm] at (x axis mid) {\scriptsize Number of Queries ($\times10^5$)};
 	\node[rotate=90, left=0.8cm] at (0, 12) {\scriptsize Running Time (sec.)};
 	%plots
 	\draw[color=red!70!black] plot[mark=*, mark options={fill=white}] file {exp-n2w};
