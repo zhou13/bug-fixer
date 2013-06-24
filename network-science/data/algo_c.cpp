@@ -14,10 +14,12 @@ using namespace std;
 
 const int MAXN=6010;
 const int MAXM=30010;
+const int INTERVAL=20;
+const int num=20;
 
-const double c_eta=500.;
+const double c_eta=1000.;
 const double c_mu=2;
-const double c_mup=8;
+const double c_mup=12;
 const double c_alpha=0.8;
 const double c_beta=1.;
 
@@ -89,11 +91,10 @@ void cal_pagerank() {
 	}
 }
 
-const int num=20;
 int id[num];
 
 int main(int argc, char *argv[]) {
-	FILE *inf=(argc<2 ? stdin : fopen(argv[1], "r"));
+	FILE *inf=fopen("CA-GrQc-output.txt", "r");
 	FILE *ouf1[num], *ouf2[num];
 	printf("$1\n");
 	for(int i=0; i<num; ++i) {
@@ -132,7 +133,7 @@ int main(int argc, char *argv[]) {
 			printf("t=%d\t%.5lf\t%.5lf\n",cur_time,x[k],px[k]);
 			//for(int i=1; i<=10; ++i) printf("%.4lf ", x[i]); printf("\n");
 			//for(int i=1; i<=10; ++i) printf("%.4lf ", px[i]); printf("\n");
-			next_time+=100;
+			next_time+=INTERVAL;
 		}
 	}
 	fclose(inf);
@@ -141,7 +142,7 @@ int main(int argc, char *argv[]) {
 		fclose(ouf2[i]);
 	}
 
-	system("cp exp.tex.head exp.tex");
+	system("copy exp.tex.head exp.tex");
 	FILE *f=fopen("exp.tex", "a");
 	for(int i=0; i<num; ++i) {
 fprintf(f, "\\begin{center} \\begin{tikzpicture}[y=.4cm, x=.5cm, font=\\sffamily]\n");
@@ -160,6 +161,8 @@ fprintf(f, "\\end{document}\n");
 	fclose(f);
 
 	system("pdflatex exp");
+        
+	system("del exp-g*.tex");
 	
 	return 0;
 }

@@ -148,16 +148,17 @@
 \begin{abstract}
 We address the dynamic properties of typical social networks, in which people
 are considered as vertices while relations are considered as edges. We suppose
-the evolution of a social network overtime only includes bidirectional new
+the evolution of a social network overtime includes new
 connections between existing or newly created nodes, and also assume the graph
 will evolve as a typical social network. We study the activity and centrality
 metrics for nodes in such graphs by regulating a series of reasonable
 properties the metrics should satisfy. We then formally define our metrics and
 give their mathematical analysis. We have developed a practical based framework
 to maintain the evolving large-scale network and the algorithm to compute our
-metrics in preferable time and space consumption, including historical queries.
-Finally, we use a simple model to generate data and apply our results to such
-experiments.\\[1.5em]
+metrics including historical queries in preferable time and space consumption.
+Finally, we use a simple model to generate evolving data from existing social
+network data and compare our metrics to static metrics. The results could imply
+that dynamic centrality is more capable in spotting hot social events.\\[1.5em]
 
 \noindent \textbf{Keywords:} social network, dynamic graph, vertex activity,
 vertex centrality, online algorithm.
@@ -586,17 +587,21 @@ Evolving activity satisfies integrity.
 \textbf{Evolving centrality} $\textbf{x}(G_t)$ is a vector in space
 $\mathbb{R}^{|V|}$, where
 \begin{equation}
-\mathbf{x}=\alpha DA^\bullet \mathbf{x} + \beta\mathbf{1},
+\mathbf{x}=\alpha DLA^\bullet \mathbf{x} + \beta\mathbf{1},
 \end{equation}
 $A^\bullet$ is the 0/1 adjacency matrix of $E^\bullet_t$ as defined in section 2,
 because centrality accentuate more on the structure of the network but not the
 intensity of edges. And
-$D$ is a diagonal matrix that
+$D,L$ are diagonal matrices such that
 \begin{equation}
 D_{ij}=\begin{cases}
 0&(i\neq j)\\
 \mathit{Act}(G_t,v_i)&(i=j)
-\end{cases}
+\end{cases}\qquad
+L_{ij}=\begin{cases}
+0&(i\neq j)\\
+1/k^\bullet(G_t,v_i)&(i=j)
+\end{cases}.
 \end{equation}
 Then $\textbf{x}_i(G_t)$ is the centrality for node $v_i$ in $G_t$, and is
 scale-relative to the influence of $v_i$ in the network at time $t$.
@@ -604,8 +609,8 @@ scale-relative to the influence of $v_i$ in the network at time $t$.
 
 The equivalent form of evolving centrality $x(G_t,v_i)$ is 
 \begin{equation}
-x_i(G_t,v_i)=\alpha\sum_jA^\bullet_{ij}
-\mathit{Act}(G_t,v_j)x_j(G_t,v_j)+\beta.
+x_i(G_t,v_i)=\alpha\sum_j\frac{A^\bullet_{ij}
+\mathit{Act}(G_t,v_j)x_j(G_t,v_j)}{k^\bullet(G_t,v_j)}+\beta.
 \end{equation}
 
 We can also change the model into a directional graph, and study the network as
@@ -615,7 +620,7 @@ a citation network:
 \textbf{Evolving PageRank} $\textbf{x}(G_t)$ is a vector in space
 $\mathbb{R}^{|V|}$, where
 \begin{equation}
-\mathbf{x}=\alpha DKA \mathbf{x} + \beta\mathbf{1},
+\mathbf{x}=\alpha DLA \mathbf{x} + \beta\mathbf{1},
 \end{equation}
 where $A_{ij}$ stands for the total weight of edges from $j$ to $i$,
 \begin{equation}
@@ -623,9 +628,9 @@ D_{ij}=\begin{cases}
 0&(i\neq j)\\
 \mathit{Act}(G_t,v_i)&(i=j)
 \end{cases};\qquad
-K_{ij}=\begin{cases}
+L_{ij}=\begin{cases}
 0&(i\neq j)\\
-k_{\mathrm{out}}(G_t,v_i)&(i=j)
+1/k_{\mathrm{out}}(G_t,v_i)&(i=j)
 \end{cases}.
 \end{equation}
 \end{definition}
@@ -874,6 +879,7 @@ $\lambda_1(A)$ is the maximal possitive eigenvalue of matrix $A$.
 \Ensure return the active centrality $\mathbf{x}(G_t)$.
 \For{$i\gets 1\dots|V|$}
 \State $a[i]\gets \Call{Query Activity}{t,v_i}$;
+\State $d[i]\gets \mathrm{size}(\mathit{edgeListReduced}[i])$;
 \State $\mathbf{x}[i]\gets \mathbf{x}_0[i]$;
 \EndFor
 \For{$\mathit{count}\gets 1\dots m$}
@@ -882,7 +888,8 @@ $\lambda_1(A)$ is the maximal possitive eigenvalue of matrix $A$.
 \EndFor
 \For{$i\gets 1\dots|V|$}
 \ForAll{$j\in\mathit{edgeListReduced}[i]$}
-\State $\mathbf{x'}[i]\gets \mathbf{x'}[i]+\alpha\cdot a[j]\cdot\mathbf{x}[j]$
+\State $\mathbf{x'}[i]\gets \mathbf{x'}[i]+\alpha\cdot
+a[j]\cdot\mathbf{x}[j]/d[j]$
 \EndFor\EndFor
 \For{$i\gets 1\dots|V|$}
 \State $\mathbf{x}[i]\gets \mathbf{x'}[i]$;
@@ -899,14 +906,14 @@ $t=\mathit{currentTime}$. And we observe that in algorithm \ref{alg-con},
 the last entry of the argument sequence. So those three algorithms can be done
 in $O(1)$ time if we do not perform historical queries.
 
-What algorithm \ref{alg-cen} do is only the multiplication of a sparse matrix
-to a vector, which is a classical problem called sparse matrix-vector
-multiplication (SpMV). This problem can be easily solve in both
+What the core part of algorithm \ref{alg-cen} does is only the multiplication
+of a sparse matrix to a vector, which is a classical problem called sparse
+matrix-vector multiplication (SpMV). This problem can be easily solve in both
 throughput-oriented and latency-oriented processors in
 parallel\cite{williams2009optimization, bell2008efficient,
 bell2009implementing, catalyurek1999hypergraph, zhuo2005sparse}.  This is a
 good news to us because nowadays parallel machine is much more common in
-company, research facilities and even with desktop computer, thanks to the
+companies, research facilities and even with desktop computers, thanks to the
 emergence of GPGPU platforms such as CUDA and OpenCL.
 
 \section{Experiment}
@@ -1009,10 +1016,49 @@ of basic operations.
 	\end{scope}
 \end{tikzpicture} \end{center}
 
-\subsection{Com}
+The time efficiency in terms of $|V|$ proves to have logarithm growth as
+expected.
+
+\subsection{Centrality Analysis}
+Here are some traces of both the evolving centrality and the classical PageRank
+centrality of specific nodes.
+
+We generates evolving network data in the same model discussed above, with
+$|V|\leq 6\,000$ and $|E|\leq 30\,000$. All iterations run for enough time,
+until the maximum magnitude of change in individual centralities (known as the
+$\infty$-norm of $\Delta\mathbf{x}$) is smaller than $10^{-4}$ by absolute value.
+We also calculate the static PageRank centrality in parallel, which do not have
+the activity metric as coefficients. All of our calculation assumes
+$\alpha=0.8$, and $\beta=1$.
+
+The centrality trace graph for an representative node, when $s$:
 
 \section{Conclusion and Perspective}
-% TODO
+So far, we have established and verified the framework for analysing an
+evolving social network. We defined two metrics for the networks, namely
+\textbf{evolving activity} and \textbf{evolving centrality}. The
+experiment showed that our model can successful compute both of the metrics in
+practical cases.
+
+By the final experiment, we can observe that the increase on magnitude of
+evolving centrality is similar to that of the static one. However, when the
+influence of a node stops increase so fast, our evolving centrality quickly
+pulls back, while the static centrality usually keeps a high value for long
+time. In many fields, the social concern are supposed to be sensitive to time
+, innovation and activeness, instead of imposing more attention to historical
+issues that are once very popular. Those fields such as web-page search
+engine[?], ranking of movie actors[?], seeking hot scholar topics, etc.
+By using evolving centrality, the increment of actions of a node and its
+closely related region will be more notable in increment of its ranking of
+influence, whereas the static centrality is more likely to trigger cascade on
+social preference[?] because people will have less chance to see and rate new
+information. The cascade may prevent high quality information from being
+popular, and even worse, hasten the monopolization in the commercial aspect.
+
+The evolving centrality is more sensitive to activities of the surroundings, so
+it usually changes more dramatically than static centrality which is more
+stable. Dynamic metrics provides new methods for network analysis.
+
 
 \bibliography{paper}
 \end{document}
