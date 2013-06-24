@@ -154,7 +154,7 @@ their mathematical analysis are put. We have developed a practice based framewor
 to maintain the evolving large-scale network and an algorithm to compute our
 metrics including historical queries in acceptable time and space consumption.
 Finally, we use a simple model to generate evolving graph from existing social
-network data and compare our metric to the static one. The results could imply
+network data and compare our metric to the static one. The results imply
 that dynamic centrality is more capable in spotting hot social events.
 
 \smallskip
@@ -175,14 +175,14 @@ which works under un-timestamped data.
 
 \subsection{Dynamic Metrics}
 Networks contain too much information to be easily observed by people without
-any abstraction. To study a network, people exploited the basic form of
-quantification to concentrate on specific features of the whole graph, or an
-individual vertex. Our work is to promote this method to the dynamic graphs. We
+any abstraction. To study a network, people exploit the basic form of
+quantification to concentrate on specific features of the whole graph or an
+individual vertex. Our work is to extend this method to the dynamic graphs. We
 basically design new dynamic metrics according to existing successful static
 ones, but we will point out a important metric that can be only observed in
 time evolving networks, the activity. Intuitively speaking, a vertex with high
 activity indicates more frequent recent social actions, and the vertex is more
-willing to make new change by the structural sense of graph.  The accuracy of
+willing to make new change by the structural sense of graph. The accuracy of
 activity will be quite vital to recommendation algorithms of advertisement, new
 friends, or search results. Activity can be also used by other metrics, so that
 the computation of other metrics will no longer need the time information
@@ -195,19 +195,19 @@ PageRank algorithm\cite{page1999pagerank}, and there are many useful network
 analysis algorithms that used some kind of graph centralities. However, most
 social networks change over time, and even more unfortunately, many of the
 networks are large-scaled, which could make the analysis become hard and
-costly, hence limit the scale of meaningful data mining. Moreover, the time
+costly, hence limiting the scale of meaningful data mining. Moreover, the time
 effect can also become a factor of the centrality, that is, the same graph with
 different evolving sequence may have totally different metrics. On an intuitive
 level, the node connected with more higher activity nodes should be more
 important at that time, even if other node have much more silent neighbors. If
 we do not excavate the information on the time dimension, we will lose
 tremendous information and also the possibility of accumulative computation
-which could be helpful in enhancement the speed of answering consistent
+which could be helpful in enhancing the speed of answering consistent
 querying.
 
 In section 3 we will concentrate on centrality and activity in evolving social
-network. We will define what centrality or activity is good, and we will design
-some instance of those metrics by the standard we set. In section 4, we will
+network. We will define what kind of activity is good, and we will design
+an instance of those metrics by the standard we set. In section 4, we will
 give the algorithms to compute our designed centrality and activity from the
 online data structure which maintains the evolving social network. We will also
 show how to quickly locate significant vertices that has high activity or
@@ -216,7 +216,7 @@ sense with real world data.
 
 \subsection{Algorithms}
 Graph theory is very successful on storing and solving various problems on
-static networks, we have sophisticated methodology on finding the shortest
+static networks. We have sophisticated method on finding the shortest
 paths, get a minimal spanning tree, finding the maximal $S$-$T$ flow, etc.
 And we also have a well-established theoretical system to study problems that
 do not seems to have perfect solutions. However, dynamic online queries can be
