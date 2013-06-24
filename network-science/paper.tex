@@ -620,11 +620,11 @@ whose entry points to a sorted array again, consisting the description of the
 neighbors of $v_i$ in the graph, each with a element $u$ (sorted by $u$).
 
 \item \textit{father}[$1\dots|V|$], an array exploited by the historicall
-union-find algorithm, which will be discussed later. Each of the elements
-contains:
+union-find algorithm\cite{tarjan1975efficiency} (a weakened model), which
+will be discussed later. Each of the elements contains:
 \begin{itemize}
-\item $u$, the identity of $v_i$'s father node if $u\neq 0$, otherwise $v_i$
-is a root node.
+\item $u$, the identity of $v_i$'s father node if $u>0$, otherwise $v_i$
+is a root node, and $-u$ is the size of the tree.
 \item $t$, the time when $u$ becomes non-zero.
 \end{itemize}
 
@@ -632,13 +632,65 @@ is a root node.
 \textbf{Space complexity:} $O(|V|+|E|)$.
 
 \begin{algorithm}
-\caption{Add a new edge $e(v_i,v_j,t,w)$ to $G_t$}
+\caption{\textsc{AddEdge}($v_i,v_j,t,w$)}
+\textbf{Time Complexity:} $O(\log |V|)$\\
+\textbf{Additional Space:} $O(1)$
 \begin{algorithmic}[1]
-\Require $1\leq i,j\leq |V|$, $t\geq currentTime$, $w>0$.
+\Require $1\leq i,j\leq |V|$ and $t\geq currentTime$ and $w>0$.
 \Ensure $G_t$ is up-to-date.
-\State 
+\State $\mathit{currentTime}\gets t$;
+\State append ($j$,$t$,$w$) to \textit{edgeList}[$i$];
+\State append ($i$,$t$,$w$) to \textit{edgeList}[$j$];
+\If{ binary search on \textit{edgeListReduced}[$i$] did not find $j$}
+\State insert $j$ to \textit{edgeListReduced}[$i$] in appropriate position;
+\State binary search $i$ on \textit{edgeListReduced}[$j$];
+\State insert $i$ to \textit{edgeListReduced}[$j$] in appropriate position;
+\EndIf
+\State $p\gets \Call{FindRoot}{i}$;
+\State $q\gets \Call{FindRoot}{j}$;
+\If{$p\neq q$}
+\State \Call{Merge}{$p$,$q$}
+\EndIf
 \end{algorithmic}
 \end{algorithm}
+
+
+The facility functions of union-find set is defined in follow.
+\begin{algorithm}
+\caption{\textsc{FindRoot}($i$)}
+\textbf{Time Complexity:} $O(\log |V|)$\\
+\textbf{Additional Space:} $O(1)$
+\begin{algorithmic}[1]
+\Require $1\leq i\leq |V|$
+\Ensure return the root of the union tree containing $v_i$.
+\State $\mathit{currentTime}\gets t$;
+\If {$\mathit{father}[i].u>0$}
+	\State \Return{\Call{FindRoot}{$\mathit{father}[i].u$}};
+\Else
+	\State \Return{$i$};
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+\caption{\textsc{Merge}($p$,$q$)}
+\textbf{Time Complexity:} $O(1)$\\
+\textbf{Additional Space:} $O(1)$
+\begin{algorithmic}[1]
+\Require $\mathit{father}[p].u<0$ and $\mathit{father}[q].u<0$
+and $p\neq q$.
+\Ensure Union trees $p$ and $q$.
+\State $x \gets -\mathit{father}[p].u$;
+\State $y \gets -\mathit{father}[q].u$;
+\If {$x>y$}
+	\State \Return{\Call{FindRoot}{$\mathit{father}[i]$}};
+\Else
+	\State \Return{$i$};
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+
 \subsection{Computing Metrics}
 % TODO
 \subsection{Optimization and Parallelizability}
