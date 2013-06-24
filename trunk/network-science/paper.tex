@@ -1031,7 +1031,7 @@ an artificial evolving social networks\cite{kumar2010structure}.
 
 \subsection{Program}
 We have implemented the algorithms using C++ language without compiler
-optimization, and all execution is done under a typical PC with 
+optimization, and all executions are done under a typical PC with 
 Intel (R) Core (TM) i3 CPU M380  @ 2.53GHz, 2GB RAM.
 	
 The program maintains a dynamic graph which contains $n$ vertices and does not
@@ -1131,7 +1131,8 @@ We also calculate the static PageRank centrality in parallel, which do not have
 the activity metric as coefficients. All of our calculation assumes
 $\alpha=0.8$, and $\beta=1$.
 
-The centrality trace graph for some representative node, when $\mu=4096$ and
+\begin{itemize}
+\item The centrality trace graph for some representative node, when $\mu=4096$ and
 $\eta=1000$:
 \begin{center} \begin{tikzpicture}[y=.4cm, x=.5cm, font=\sffamily]
 	\draw (0,0) -- coordinate (x axis mid) (21, 0);
@@ -1152,7 +1153,9 @@ $\eta=1000$:
 		node[right]{\scriptsize static centrality};
 	\end{scope}
 \end{tikzpicture} \end{center}
-
+Evolving centrality is smaller then static one, because we applied the
+activity coefficients which is less than $1$. The overall tendency of those
+traces are similar, but the evolving centrality declines more quickly.
 \begin{center} \begin{tikzpicture}[y=.4cm, x=.5cm, font=\sffamily]
 	\draw (0,0) -- coordinate (x axis mid) (21, 0);
 	\draw (0,0) -- coordinate (y axis mid) (0, 11);
@@ -1172,9 +1175,9 @@ $\eta=1000$:
 		node[right]{\scriptsize static centrality};
 	\end{scope}
 \end{tikzpicture} \end{center}
+We can observe that two centralities can react quite differently to changes.
 
-
-The centrality trace graph for some representative node, when $\mu=2^{20}$ and
+\item The centrality trace graph for some representative node, when $\mu=2^{20}$ and
 $\eta=2000$:
 \begin{center} \begin{tikzpicture}[y=.4cm, x=.5cm, font=\sffamily]
 	\draw (0,0) -- coordinate (x axis mid) (21, 0);
@@ -1195,6 +1198,8 @@ $\eta=2000$:
 		node[right]{\scriptsize static centrality};
 	\end{scope}
 \end{tikzpicture} \end{center}
+By elongating the activity delay, the declination becomes slower for evolving
+centrality. However, it still declines faster than the static one.
 \begin{center} \begin{tikzpicture}[y=.4cm, x=.5cm, font=\sffamily]
 	\draw (0,0) -- coordinate (x axis mid) (21, 0);
 	\draw (0,0) -- coordinate (y axis mid) (0, 11);
@@ -1214,6 +1219,10 @@ $\eta=2000$:
 		node[right]{\scriptsize static centrality};
 	\end{scope}
 \end{tikzpicture} \end{center}
+We observe a clear concave in evolving centrality from time $12\,000$ to
+$16\,000$. Perhaps the reason for that is the neighbors of the vertex becomes
+less active, despite the static structural centrality is high.
+\end{itemize}
 
 \section{Conclusion and Perspective}
 So far, we have established and verified the framework for analysing an
@@ -1229,13 +1238,15 @@ pulls back, while the static centrality usually keeps a high value for long
 time. In many fields, the social concern are supposed to be sensitive to time
 , innovation and activeness, instead of imposing more attention to historical
 issues that are once very popular. Those fields such as web-page search
-engine[?], ranking of movie actors[?], seeking hot scholar topics, etc.
+engine, ranking of movie actors, seeking hot scholar topics, etc.
 By using evolving centrality, the increment of actions of a node and its
 closely related region will be more notable in increment of its ranking of
-influence, whereas the static centrality is more likely to trigger cascade on
-social preference[?] because people will have less chance to see and rate new
-information. The cascade may prevent high quality information from being
-popular, and even worse, hasten the monopolization in the commercial aspect.
+influence, whereas the static centrality is more likely to trigger
+conformity on social preference\cite{cialdini2004social} because people will
+have less chance to see and rate new information, which may prevent high
+quality information from getting popular, and even worse, hasten the
+monopolization in the commercial
+aspect.
 
 The evolving centrality is more sensitive to activities of the surroundings, so
 it usually changes more dramatically than static centrality which is more
