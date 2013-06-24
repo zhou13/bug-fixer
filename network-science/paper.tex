@@ -661,7 +661,7 @@ $m$ times.
 \end{itemize}
 
 \begin{algorithm}[htbp]
-\caption{\textsc{AddEdge}($v_i,v_j,t,w$)}
+\caption{\textsc{Add Edge}($v_i,v_j,t,w$)}
 \label{alg-add}
 \textbf{Time Complexity:} $O(\log |V|)$\\
 \textbf{Additional Space:} $O(1)$
@@ -671,16 +671,18 @@ $m$ times.
 \State $\mathit{currentTime}\gets t$;
 \State $z_1\gets\mathit{edgeList}[i].\mathrm{lastElement}.z$;
 \State $t_1\gets\mathit{edgeList}[i].\mathrm{lastElement}.t$;
+\State $s_1\gets\mathit{edgeList}[i].\mathrm{lastElement}.s$;
 \State $z_1\gets z_1+\mathit{currentTime}-t_1$;
 \If {$z_1>0$} \State $z_1\gets 0$;\EndIf
 \State $z_1\gets z_1-\eta\cdot w$;
 \State $z_2\gets\mathit{edgeList}[j].\mathrm{lastElement}.z$;
 \State $t_2\gets\mathit{edgeList}[j].\mathrm{lastElement}.t$;
 \State $z_2\gets z_2+\mathit{currentTime}-t_2$;
+\State $s_2\gets\mathit{edgeList}[j].\mathrm{lastElement}.s$;
 \If {$z_2>0$} \State $z_2\gets 0$;\EndIf
 \State $z_2\gets z_2-\eta\cdot w$;
-\State append ($j$,$t$,$w$,$z_2$) to \textit{edgeList}[$i$];
-\State append ($i$,$t$,$w$,$z_1$) to \textit{edgeList}[$j$];
+\State append ($j$, $t$, $w$, $s_2+w$, $z_2$) to \textit{edgeList}[$i$];
+\State append ($i$, $t$, $w$, $s_1+w$, $z_1$) to \textit{edgeList}[$j$];
 \If{ binary search on \textit{edgeListReduced}[$i$] did not find $j$}
 \State insert $j$ to \textit{edgeListReduced}[$i$] in appropriate position;
 \State binary search $i$ on \textit{edgeListReduced}[$j$];
@@ -695,7 +697,7 @@ $m$ times.
 \end{algorithm}
 
 \begin{algorithm}[htbp]
-\caption{\textsc{FindRoot}($i$)}\label{alg1}
+\caption{\textsc{Find Root}($i$)}\label{alg-find}
 \textbf{Time Complexity:} $O(\log |V|)$\\
 \textbf{Additional Space:} $O(1)$
 \begin{algorithmic}[1]
@@ -712,6 +714,7 @@ $m$ times.
 
 \begin{algorithm}[htbp]
 \caption{\textsc{Merge}($p$,$q$)}
+\label{alg-merge}
 \textbf{Time Complexity:} $O(1)$\\
 \textbf{Additional Space:} $O(1)$
 \begin{algorithmic}[1]
@@ -727,11 +730,10 @@ and $p\neq q$.
 \Else
 	\State $\mathit{father}[p].u\gets q$;
 	\State $\mathit{father}[p].t\gets \mathit{currentTime}$;
-	\State $\mathit{father}[q].u \gets \mathit{father}[q].u-x$;
+	\State $\mathit{father}[q].u\gets \mathit{father}[q].u-x$;
 \EndIf
 \end{algorithmic}
 \end{algorithm}
-
 
 \subsection{Computing Metrics}
 % TODO
