@@ -472,11 +472,11 @@ The \textbf{integral quality} of $\mathit{Act}$ is the minimal such $M$.
 \end{definition}
 
 
-Then we move on the dynamic centrality, by expanding the often used model
-for static network named Katz centrality[?], which is actually a generalized
-version of eigenvalue centrality[?] which estimate the influence of a node in
-social networks by counting the total number of walks between a pair of
-node[?]. We try to combine the activity and the clasical centrality metric and
+Then we move on the dynamic centrality, by extending the often used model
+for static network named Katz centrality\cite{katz1953new}, which is actually
+a generalized version of eigenvalue centrality which estimate the influence
+of a node in social networks by counting the total number of walks between a pair of
+node. We try to combine the activity and the clasical centrality metric and
 expect to define a new centrality model that is mode sensitive to immediate
 effect.
 
@@ -513,9 +513,10 @@ $w_i$'s are created by $v$, as discussed in \eqref{eq-sym}, Here $\eta>0$ is the
 	ylabel={evolving activity},
 ] 
 	\addplot[color=blue!50!black,samples=300,domain=-40:-0.001] {exp(ln(10)*(1/x))}; 
-	\addplot[color=green!50!black,samples=300,domain=-40:-0.001] {exp(ln(100)*(1/x))}; 
-	\addplot[color=red!50!black,samples=300,domain=-40:-0.001] {exp(ln(1000)*(1/x))}; 
-	\legend{$\mu=10$,$\mu=100$,$\mu=1000$};
+	\addplot[color=green!50!black,samples=300,domain=-40:-0.001] {exp(ln(1000)*(1/x))}; 
+	\addplot[color=red!50!black,samples=300,domain=-40:-0.001]
+	{exp(ln(100000)*(1/x))}; 
+	\legend{$\mu=10$,$\mu=10^3$,$\mu=10^6$};
 	\end{axis} \end{tikzpicture} 
 \end{center}
 
