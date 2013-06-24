@@ -783,20 +783,22 @@ There is no difference found between outputs of the two programs.
 We have generated several huge test cases to test the running time of the program.
 The following plots shows the informations about the cases and the running results.
 
-\begin{center} \begin{tikzpicture}[y=.3cm, x=.2cm, font=\sffamily]
+\begin{center} \begin{tikzpicture}[y=.3cm, x=.4cm, font=\sffamily]
  	%axis
 	\draw (0,0) -- coordinate (x axis mid) (31, 0);
-	\draw (0,0) -- coordinate (y axis mid) (0, 16);
+	\draw (0,0) -- coordinate (y axis mid) (0, 19);
 	%ticks
-	\foreach \x in {0,5,...,30}
-		\draw (\x,1pt) -- (\x,-3pt) node[anchor=north] {\scriptsize \x};
-	\foreach \y in {0,3,...,15}
+	\foreach \x in {2,4,...,30}
+		\draw (\x,1pt) -- (\x,-3pt) node[anchor=north] {\scriptsize \x0};
+	\foreach \y in {3,6,...,18}
 		\draw (1pt,\y) -- (-3pt,\y) node[anchor=east] {\scriptsize \y};
 	%labels      
-	\node[below=0.5cm] at (x axis mid) {\scriptsize Number of Querys ($\times10^4$)};
+	\node[below=0.5cm] at (x axis mid) {\scriptsize Number of Querys ($\times10^3$)};
 	\node[rotate=90, left=0.8cm] at (0, 15) {\scriptsize Running Time (sec.)};
 	%plots
 	\draw plot[mark=*, mark options={fill=white}] file {exp-n10w};
+	\draw plot[mark=triangle*, mark options={fill=white}] file {exp-n50w};
+	\draw plot[mark=square*, mark options={fill=white}] file {exp-n2w};
 \end{tikzpicture} \end{center}
 
 We can see that the running time grows as linear as number of operations,
