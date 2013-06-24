@@ -34,35 +34,38 @@
     int mem_size; \
 }
 
-#define arr_init(x) ({ \
-    (x).v = NULL; \
-    (x).size = 0; \
-    (x).mem_size = 0; \
+#define arr_init(arr) ({ \
+    (arr).v = NULL; \
+    (arr).size = 0; \
+    (arr).mem_size = 0; \
 })
 
-#define arr_push(x, y) \
+#define arr_push(arr, element) \
 ({ \
-    if ((x).size == (x).mem_size) { \
-        (x).mem_size = (x).mem_size * 2 + 2; \
-        (x).v = realloc((x).v, sizeof((x).v[0]) * (x).mem_size); \
+    if ((arr).size == (arr).mem_size) { \
+        (arr).mem_size = (arr).mem_size * 2 + 2; \
+        (arr).v = realloc((arr).v, sizeof((arr).v[0]) * (arr).mem_size); \
     } \
-    (x).v[(x).size++] = (y); \
+    (arr).v[(arr).size++] = (element); \
 })
 
-#define arr_empty(x) (x.size == 0)
-
-#define arr_resize(x, new_size) \
+#define arr_erase(arr, index) \
 ({ \
-    if ((x).mem_size < new_size) { \
-        (x).mem_size = min((x).mem_size*2, new_size); \
-        (x).v = realloc((x).v, sizeof((x).v[0]) * (x).mem_size); \
+})
+
+#define arr_empty(arr) ((arr).size == 0)
+
+#define arr_resize(arr, new_size) \
+({ \
+    if ((arr).mem_size < new_size) { \
+        (arr).mem_size = min((arr).mem_size*2, new_size); \
+        (arr).v = realloc((arr).v, sizeof((arr).v[0]) * (arr).mem_size); \
     } \
 })
 
-#define arr_pop(x)   ({(x).size--; (x).v[(x).size];})
-#define arr_free(x)  (free((x).v))
-#define arr_back(x)  ((x).v[(x).size-1])
-#define arr_front(x) ((x).v[0])
+#define arr_pop(arr)   ({(arr).size--; (arr).v[(arr).size];})
+#define arr_free(arr)  (free((arr).v))
+#define arr_back(arr)  ((arr).v[(arr).size-1])
+#define arr_front(arr) ((arr).v[0])
 
-#define arr_for(i, x) for (typeof((x).v) i = (x).v; i < (x).v + (x).size; ++i)
-
+#define arr_for(i, arr) for (typeof((arr).v) i = (arr).v; i < (arr).v + (arr).size; ++i)
