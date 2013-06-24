@@ -254,9 +254,10 @@ A \textbf{pure growing model} for an evolving graph $G$ is defined in pair:
 \begin{equation}
 G=(V,E),
 \end{equation}
-where $V$ is the set of all nodes in the network, and $E$ is the set of edges,
-formally an edge $e\in E$ for $e=(u,v,t)$, where $u,v\in V$ are the two end
-points of the edge, $u<v$ (to ensure bidirectional), $t\in \mathbb{N}$. The $t$
+where $V$ is the set of all nodes in the network, and $E$ is the set of edges.
+For every $(u,v,t)\in E$, where $u,v\in V$ are the two end
+points of the edge, ($u<v$ in case of bidirectional graph),
+$t\in \mathbb{N}$. The $t$
 component stored the forming time of the graph. As for weighted evolving graph
 model, we modifies $e\in E$ for $e=(u,v,t,w)$, where $w\in\mathbb{R}^+$ stands
 for the multiplicity of the edge, which might be useful in some circumstances,
