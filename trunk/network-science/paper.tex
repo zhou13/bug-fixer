@@ -258,7 +258,7 @@ where $V$ is the set of all nodes in the network, and $E$ is the set of edges.
 For every $(u,v,t)\in E$, where $u,v\in V$ are the two end
 points of the edge, ($u<v$ in case of bidirectional graph),
 $t\in \mathbb{N}$. The $t$
-component stored the forming time of the graph. As for weighted evolving graph
+component stores the forming time of the edge. As for weighted evolving graph
 model, we modifies $e\in E$ for $e=(u,v,t,w)$, where $w\in\mathbb{R}^+$ stands
 for the multiplicity of the edge, which might be useful in some circumstances,
 and the others stay the same meaning. In the unweighted case, we can simply set
@@ -301,7 +301,7 @@ is the adjacency matrix of the graph at time $t$. More detailed
 \begin{equation}
 a_{ij}=\begin{cases}
 0&(i=j)\\
-\sum_{e\in E_t\text{ and }e=(i,j,t,w)}w &(i<j)\\
+\sum_{(i,j,t,w)\in E}w &(i<j)\\
 a_{ji}&(i>j)
 \end{cases}
 \end{equation}
@@ -311,7 +311,7 @@ a_{ji}&(i>j)
 \begin{definition}
 The degree function $k(G_t,v)$.
 \begin{equation}
-k(G_t,v)=\sum_{\mathclap{e\in E_t, e=(x,y,t,w)}}w(1-\delta(x,v)\delta(y,v)),
+k(G_t,v)=\sum_{\mathclap{(x,y,t,w)\in E_t}}w(1-\delta(x,v)\delta(y,v)),
 \end{equation}
 where \begin{equation}
 \delta(x,y)=\begin{cases}1&(x\neq y)\\0&(x=y)\end{cases}.
