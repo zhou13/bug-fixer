@@ -604,15 +604,19 @@ create algorithmic functions to the data structure.
 A evolving network $G_t(V,E_t)$ is stored in following contents:
 \begin{itemize}
 \item \textit{currentTime}, a non-negative real number.
+\item $\mu$, a real number in range $(0,1)$.
+\item $\eta$, a non-negative real number.
 \item \textit{edgeList}[$1\dots|V|$], an array that every of
 whose entry points to a sorted array again, consisting the description of the
 in edges of $v_i$ in the graph, each with elements:
 \begin{itemize}
 \item $u$, the other end point of the edge.
 \item $t$, the time when this edge is added. (the array is sorted by $t$)
-\item $w$, the weight of the edge, can be reduced if the network is unweighted.
-\item $a$, the evolving activity of node $v_i$ at time $t$ after updating this
-edge.
+\item $w$, the weight of the edge, can be reduced if the network is
+unweighted.
+\item $s$, the sum of all previous $w$, including this one.
+\item $z$, the status variable for calculating the evolving activity of node
+$v_i$ at time $t$ after updating this edge.
 \end{itemize}
 
 \item \textit{edgeListReduced}[$1\dots|V|$], an array that every of
@@ -631,16 +635,52 @@ is a root node, and $-u$ is the size of the tree.
 \end{itemize}
 \textbf{Space complexity:} $O(|V|+|E|)$.
 
-\begin{algorithm}
+The data type contains following functions:
+\begin{itemize}
+\item \textsc{Add Edge}($v_i,v_j,t,w$)
+
+adds $e(v_i,v_j,t,w)$ to the graph and update the graph,
+defined in Algorithm \ref{alg-add}.
+\item \textsc{Query Degree}($t,v$)
+
+returns $k(G_t,v)$, defined in Algorithm \ref{alg-deg}.
+\item \textsc{Query Connectivity}($t,u,v$)
+
+returns whether $u$ and $v$ is connected in the network at time $t$.
+\item \textsc{Query Connectivity}($t,u,v$)
+
+returns whether $u$ and $v$ is connected in the network at time $t$.
+\item \textsc{Query Activity}($t,v$)
+
+returns the evolving activity $a_{\mu,\eta}(G_t,v)$.
+\item \textsc{Query Centrality}($t$, $\alpha$, $\beta$, $\mathbf{x}_0$, $m$)
+
+returns the active centrality vector $\mathbf{x}(G_t)$. Algorithm
+\ref{alg-cen} use the iteration method start with $\mathbf{x}_0$ and for
+$m$ times.
+\end{itemize}
+
+\begin{algorithm}[htbp]
 \caption{\textsc{AddEdge}($v_i,v_j,t,w$)}
+\label{alg-add}
 \textbf{Time Complexity:} $O(\log |V|)$\\
 \textbf{Additional Space:} $O(1)$
 \begin{algorithmic}[1]
-\Require $1\leq i,j\leq |V|$ and $t\geq currentTime$ and $w>0$.
+\Require $1\leq i,j\leq |V|$ and $t\geq \mathit{currentTime}$ and $w>0$.
 \Ensure $G_t$ is up-to-date.
 \State $\mathit{currentTime}\gets t$;
-\State append ($j$,$t$,$w$) to \textit{edgeList}[$i$];
-\State append ($i$,$t$,$w$) to \textit{edgeList}[$j$];
+\State $z_1\gets\mathit{edgeList}[i].\mathrm{lastElement}.z$;
+\State $t_1\gets\mathit{edgeList}[i].\mathrm{lastElement}.t$;
+\State $z_1\gets z_1+\mathit{currentTime}-t_1$;
+\If {$z_1>0$} \State $z_1\gets 0$;\EndIf
+\State $z_1\gets z_1-\eta\cdot w$;
+\State $z_2\gets\mathit{edgeList}[j].\mathrm{lastElement}.z$;
+\State $t_2\gets\mathit{edgeList}[j].\mathrm{lastElement}.t$;
+\State $z_2\gets z_2+\mathit{currentTime}-t_2$;
+\If {$z_2>0$} \State $z_2\gets 0$;\EndIf
+\State $z_2\gets z_2-\eta\cdot w$;
+\State append ($j$,$t$,$w$,$z_2$) to \textit{edgeList}[$i$];
+\State append ($i$,$t$,$w$,$z_1$) to \textit{edgeList}[$j$];
 \If{ binary search on \textit{edgeListReduced}[$i$] did not find $j$}
 \State insert $j$ to \textit{edgeListReduced}[$i$] in appropriate position;
 \State binary search $i$ on \textit{edgeListReduced}[$j$];
@@ -654,10 +694,8 @@ is a root node, and $-u$ is the size of the tree.
 \end{algorithmic}
 \end{algorithm}
 
-
-The facility functions of union-find set is defined in follow.
-\begin{algorithm}
-\caption{\textsc{FindRoot}($i$)}
+\begin{algorithm}[htbp]
+\caption{\textsc{FindRoot}($i$)}\label{alg1}
 \textbf{Time Complexity:} $O(\log |V|)$\\
 \textbf{Additional Space:} $O(1)$
 \begin{algorithmic}[1]
@@ -672,7 +710,7 @@ The facility functions of union-find set is defined in follow.
 \end{algorithmic}
 \end{algorithm}
 
-\begin{algorithm}
+\begin{algorithm}[htbp]
 \caption{\textsc{Merge}($p$,$q$)}
 \textbf{Time Complexity:} $O(1)$\\
 \textbf{Additional Space:} $O(1)$
@@ -683,9 +721,13 @@ and $p\neq q$.
 \State $x \gets -\mathit{father}[p].u$;
 \State $y \gets -\mathit{father}[q].u$;
 \If {$x>y$}
-	\State \Return{\Call{FindRoot}{$\mathit{father}[i]$}};
+	\State $\mathit{father}[q].u\gets p$;
+	\State $\mathit{father}[q].t\gets \mathit{currentTime}$;
+	\State $\mathit{father}[p].u \gets \mathit{father}[p].u-y$;
 \Else
-	\State \Return{$i$};
+	\State $\mathit{father}[p].u\gets q$;
+	\State $\mathit{father}[p].t\gets \mathit{currentTime}$;
+	\State $\mathit{father}[q].u \gets \mathit{father}[q].u-x$;
 \EndIf
 \end{algorithmic}
 \end{algorithm}
