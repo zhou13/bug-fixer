@@ -1,0 +1,123 @@
+\documentclass[12pt,abstract=true]{scrartcl}
+
+%<<< Preamble
+\usepackage{tikz}
+\usepackage{array}
+\usepackage{pifont}
+\usepackage{engord}
+\usepackage{listings}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{fancyvrb}
+\usepackage{multicol}
+\usepackage{pgfplots}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage[plain]{fancyref}
+\usepackage[unicode]{hyperref}
+\usepackage{graphicx,tabularx}
+\usepackage[shortlabels]{enumitem}
+\usepackage[retainorgcmds]{IEEEtrantools}
+\usepackage{amsmath,amssymb,amsthm,amscd,amstext}
+\usepackage{mathtools}
+\usepackage{exscale}
+\usepackage{relsize}
+\usepackage{mathrsfs}
+\usepackage{tocloft}
+
+\usepackage{setspace}
+\usepackage{lastpage}
+\usepackage{extramarks}
+\usepackage{chngpage}
+
+\usepackage{lmodern}
+\usepackage{mathpazo}
+
+%\pgfplotsset{compat=1.6}
+\usetikzlibrary{arrows}
+\usetikzlibrary{patterns}
+\usetikzlibrary{positioning}
+\usetikzlibrary{automata}
+\usetikzlibrary{plotmarks}
+\usepackage{tikz-3dplot}
+
+\tikzset{ alert/.style={ very thick, draw=red!80, fill=red!20 } }
+\tikzset{ fancy/.style={ very thick, draw=blue!80, fill=blue!20 } }
+\tikzset{
+  dot/.style={
+    very thick,circle,draw=black,fill=black,inner sep=0,minimum size=5pt
+  }
+}
+\tikzset { every state/.style={fancy} }
+\tikzset {
+  general/.style = {
+    shorten >=2pt, node distance=2.5cm, on grid, thick,>=stealth', auto
+  }
+}
+\newcommand{\mathhuge}[1]{\mathlarger{\mathlarger{\mathlarger{#1}}}}
+\newcommand{\mathtiny}[1]{\mathsmaller{\mathlarger{\mathlarger{#1}}}}
+
+\renewcommand\cftsecfont{\normalsize}
+\renewcommand\cftsecpagefont{\normalsize}
+\renewcommand\cftsecafterpnum{\par}
+\setlength{\cftbeforesecskip}{0.2em}
+
+\renewcommand\cftsubsecfont{\small}
+\renewcommand\cftsubsecpagefont{\small}
+\renewcommand\cftsubsecafterpnum{\par}
+
+\newcommand\upper[1]{\textsuperscript#1}
+\numberwithin{equation}{section}
+\mathtoolsset{centercolon}
+\bibliographystyle{plain}
+
+% Theorem environment <<<
+\theoremstyle{definition}   \newtheorem{definition}{Definition}[section]
+\theoremstyle{plain}        \newtheorem{theorem}{Theorem}[section]
+\theoremstyle{plain}        \newtheorem{observation}{Observation}[section]
+\theoremstyle{plain}        \newtheorem{fact}{Fact}[section]
+\theoremstyle{plain}        \newtheorem{claim}{Claim}[section]
+\theoremstyle{plain}        \newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{plain}        \newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}       \newtheorem{example}{Example}[section]
+\theoremstyle{remark}       \newtheorem{remark}{Remark}[section]
+\newcommand*{\fancyrefdeflabelprefix}{def}
+\newcommand*{\fancyrefthmlabelprefix}{thm}
+\newcommand*{\fancyreflemlabelprefix}{lem}
+\newcommand*{\fancyrefcorlabelprefix}{cor}
+\newcommand*{\fancyrefalglabelprefix}{alg}
+\newcommand*{\fancyreflnlabelprefix}{ln}
+\frefformat{plain}{\fancyreflnlabelprefix}{line #1}
+\Frefformat{plain}{\fancyreflnlabelprefix}{Line #1}
+\frefformat{plain}{\fancyrefalglabelprefix}{algorithm (#1)}
+\Frefformat{plain}{\fancyrefalglabelprefix}{Algorithm (#1)}
+\frefformat{plain}{\fancyrefdeflabelprefix}{definition (#1)}
+\Frefformat{plain}{\fancyrefdeflabelprefix}{Definition (#1)}
+\frefformat{plain}{\fancyrefthmlabelprefix}{theorem (#1)}
+\Frefformat{plain}{\fancyrefthmlabelprefix}{Theorem (#1)}
+\frefformat{plain}{\fancyreflemlabelprefix}{lemma (#1)}
+\Frefformat{plain}{\fancyreflemlabelprefix}{Lemma (#1)}
+\frefformat{plain}{\fancyrefcorlabelprefix}{corollary (#1)}
+\Frefformat{plain}{\fancyrefcorlabelprefix}{Corollary (#1)}
+%>>>
+% Alter some LaTeX Float for better treatment of figures: <<<
+% See p.105 of "TeX Unbound" for suggested values.
+% See pp. 199-200 of Lamport's "LaTeX" book for details.
+%   General parameters, for ALL pages:
+\renewcommand{\topfraction}{0.9}	% max fraction of floats at top
+\renewcommand{\bottomfraction}{0.8}	% max fraction of floats at bottom
+\setcounter{topnumber}{2}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}     % 2 may work better
+\setcounter{dbltopnumber}{2}    % for 2-column pages
+\renewcommand{\dbltopfraction}{0.9}	% fit big float above 2-col. text
+\renewcommand{\textfraction}{0.07}	% allow minimal text w. figs
+\renewcommand{\floatpagefraction}{0.7}	% require fuller float pages
+\renewcommand{\dblfloatpagefraction}{0.7}	% require fuller float pages
+
+\allowdisplaybreaks[4]
+
+%>>>
+%>>>
+
+\begin{document}
