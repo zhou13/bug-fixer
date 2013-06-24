@@ -33,11 +33,12 @@
 \usepackage{lmodern}
 \usepackage{mathpazo}
 
-\pgfplotsset{compat=1.6}
+%\pgfplotsset{compat=1.6}
 \usetikzlibrary{arrows}
 \usetikzlibrary{patterns}
 \usetikzlibrary{positioning}
 \usetikzlibrary{automata}
+\usetikzlibrary{plotmarks}
 \usepackage{tikz-3dplot}
 
 \tikzset{ alert/.style={ very thick, draw=red!80, fill=red!20 } }
@@ -761,61 +762,43 @@ The program maintains a dynamic graph which contains $n$ vertices and does not h
 any edge at the beginning.
 It support the following operations:
 \begin{itemize}
-	\item \textsc{Add Edge$(u,v)$:} increase the time counter by one, and then add an edge
-		between vertex $u$ and vertex $v$.
+	\item \textsc{Add Edge$(u,v,w)$:} increase the time counter by one, and then add an edge
+		of weight $w$ between vertex $u$ and vertex $v$.
 	\item \textsc{Query Degree$(t,u)$:} ask for the degree of $u$ at time $t$.
+	\item \textsc{Query Activity$(t,u)$:} ask for the activity (as we defined) of $u$ at time $t$.
 	\item \textsc{Query Connectivity$(t,u,v)$:} ask that whether vertices $u,v$ is connected or not
 		$u$ at time $t$.
 \end{itemize}
 Note that the time counter is initially zero.
 Each operation cost $O(\log n)$ time in our implemented algorithm.
 
-\subsection{Checking for Correctness}
+\subsubsection{Checking for Correctness}
 We implemented a simple algorithm together which cost $O(\max\{n,m\})$ time for each operation,
 	where $m$ is the number of edges before the operation.
 We have generated several small test cases and compare the results between the simple program
 	and our $O(\log n)$ program.
 There is no difference found between outputs of the two programs.
 
-\subsection{Checking for Time Complexity}
+\subsubsection{Checking for Time Complexity}
 We have generated several huge test cases to test the running time of the program.
-The following tabular shows the informations about the cases and the running results.
-\begin{center} \begin{tabular}{|c|c|c|c|c|}
-	\hline
-	Case & Number of & Number of & Density of & Running \\
-	ID & vertices & operations & query & time \\
-	\hline
-	1 & 100000 & 200000 & 0.5 & 0.504 \\
-	\hline
-	2 & 100000 & 200000 & 0.5 & 0.524 \\
-	\hline
-	3 & 100000 & 200000 & 0.5 & 0.516 \\
-	\hline
-	4 & 200000 & 400000 & 0.5 & 1.072 \\
-	\hline
-	5 & 200000 & 400000 & 0.5 & 1.092 \\
-	\hline
-	6 & 200000 & 400000 & 0.5 & 1.072 \\
-	\hline
-	7 & 500000 & 500000 & 0.5 & 1.464 \\
-	\hline
-	8 & 500000 & 500000 & 0.5 & 1.492 \\
-	\hline
-	9 & 500000 & 1000000 & 0.5 & 2.772 \\
-	\hline
-	10 & 500000 & 1000000 & 0.5 & 2.732 \\
-	\hline
-	11 & 500000 & 2000000 & 0.5 & 5.232 \\
-	\hline
-	12 & 500000 & 2000000 & 0.5 & 5.256 \\
-	\hline
-	13 & 1000000 & 2000000 & 0.5 & 5.652 \\
-	\hline
-	14 & 1000000 & 2000000 & 0.5 & 5.808 \\
-	\hline
-	15 & 1000000 & 3000000 & 0.5 & 8.417 \\
-	\hline
-\end{tabular} \end{center}
+The following plots shows the informations about the cases and the running results.
+
+\begin{center} \begin{tikzpicture}[y=.3cm, x=.2cm, font=\sffamily]
+ 	%axis
+	\draw (0,0) -- coordinate (x axis mid) (31, 0);
+	\draw (0,0) -- coordinate (y axis mid) (0, 16);
+	%ticks
+	\foreach \x in {0,5,...,30}
+		\draw (\x,1pt) -- (\x,-3pt) node[anchor=north] {\scriptsize \x};
+	\foreach \y in {0,3,...,15}
+		\draw (1pt,\y) -- (-3pt,\y) node[anchor=east] {\scriptsize \y};
+	%labels      
+	\node[below=0.5cm] at (x axis mid) {\scriptsize Number of Querys ($\times10^4$)};
+	\node[rotate=90, left=0.8cm] at (0, 15) {\scriptsize Running Time (sec.)};
+	%plots
+	\draw plot[mark=*, mark options={fill=white}] file {exp-n10w};
+\end{tikzpicture} \end{center}
+
 We can see that the running time grows as linear as number of operations,
 	but grows much slower when number of vertices grows (as $\log$).
 

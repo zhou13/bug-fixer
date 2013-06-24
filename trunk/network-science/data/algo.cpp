@@ -14,7 +14,7 @@ using namespace std;
 const int MAXN=3000010;
 const int MAXQ=3000010;
 
-const double c_eta=1000.;
+const double c_eta=100.;
 const double c_mu=0.2;
 
 bool b_deg, b_con, b_act;
