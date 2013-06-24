@@ -1,0 +1,91 @@
+n=100000 q=200000
+Finish.
+
+real	0m1.667s
+user	0m1.576s
+sys	0m0.084s
+n=100000 q=400000
+Finish.
+
+real	0m2.492s
+user	0m2.412s
+sys	0m0.072s
+n=100000 q=600000
+Finish.
+
+real	0m3.252s
+user	0m3.148s
+sys	0m0.096s
+n=100000 q=800000
+Finish.
+
+real	0m4.041s
+user	0m3.944s
+sys	0m0.088s
+n=100000 q=1000000
+Finish.
+
+real	0m4.771s
+user	0m4.664s
+sys	0m0.096s
+n=100000 q=1200000
+Finish.
+
+real	0m5.439s
+user	0m5.312s
+sys	0m0.116s
+n=100000 q=1400000
+Finish.
+
+real	0m6.175s
+user	0m6.040s
+sys	0m0.120s
+n=100000 q=1600000
+Finish.
+
+real	0m6.914s
+user	0m6.756s
+sys	0m0.144s
+n=100000 q=1800000
+Finish.
+
+real	0m7.751s
+user	0m7.580s
+sys	0m0.156s
+n=100000 q=2000000
+Finish.
+
+real	0m8.373s
+user	0m8.165s
+sys	0m0.196s
+n=100000 q=2200000
+Finish.
+
+real	0m9.162s
+user	0m8.925s
+sys	0m0.220s
+n=100000 q=2400000
+Finish.
+
+real	0m9.847s
+user	0m9.653s
+sys	0m0.172s
+n=100000 q=2600000
+Finish.
+
+real	0m10.561s
+user	0m10.317s
+sys	0m0.224s
+n=100000 q=2800000
+Finish.
+
+real	0m11.312s
+user	0m11.105s
+sys	0m0.184s
+n=100000 q=3000000
+Finish.
+
+real	0m11.995s
+user	0m11.709s
+sys	0m0.264s
+

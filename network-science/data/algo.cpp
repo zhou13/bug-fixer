@@ -221,7 +221,8 @@ int main(int argc, char *argv[]) {
 			}
 		}
 	}
-	fprintf(ouf, "Finish.\n");
+	if(b_info)
+		fprintf(ouf, "Finish.\n");
 	if(b_vio)
 		fprintf(ouf, " correct %d/%d (%.5lf)\n", n_yes, n_tot, (double)n_yes/(double)n_tot);
 	
