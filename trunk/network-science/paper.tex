@@ -178,33 +178,33 @@ against the classical analysis with un-timestamped data mining.
 Networks contain too much information to be easily observed by people without
 any abstraction. To study a network, people exploited the basic form of
 quantification to concentrate on specific features of the whole graph, or an
-individual vertex. Our work is to promote this methodology to the dynamic
-graphs. We basically design new dynamic metrics according to existing
-successful static ones, but we will point out a important metric that can be
-only observed in time evolving networks, the activity. Intuitively speaking,
-a vertex with high activity indicates more frequent recent social actions, and
-the vertex is more willing to make new change by the structural sense of graph.
-The accuracy of activity will be quite vital to recommendation algorithms of
-advertisement, new friends, or search results. Activity can be also used by
-other metrics, so that the computation of other metrics will no longer need the
-time information directly, but referring to the activity instead.
+individual vertex. Our work is to promote this method to the dynamic graphs. We
+basically design new dynamic metrics according to existing successful static
+ones, but we will point out a important metric that can be only observed in
+time evolving networks, the activity. Intuitively speaking, a vertex with high
+activity indicates more frequent recent social actions, and the vertex is more
+willing to make new change by the structural sense of graph.  The accuracy of
+activity will be quite vital to recommendation algorithms of advertisement, new
+friends, or search results. Activity can be also used by other metrics, so that
+the computation of other metrics will no longer need the time information
+directly, but referring to the activity instead.
 
 Centrality, usually defined on vertices, is frequently used to measure the
 importance of a specific node in graphs of all kinds. There are many previous
 studies about the static graph centralities\cite{newman2010networks}, such as
-PageRank algorithm\cite{page1999pagerank}, and there are many useful
-network analysis algorithms that used some kind of graph centralities. However,
-most social networks change over time, and even more unfortunately, some of the
+PageRank algorithm\cite{page1999pagerank}, and there are many useful network
+analysis algorithms that used some kind of graph centralities. However, most
+social networks change over time, and even more unfortunately, some of the
 networks are large-scaled, which could make the analysis become hard and
 costly, hence limit the scale of meaningful data mining. Moreover, the time
 effect can also become a factor of the centrality, that is, the same graph with
-different evolving sequence may have totally different metrics. On an
-intuitive level, the node connected with more higher activity nodes should be
-more important at that time, even if other node have much more silent
-neighbors. If we do not excavate the information on the time dimension, we will
-lose tremendous information and also the possibility of accumulative
-computation which could be helpful in enhancement the speed of answering
-consistent querying.
+different evolving sequence may have totally different metrics. On an intuitive
+level, the node connected with more higher activity nodes should be more
+important at that time, even if other node have much more silent neighbors. If
+we do not excavate the information on the time dimension, we will lose
+tremendous information and also the possibility of accumulative computation
+which could be helpful in enhancement the speed of answering consistent
+querying.
 
 In section 3 we will concentrate on centrality and activity in evolving social
 network. We will define what centrality or activity is good, and we will design
@@ -352,15 +352,17 @@ $10^2$.
 \begin{observation} $K=O(1)$.
 \end{observation}
 So if we only use the reduced edge list in our framework as additional memory
-requirements, or similarly speaking, consider the adjacency matrix to be a
-sparse matrix and only store the non-zero entries, the space expense would then
-be just $O(n)$, which is highly available. However this does not means we can
-handle neighbor updating operations in $O(1)$ time, because
-\begin{equation}\max k^\bullet\geq
-\left<k^\bullet\right>=K \end{equation} and the former one may be very large.
-We cannot trivially assert the amortized time complexity to be $O(1)$ neither,
-because the nodes with high degrees may requires more operations over time,
-just like the famous friendship paradox\cite{feld1991your}.
+requirements, namely considering the adjacency matrix to be a sparse matrix and
+only store the non-zero entries, the space expense would then be just $O(n)$,
+which is highly available. However this does not means we can handle neighbor
+updating operations in $O(1)$ time, because
+\begin{equation}
+\max k^\bullet\geq \left<k^\bullet\right>=K
+\end{equation}
+and the former one may be very large.  We cannot trivially assert the amortized
+time complexity to be $O(1)$ neither, because the nodes with high degrees may
+requires more operations over time, just like the famous friendship
+paradox\cite{feld1991your}.
 
 Another famous property of social networks is known as the small world
 effect\cite{buchanan2003nexus}, for that the giant component contains nearly
@@ -918,7 +920,8 @@ artificial data of evolving social networks\cite{kumar2010structure}.
 
 \subsection{Program}
 We have implemented the algorithms using C++ language without compiler
-optimization, and all execution is done under a typical PC with Intel Core i3.
+optimization, and all execution is done under a typical PC with Intel Core i3
+M380.
 
 The program maintains a dynamic graph which contains $n$ vertices and does not
 have any edge at the beginning.
