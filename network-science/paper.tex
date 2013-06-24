@@ -492,14 +492,23 @@ $w_i$'s are created by $v$, as discussed in \eqref{eq-sym}, Here $\eta>0$ is the
 \end{itemize}
 \end{definition}
 
-\begin{center} \begin{tikzpicture}[y=.3cm, x=.3cm, font=\sffamily]
+\begin{center} \begin{tikzpicture}
   \begin{axis}[ 
     xlabel={$z$},
-    ylabel={$a$}
+    ylabel={evolving activity}
   ] 
-    \addplot[domain=-10:-0.001] {exp(ln(10)*(1/x))}; 
+  \addplot[color=blue!50!black,samples=300,domain=-20:-0.001] {exp(ln(10)*(1/x))}; 
+  \addplot[color=green!50!black,samples=300,domain=-20:-0.001] {exp(ln(100)*(1/x))}; 
+  \addplot[color=red!50!black,samples=300,domain=-20:-0.001] {exp(ln(1000)*(1/x))}; 
   \end{axis}
-\end{tikzpicture} \end{center}
+\end{tikzpicture}
+
+\begin{color}{blue!50!black}blue
+\end{color}: $\mu=10$,
+\begin{color}{green!50!black}green
+\end{color}: $\mu=100$,
+\begin{color}{red!50!black}red
+\end{color}: $\mu=1000$\end{center}
 
 \begin{theorem}
 Evolving activity satisfies both normalization and initialization.
