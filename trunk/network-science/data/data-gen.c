@@ -51,17 +51,15 @@ int main(int argc, char *argv[])
 {
     if (argc == 1) {
         puts("data-gen [number of vertices] [number of edges] [question density] ");
-        puts("data-gen -e filename [question density]");
+        puts("data-gen -e filename");
         return 0;
     }
 
-    assert(argc == 4);
-
     if (strcmp(argv[1], "-e") == 0) {
+        assert(argc == 3);
+
         freopen(argv[2], "r", stdin);
         int n, m;
-
-        double p = atof(argv[3]);
         gets(buffer);
         gets(buffer);
         scanf("# Nodes: %d Edges: %d ", &n, &m);
@@ -121,12 +119,15 @@ int main(int argc, char *argv[])
                 ++num_nodes;
                 double flt = INT_MAX / 1000000. / num_nodes;
                 if (flt > 1)
-                    time_delta = max(1, 
+                    time_delta = (int)flt;
+                else
+                    time_delta = ((double)my_rand() / INT_MAX < flt);
                 timer += time_delta;
                 printf("d %d\n", time_delta);
 
                 printf("a %d %d %.2f\n", 1+src[idx], 1+dst[idx], 1.);
 
+                /*
                 while ((double)my_rand()/INT_MAX < p) {
                     int r_time = my_rand() % (timer+1);
                     int node1 = v_q.v[my_rand()%v_q.size]+1;
@@ -138,9 +139,11 @@ int main(int argc, char *argv[])
                     else
                         printf("q -a %d %d\n", r_time, node2);
                 }
+                */
             }
         }
     } else {
+        assert(argc == 4);
         int n = atoi(argv[1]);
         int m = atoi(argv[2]);
         double p = atof(argv[3]);
