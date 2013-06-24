@@ -492,6 +492,15 @@ $w_i$'s are created by $v$, as discussed in \eqref{eq-sym}, Here $\eta>0$ is the
 \end{itemize}
 \end{definition}
 
+\begin{center} \begin{tikzpicture}[y=.3cm, x=.3cm, font=\sffamily]
+  \begin{axis}[ 
+    xlabel={$z$},
+    ylabel={$a$}
+  ] 
+    \addplot[domain=-10:-0.001] {exp(ln(10)*(1/x))}; 
+  \end{axis}
+\end{tikzpicture} \end{center}
+
 \begin{theorem}
 Evolving activity satisfies both normalization and initialization.
 \end{theorem}
