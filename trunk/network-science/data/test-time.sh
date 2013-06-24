@@ -1,7 +1,7 @@
 #!/bin/bash
-for (( i=200000; i<=3000000; i=i+200000 ))
+for (( i=50000; i<=2000000; i=i+10000000 ))
 do
-	echo "n=20000 q=$i"
-	./data-gen 20000 $i 0.5 > data.in
+	echo "n=$i q=1000000"
+	./data-gen $i 1000000 0.5 > data.in
 	time ./algo -i data.in -con -deg -act
 done

@@ -914,7 +914,7 @@ The following plots shows the informations about the cases and the running resul
 	\foreach \y in {2,4,...,18}
 		\draw (1pt,\y) -- (-3pt,\y) node[anchor=east] {\scriptsize \y};
 	%labels      
-	\node[below=0.5cm] at (x axis mid) {\scriptsize Number of Queries ($\times10^5$)};
+	\node[below=0.5cm] at (x axis mid) {\scriptsize Number of Operations ($\times10^5$)};
 	\node[rotate=90, left=0.8cm] at (0, 12) {\scriptsize Running Time (sec.)};
 	%plots
 	\draw[color=red!70!black] plot[mark=*, mark options={fill=white}] file {exp-n2w};
@@ -934,6 +934,32 @@ The following plots shows the informations about the cases and the running resul
 We can verify that our algorithm model works efficiently with those four kinds
 of basic operations.
 
+\begin{center} \begin{tikzpicture}[y=.4cm, x=.5cm, font=\sffamily]
+ 	%axis
+	\draw (0,0) -- coordinate (x axis mid) (21, 0);
+	\draw (0,0) -- coordinate (y axis mid) (0, 14);
+	%ticks
+	\foreach \x in {1,2,...,20}
+		\draw (\x,1pt) -- (\x,-3pt) node[anchor=north] {\scriptsize \x};
+	\foreach \y in {2,4,...,13}
+		\draw (1pt,\y) -- (-3pt,\y) node[anchor=east] {\scriptsize \y};
+	%labels      
+	\node[below=0.5cm] at (x axis mid) {\scriptsize Number of Nodes ($\times10^5$)};
+	\node[rotate=90, left=0.8cm] at (0, 12) {\scriptsize Running Time (sec.)};
+	%plots
+	\draw[color=red!70!black] plot[mark=*, mark options={fill=white}] file {exp-q10w};
+	\draw[color=green!50!black] plot[mark=square*, mark options={fill=white}] file {exp-q50w};
+	\draw[color=blue!80!black] plot[mark=triangle*, mark options={fill=white}] file {exp-q100w};
+	%legend
+	\begin{scope}[shift={(2,11)}]
+	\draw[color=red!70!black] (0,0) -- plot[mark=*, mark options={fill=white}] (1,0) -- (2,0)
+		node[right]{\scriptsize number of Operations=100,000};
+	\draw[color=green!50!black] (0,1) -- plot[mark=square*, mark options={fill=white}] (1,1) -- (2,1)
+		node[right]{\scriptsize number of Operations=500,000};
+	\draw[color=blue!90!black] (0,2) -- plot[mark=triangle*, mark options={fill=white}] (1,2) -- (2,2)
+		node[right]{\scriptsize number of Operations=1000,000};
+	\end{scope}
+\end{tikzpicture} \end{center}
 
 \section{Conclusion and Perspective}
 % TODO
