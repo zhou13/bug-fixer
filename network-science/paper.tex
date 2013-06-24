@@ -450,7 +450,7 @@ shift from $p$ to $q$.
 \item \textbf{integrity}:
 
 The quantity of actions for a node over time is a discrete function, so we
-cannot define its deriviation $f(t,v)=\frac{\mathrm{d}}{\mathrm{d}t}k(G_t,v)$
+cannot define its derivation $f(t,v)=\frac{\mathrm{d}}{\mathrm{d}t}k(G_t,v)$
 directly. However, we reverse this property, and let $\int_{-\infty}^t
 f(\tau,v)\mathrm{d}\tau\approx k(G_t,v)$, then $f$ will prove soundness
 representing the change rate of degree.
@@ -475,7 +475,7 @@ Then we move on the dynamic centrality, by extending the often used model
 for static network named Katz centrality\cite{katz1953new}, which is actually
 a generalized version of eigenvalue centrality which estimate the influence
 of a node in social networks by counting the total number of walks between a pair of
-node. We try to combine the activity and the clasical centrality metric and
+node. We try to combine the activity and the classical centrality metric and
 expect to define a new centrality model that is mode sensitive to immediate
 effect.
 
@@ -589,7 +589,11 @@ Evolving activity satisfies integrity.
 \begin{proof}
 First we consider the base case, where we add edges to the vertex $v$ at time $t_i$ and $z=0$ initially. 
 
-Denote the sum of weights of these new edges by $w(t_i)$, so $z$ decreases to $-\eta w(t_i)$ from 0. By the definition of $z$, we write $z$ as the function of $t$, which is $z(t)=t-t_i-\eta w(t_i)$. For simplify we choose $\mu=e$ here, it's similar to prove for other values of $\mu$. Now the integrity is as follows:
+Denote the sum of weights of these new edges by $w(t_i)$, so $z$ decreases to
+$-\eta w(t_i)$ from 0. By the definition of $z$, we write $z$ as the function
+of $t$, which is $z(t)=t-t_i-\eta w(t_i)$. For simplify we choose $\mu=e$ here,
+it's similar to prove for other values of $\mu$. Now the integrity is as
+follows:
 
 \begin{equation}
 \begin{split}
@@ -604,7 +608,9 @@ Notice that $e^{1/t}<1(t<0)$, so it's easy for this direction
 \int_{-\eta w(t_i)}^{0} e^{\frac{1}{t}} \mathrm{d}t< \eta w(t_i).
 \end{equation}
 
-Define $f(x)=\int_{-x}^{0} e^{1/t} \mathrm{d}t - \frac{x}{10}$, from $f'(x)=e^{-1/x}-\frac{1}{10}$, at least we can see $f(x)$ increases when $x\ge 1$. So $f(x)\ge f(1)\approx 0.05>0$.
+Define $f(x)=\int_{-x}^{0} e^{1/t} \mathrm{d}t - \frac{x}{10}$, from
+$f'(x)=e^{-1/x}-\frac{1}{10}$, at least we can see $f(x)$ increases when $x\ge
+1$. So $f(x)\ge f(1)\approx 0.05>0$.
 
 Now we have the other direction: 
 \begin{equation}
@@ -614,7 +620,11 @@ as long as $\eta w(t_i)\ge 1$.
 
 Next we return to a general case. 
 
-We show the theorem holds for each "phase", where we call the period of time when $z<0$ a "phase" and a "phase" starts and ends both with $z=0$. Consider a "phase" starting from $t_i$ and ending at $t_j$, some edges whose sum of weights is $w(t_k)$ are added to $v$ at time $t_k(i\le k\le j)$, so $z$ decreases from $z(t_k)$ to $z(t_k)-\eta w(t_k)$ sharply.
+We show the theorem holds for each "phase", where we call the period of time
+when $z<0$ a "phase" and a "phase" starts and ends both with $z=0$. Consider a
+"phase" starting from $t_i$ and ending at $t_j$, some edges whose sum of
+weights is $w(t_k)$ are added to $v$ at time $t_k(i\le k\le j)$, so $z$
+decreases from $z(t_k)$ to $z(t_k)-\eta w(t_k)$ sharply.
 
 One can verify that
 \begin{equation}
@@ -622,22 +632,24 @@ One can verify that
 \end{equation}
 easily since we still have $\mu^{1/z(t)}<1$.
 
-As for the other direction, notice that at time $t_{k+1}$, there are two cases. One is that $z(t_{k+1})$ has increased equal or above $z(t_k)$, namely we can find some $t_k^*\in (t_k, t_{k+1})$, where $t_k^*$ is defined to satisfy that $z(t_k)=z(t_k^*)$ for all $k$. So we have
-\begin{equation}
+As for the other direction, notice that at time $t_{k+1}$, there are two cases.
+One is that $z(t_{k+1})$ has increased equal or above $z(t_k)$, namely we can
+find some $t_k^*\in (t_k, t_{k+1})$, where $t_k^*$ is defined to satisfy that
+$z(t_k)=z(t_k^*)$ for all $k$. So we have \begin{equation}
 \int_{t_k}^{t_{k+1}} \mu^{\frac{1}{z(t)}} \mathrm{d}t \ge \int_{t_k}^{t_k^*}
 \mu^{\frac{1}{z(t_k)+t-t_k}} - \mu^{\frac{1}{z(t_{k})}}\mathrm{d}t.
 \end{equation}
-The other case is that $z(t_{k+1})$ is still less than $z(t_{k})$, in other words, we will find $t_k^*>t_{k+1}$.  
+The other case is that $z(t_{k+1})$ is still less than $z(t_{k})$, in other
+words, we will find $t_k^*>t_{k+1}$.  
 
 Now from
 \begin{equation}
 z(t)=
 \begin{cases}
 z(t_k)+t-t_k&  t\in (t_k, t_{k+1})\\
-z(t_{k+1})+t-t_{k+1}& t\in (t_{k+1}, t_{k+2})
+z(t_{k+1})+t-t_{k+1}& t\in (t_{k+1}, t_{k+2}),
 \end{cases}
 \end{equation}
-
 we have:
 \begin{equation}
 \begin{split}
@@ -748,7 +760,7 @@ $v_i$ at time $t$ after updating this edge.
 whose entry points to a sorted array again, consisting the description of the
 neighbors of $v_i$ in the graph, each with a element $u$ (sorted by $u$).
 
-\item \textit{father}[$1\dots|V|$], an array exploited by the historicall
+\item \textit{father}[$1\dots|V|$], an array exploited by the historical
 union-find algorithm\cite{tarjan1975efficiency} (a weakened model), which
 will be discussed later. Each of the elements contains:
 \begin{itemize}
@@ -940,7 +952,7 @@ the latest edge before }t$;
 \textbf{Time Complexity:} $O(1)$\\
 \textbf{Additional Space:} $O(1)$
 \begin{algorithmic}[1]
-\State $\eta\gets\eta'$;\State\Comment{Imcompatible with historical queries.
+\State $\eta\gets\eta'$;\State\Comment{Incompatible with historical queries.
 The alternative is to rebuild the whole graph.}
 \end{algorithmic}
 \end{algorithm}
@@ -954,7 +966,7 @@ $\mathbf{x}_0$,$m$)}
 \textbf{Additional Space:} $O(|V|)$
 \begin{algorithmic}[1]
 \Require $0<\alpha<\lambda_1(A^\bullet(G_t))^{-1}$ and $\beta>0$ and $m>0$. Here
-$\lambda_1(A)$ is the maximal possitive eigenvalue of matrix $A$.
+$\lambda_1(A)$ is the maximal positive eigenvalue of matrix $A$.
 \Ensure return the active centrality $\mathbf{x}(G_t)$.
 \For{$i\gets 1\dots|V|$}
 \State $a[i]\gets \Call{Query Activity}{t,v_i}$;
@@ -1008,8 +1020,8 @@ be just one component -- known as the giant component. We never add an edge out
 of the giant component, so the evolving of the network seems to have increasing
 vertices joining to the network.
 \item The time delay of two adjacent new edges is inversely proportional to the
-size of the giant component. So the average activity of any indivitual node do
-not change tremendously.
+size of the giant component. So the average activity of any individual node
+would not change tremendously.
 \end{itemize}
 Because the final state
 is from real world data, it is ensured 
