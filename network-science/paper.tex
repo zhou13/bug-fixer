@@ -304,6 +304,13 @@ a_{ij}=\begin{cases}
 0&(i=j)\\
 \sum_{(i,j,t',w)\in E_t}w &(i<j)\\
 a_{ji}&(i>j)
+\end{cases}.
+\end{equation}
+Or, in case of directional graph,
+\begin{equation}
+a_{ij}=\begin{cases}
+0&(i=j)\\
+\sum_{(i,j,t',w)\in E_t}w &(i\neq j)
 \end{cases}
 \end{equation}
 \end{definition}
@@ -344,7 +351,7 @@ We then have
 \left<k^\bullet\right>=2\left|E^\bullet\right|/\left|V\right|,
 \end{equation}
 where $\left|E^\bullet\right|/\left|V\right|$ only depends on the structure of
-the network at a time spot. In many available online datasets, such as [?]%TODO
+the network at a time spot. In many available online datasets,
 we can assume $\left<k^\bullet\right>$ is limited by a constant $K$, typically
 $10^2$.
 \definition Sparcity constant $K=\left<k^\bullet\right>$.
@@ -368,7 +375,7 @@ Another famous property of social networks is known as the small world
 effect\cite{buchanan2003nexus}, for that the giant component contains nearly
 all active nodes and it has very small diameter.
 
-The clustering coefficient[?], namely
+The clustering coefficient\cite{newman2010networks}, namely
 \begin{equation}
 c.c=\frac{\#\text{closed paths of len 2}}{\#\text{paths of len 2}},
 \end{equation}
@@ -405,7 +412,7 @@ k(G_{-\infty},v)=0.
 \item \textbf{monotonicity}:
 
 If a vertex $v$ performs an interaction $(v,u)$ at time $t$, i.e., a new edge
-is added to $G_t$, and suppose the interaction is the only change to the graph
+is added to $G_t$, and the interaction is the only change to the graph
 at time $t$, then the activity of $v$ should be greater than if the edge is not
 added.
 \begin{equation}
