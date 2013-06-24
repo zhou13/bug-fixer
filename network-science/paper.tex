@@ -283,8 +283,9 @@ Now we define the update of an evolving graph in our model. First we assume all
 possible active vertices has been already defined, so $V$ does not change.
 
 \begin{definition}
-$G^*=(V,E^*)$ where $E\subseteq E^*$. We assume the edges are added to the
-model by correct time order, so
+$G^*(V,E^*)$ is the updated version of $G$, where $E\subseteq E^*$. We assume
+the edges are added to the
+model by correct time order, namely
 \begin{equation}
 \forall (u,v,t,w) \in E^*\setminus E,\, \forall (u',v',t',w')\in E: t \geq t'.
 \end{equation}
@@ -301,17 +302,16 @@ is the adjacency matrix of the graph at time $t$. More detailed
 \begin{equation}
 a_{ij}=\begin{cases}
 0&(i=j)\\
-\sum_{(i,j,t,w)\in E}w &(i<j)\\
+\sum_{(i,j,t',w)\in E_t}w &(i<j)\\
 a_{ji}&(i>j)
 \end{cases}
 \end{equation}
 \end{definition}
 
-
 \begin{definition}
 The degree function $k(G_t,v)$.
 \begin{equation}
-k(G_t,v)=\sum_{\mathclap{(x,y,t,w)\in E_t}}w(1-\delta(x,v)\delta(y,v)),
+k(G_t,v)=\sum_{\mathclap{(x,y,t',w)\in E_t}}(1-\delta(x,v)\delta(y,v))w,
 \end{equation}
 where \begin{equation}
 \delta(x,y)=\begin{cases}1&(x\neq y)\\0&(x=y)\end{cases}.
