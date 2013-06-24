@@ -384,7 +384,7 @@ related people than unfamiliars.
 time $t$. Then $\mathit{Act}(G_t,v)$ should be a deterministic function of $v$ and
 $E_t$.
 \begin{itemize}
-\item \textbf{(normalization)}:
+\item \textbf{normalization}:
 
 We want the metrics to derive other functions, so it will be nice if we can
 limit the range of the function:
@@ -392,7 +392,7 @@ limit the range of the function:
 0\leq \mathit{Act}(G_t,v) \leq 1.
 \end{equation}
 
-\item \textbf{(initialization)}:
+\item \textbf{initialization}:
 
 A node with no neighbors is totally inactive:
 \begin{equation}
@@ -816,8 +816,8 @@ current $\eta$ is inappropriate, defined in algorithm \ref{alg-eta}.
 \State binary search $i$ on \textit{edgeListReduced}[$j$];
 \State insert $i$ to \textit{edgeListReduced}[$j$] in appropriate position;
 \EndIf
-\State $p\gets \Call{FindRoot}{i,\mathit{currentTime}}$;
-\State $q\gets \Call{FindRoot}{j,\mathit{currentTime}}$;
+\State $p\gets \Call{Find Root}{i,\mathit{currentTime}}$;
+\State $q\gets \Call{Find Root}{j,\mathit{currentTime}}$;
 \If{$p\neq q$}
 \State \Call{Merge}{$p$,$q$}
 \EndIf
