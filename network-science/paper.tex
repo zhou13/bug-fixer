@@ -192,7 +192,7 @@ Centrality, usually defined on vertices, is frequently used to measure the
 importance of a specific node in graphs of all kinds. There are many previous
 studies about the static graph centralities\cite{newman2010networks}, such as
 PageRank algorithm\cite{page1999pagerank}, and there are many useful network
-analysis algorithms that used some kind of graph centralities. However, most
+analysis algorithms that used some forms of graph centralities. However, most
 social networks change over time, and even more unfortunately, many of the
 networks are large-scaled, which could make the analysis become hard and
 costly, hence limiting the scale of meaningful data mining. Moreover, the time
@@ -217,19 +217,19 @@ sense with real world data.
 \subsection{Algorithms}
 Graph theory is very successful on storing and solving various problems on
 static networks. We have sophisticated method on finding the shortest
-paths, get a minimal spanning tree, finding the maximal $S$-$T$ flow, etc.
+paths, getting a minimal spanning tree, finding the maximal $S$-$T$ flow, etc.
 And we also have a well-established theoretical system to study problems that
-do not seems to have perfect solutions. However, dynamic online queries can be
+do not seems to have perfect solutions. However, dynamic queries can be
 very hard for general graphs. Best known solutions for many dynamic basic graph
 problems still remain unsatisfiable for general demands. So to design metrics
-for an general evolving network is a very challenging and open problem. We
-concentrate on the popular studied social networks and try to create meaningful
-and available approaches of operation on such networks.
+for a general evolving network is a challenging and open problem. We
+concentrate on the popularly studied social networks and try to create meaningful
+and available approaches of operations on such networks.
 
-In section 2 we will discuss the known properties of a typical social network,
+In section 2, we will discuss the known properties of a typical social network,
 which could be helpful for our algorithm designs. In section 4, we will
 establish a framework of data structure and algorithms to solve series of
-possible queries including computing the metrics about a evolving social
+possible queries including computing the metrics about an evolving social
 network.
 
 \section{Evolving Social Network}
@@ -250,9 +250,9 @@ be more than one edges between a pair of nodes, with different timestamp.
 
 \subsection{Definition}
 \begin{definition}
-A \textbf{pure growing model} for an evolving graph $EG$ is defined in pair:
+A \textbf{pure growing model} for an evolving graph $G$ is defined in pair:
 \begin{equation}
-EG=(V,E),
+G=(V,E),
 \end{equation}
 where $V$ is the set of all nodes in the network, and $E$ is the set of edges,
 formally an edge $e\in E$ for $e=(u,v,t)$, where $u,v\in V$ are the two end
@@ -282,7 +282,7 @@ Now we define the update of an evolving graph in our model. First we assume all
 possible active vertices has been already defined, so $V$ does not change.
 
 \begin{definition}
-$EG^*=(V,E^*)$ where $E\subseteq E^*$. We assume the edges are added to the
+$G^*=(V,E^*)$ where $E\subseteq E^*$. We assume the edges are added to the
 model by correct time order, so
 \begin{equation}
 \forall (u,v,t,w) \in E^*\setminus E,\, \forall (u',v',t',w')\in E: t \geq t'.
