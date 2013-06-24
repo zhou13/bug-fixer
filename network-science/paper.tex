@@ -465,7 +465,7 @@ a(G_t,v)=\begin{cases}
 \mu^{1/z} & (z<0)
 \end{cases},
 \end{equation}
-where $0<\mu<1$ is the \textbf{decay rate}, and $z$ is a status variable that can
+where $\mu>1$ is the \textbf{decay rate}, and $z$ is a status variable that can
 be determined by the following routine:
 \begin{itemize}
 \item $z=0$ initially, and $z$ can never exceed $0$.
@@ -483,7 +483,7 @@ Since the initial value of $z$ is $0$ and $z\leq 0$, by definition we have
 $a(G_t,v)=0$ if $v$ is never changed, because there are no chance for $z$
 to be less than $0$.
 
-Since $0<\mu<1$, and $z\in\mathbb{R}$, we have $0<a(G_t,v)<1$.
+Since $\mu>1$, and $z\in\mathbb{R}$, we have $0<a(G_t,v)<1$.
 \end{proof}
 
 \begin{theorem}
@@ -598,14 +598,14 @@ x_i(G_t,v_i)=\alpha\sum_j
 \end{equation}
 
 \section{Data structure and Algorithms}
-\subsection{Maintaining the basic graph structure}
+\subsection{Maintaining the graph}
 We formally define the abstract data type for the pure growing model, and
 create algorithmic functions to the data structure.
 
 A evolving network $G_t(V,E_t)$ is stored in following contents:
 \begin{itemize}
 \item \textit{currentTime}, a non-negative real number.
-\item $\mu$, a real number in range $(0,1)$.
+\item $\mu$, a real number in range $(1,+\infty)$.
 \item $\eta$, a non-negative real number.
 \item \textit{edgeList}[$1\dots|V|$], an array that every of
 whose entry points to a sorted array again, consisting the description of the
@@ -647,18 +647,26 @@ defined in Algorithm \ref{alg-add}.
 returns $k(G_t,v)$, defined in Algorithm \ref{alg-deg}.
 \item \textsc{Query Connectivity}($t,u,v$)
 
-returns whether $u$ and $v$ is connected in the network at time $t$.
-\item \textsc{Query Connectivity}($t,u,v$)
-
-returns whether $u$ and $v$ is connected in the network at time $t$.
+returns whether $u$ and $v$ is connected in the network at time $t$,
+defined in
+Algorithm \ref{alg-con}.
 \item \textsc{Query Activity}($t,v$)
 
-returns the evolving activity $a_{\mu,\eta}(G_t,v)$.
+returns the evolving activity $a_{\mu,\eta}(G_t,v)$, defined in
+Algorithm \ref{alg-act}.
 \item \textsc{Query Centrality}($t$, $\alpha$, $\beta$, $\mathbf{x}_0$, $m$)
 
 returns the active centrality vector $\mathbf{x}(G_t)$. Algorithm
 \ref{alg-cen} use the iteration method start with $\mathbf{x}_0$ and for
 $m$ times.
+\item \textsc{Modify Mu}($\mu'$)
+
+change the value of $\mu$ which defines the evolving activity, in case the
+current $\mu$ is inappropriate, defined in algorithm \ref{alg-mu}.
+\item \textsc{Modify Eta}($\eta'$)
+
+change the value of $\eta$ which defines the evolving activity, in case the
+current $\eta$ is inappropriate, defined in algorithm \ref{alg-eta}.
 \end{itemize}
 
 \begin{algorithm}[htbp]
@@ -689,8 +697,8 @@ $m$ times.
 \State binary search $i$ on \textit{edgeListReduced}[$j$];
 \State insert $i$ to \textit{edgeListReduced}[$j$] in appropriate position;
 \EndIf
-\State $p\gets \Call{FindRoot}{i}$;
-\State $q\gets \Call{FindRoot}{j}$;
+\State $p\gets \Call{FindRoot}{i,\mathit{currentTime}}$;
+\State $q\gets \Call{FindRoot}{j,\mathit{currentTime}}$;
 \If{$p\neq q$}
 \State \Call{Merge}{$p$,$q$}
 \EndIf
@@ -698,14 +706,14 @@ $m$ times.
 \end{algorithm}
 
 \begin{algorithm}[htbp]
-\caption{\textsc{Find Root}($i$)}\label{alg-find}
+\caption{\textsc{Find Root}($i$, $t$)}\label{alg-find}
 \textbf{Time Complexity:} $O(\log |V|)$\\
 \textbf{Additional Space:} $O(1)$
 \begin{algorithmic}[1]
 \Require $1\leq i\leq |V|$
-\Ensure return the root of the union tree containing $v_i$.
+\Ensure return the root of the union tree containing $v_i$ at time $t$.
 \State $\mathit{currentTime}\gets t$;
-\If {$\mathit{father}[i].u>0$}
+\If {$\mathit{father}[i].u>0$ and $\mathit{father}[i].t\leq t$}
 	\State \Return{\Call{FindRoot}{$\mathit{father}[i].u$}};
 \Else
 	\State \Return{$i$};
@@ -736,30 +744,143 @@ and $p\neq q$.
 \end{algorithmic}
 \end{algorithm}
 
-\subsection{Computing Metrics}
-% TODO
+\begin{algorithm}[htbp]
+\caption{\textsc{Query Connectivity}($t$,$p$,$q$)}
+\label{alg-con}
+\textbf{Time Complexity:} $O(\log |V|)$\\
+\textbf{Additional Space:} $O(1)$
+\begin{algorithmic}[1]
+\Require $1\leq p,q \leq |V|$.
+\Ensure return whether $p$ and $q$ are connected at time $t$.
+\State \Return{$\Call{Find Root}{p,t}=\Call{Find Root}{q,t}$};
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[htbp]
+\caption{\textsc{Query Degree}($t$,$v_i$)}
+\label{alg-deg}
+\textbf{Time Complexity:} $O(\log |V|)$\\
+\textbf{Additional Space:} $O(1)$
+\begin{algorithmic}[1]
+\Require $1\leq i\leq |V|$.
+\Ensure return the degree of $v_i$ at time $t$.
+\State $p\gets\text{binary search }\mathit{edgeList}[i]\text{ for
+the latest edge before }t$;
+\If{ $p$ not found}
+\State\Return{$0$}
+\Else
+\State \Return{$p.s$};
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+
+\begin{algorithm}[htbp]
+\caption{\textsc{Query Activity}($t$,$v_i$)}
+\label{alg-act}
+\textbf{Time Complexity:} $O(\log |V|)$\\
+\textbf{Additional Space:} $O(1)$
+\begin{algorithmic}[1]
+\Require $1\leq i\leq |V|$.
+\Ensure return the evolving activity $a_{\mu,\eta}(G_t,v_i)$.
+\State $p\gets\text{binary search }\mathit{edgeList}[i]\text{ for
+the latest edge before }t$;
+\If{ $p$ not found}
+\State\Return{$0$}
+\Else
+\State $z=\min(p.z+t-p.t,0)$;
+\If{$z=0$}
+\State \Return{$0$};
+\Else
+\State \Return{$\mu^{1/z}$};
+\EndIf
+\EndIf
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[htbp]
+\caption{\textsc{Modify Mu}($\mu'$)}
+\label{alg-mu}
+\textbf{Time Complexity:} $O(1)$\\
+\textbf{Additional Space:} $O(1)$
+\begin{algorithmic}[1]
+\State $\mu\gets\mu'$;
+\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}[htbp]
+\caption{\textsc{Modify Eta}($\eta'$)}
+\label{alg-eta}
+\textbf{Time Complexity:} $O(1)$\\
+\textbf{Additional Space:} $O(1)$
+\begin{algorithmic}[1]
+\State $\eta\gets\eta'$;\State\Comment{Imcompatible with historical queries.
+The alternative is to rebuild the whole graph.}
+\end{algorithmic}
+\end{algorithm}
+
+
+\begin{algorithm}[htbp]
+\caption{\textsc{Query Centrality}($t$,$\alpha$,$\beta$,
+$\mathbf{x}_0$,$m$)}
+\label{alg-cen}
+\textbf{Time Complexity:} $O(mK|V|)$, $K$ is the sparsity constant.\\
+\textbf{Additional Space:} $O(|V|)$
+\begin{algorithmic}[1]
+\Require $0<\alpha<\lambda_1(A^\bullet(G_t))^{-1}$ and $\beta>0$ and $m>0$. Here
+$\lambda_1(A)$ is the maximal possitive eigenvalue of matrix $A$.
+\Ensure return the active centrality $\mathbf{x}(G_t)$.
+\For{$i\gets 1\dots|V|$}
+\State $a[i]\gets \Call{Query Activity}{t,v_i}$;
+\State $\mathbf{x}[i]\gets \mathbf{x}_0[i]$;
+\EndFor
+\For{$\mathit{count}\gets 1\dots m$}
+\For{$i\gets 1\dots|V|$}
+\State $\mathbf{x'}[i]\gets \beta$;
+\EndFor
+\For{$i\gets 1\dots|V|$}
+\ForAll{$j\in\mathit{edgeListReduced}[i]$}
+\State $\mathbf{x'}[i]\gets \mathbf{x'}[i]+\alpha\cdot a[j]\cdot\mathbf{x}[j]$
+\EndFor\EndFor
+\For{$i\gets 1\dots|V|$}
+\State $\mathbf{x}[i]\gets \mathbf{x'}[i]$;
+\EndFor
+\EndFor
+\State\Return{$\mathbf{x}$};
+\end{algorithmic}
+\end{algorithm}
+
 \subsection{Optimization and Parallelizability}
-% TODO
+
+In most cases, we only need to query the latest properties of the graph, i.e.,
+$t=\mathit{currentTime}$. And we observe that in Algorithm \ref{alg-con},
+\ref{alg-deg} and \ref{alg-act}, the binary search can be replace by simply find
+the last entry of the argument sequence. So those three algorithms can be done
+in $O(1)$ time if we do not perform historical queries.
+
+Algorithm \ref{alg-cen} actually repeat the computation of the multiplication
+of a sparse matrix to a vector, which is highly parallelizable[?]. So in a large
+scale distributed system, we can perform very efficient analysis to an evolving
+graph, by our model.
 \section{Experiment}
 \subsection{Data Generation} 
-Our data generation is base on real social network provided by \cite{database1,
-database2}.  Because the real dynamic graph is hard to obtain, we only use
-these graph as a final state of the dynamic graph, which means the evolving
-graph generated will satisfy all the property that we discussed in section 2.
-Then we artificially add a timeline into that graph to make it become an
-evolving graph.
-
-Another way to generate data is to use the method given by
-\cite{kumar2010structure}.  The author in that paper propose a method to
-simulate the real timeline of a social network, which has same component
-properties and very good similarity with the actual network.  Unfortunately,
-because of the time limitation, we have not implemented this brilliant
-technique.
+Our data generation is base on real social networks provided by \cite{database1,
+database2}. Unfortunatly, those databases do not contain evolving history
+recorded data, so we simulate the evolving history by use the
+authentic graph as the final state of the tested dynamic graph.
+We give a random permutation to the edges, in a way such that there will always
+be just one component -- known as the giant component. Because the final state
+is from real world data, it is ensured 
+the evolving graph generated by our model will satisfy all the property that we
+discussed in section 2.2. In addition, Kumar introduced another way to generate
+artificial data of evolving social networks\cite{kumar2010structure}.
 
 \subsection{Program}
-We have implemented two of the algorithms using C++ language.
-The program maintains a dynamic graph which contains $n$ vertices and does not have
-any edge at the beginning.
+We have implemented the algorithms using C++ language without compiler
+optimization, and all execution is done under a typical PC with Intel Core i3.
+
+The program maintains a dynamic graph which contains $n$ vertices and does not
+have any edge at the beginning.
 It support the following operations:
 \begin{itemize}
 	\item \textsc{Add Edge$(u,v,w)$:} increase the time counter by one, and then add an edge
@@ -773,11 +894,11 @@ Note that the time counter is initially zero.
 Each operation cost $O(\log n)$ time in our implemented algorithm.
 
 \subsubsection{Checking for Correctness}
-We implemented a simple algorithm together which cost $O(\max\{n,m\})$ time for each operation,
-	where $m$ is the number of edges before the operation.
-We have generated several small test cases and compare the results between the simple program
-	and our $O(\log n)$ program.
-There is no difference found between outputs of the two programs.
+We implemented a simple algorithm together which cost $O(\max\{n,m\})$ time for
+each operation, where $m$ is the number of edges before the operation.  We have
+generated several small test cases and compare the results between the simple
+program and our $O(\log n)$ program.  There is no difference found between
+outputs of the two programs.
 
 \subsubsection{Checking for Time Complexity}
 We have generated several huge test cases to test the running time of the program.
@@ -810,8 +931,9 @@ The following plots shows the informations about the cases and the running resul
 	\end{scope}
 \end{tikzpicture} \end{center}
 
-We can see that the running time grows as linear as number of operations,
-	but grows much slower when number of vertices grows (as $\log$).
+We can verify that our algorithm model works efficiently with those four kinds
+of basic operations.
+
 
 \section{Conclusion and Perspective}
 % TODO
