@@ -496,17 +496,18 @@ $w_i$'s are created by $v$, as discussed in \eqref{eq-sym}, Here $\eta>0$ is the
 
 \begin{center} \begin{tikzpicture} \begin{axis}[ 
 	thick,
-	xmax=5, ymax=1,
+	width=0.6\textwidth,
+	x=1cm/4,
+	xmax=10, ymax=1,
 	axis line style=very thick,
 	axis x line=bottom,
 	axis y line=left,
 	xlabel={$z$},
 	ylabel={evolving activity},
-        legend pos=outer north east
 ] 
-	\addplot[color=blue!50!black,samples=300,domain=-20:-0.001] {exp(ln(10)*(1/x))}; 
-	\addplot[color=green!50!black,samples=300,domain=-20:-0.001] {exp(ln(100)*(1/x))}; 
-	\addplot[color=red!50!black,samples=300,domain=-20:-0.001] {exp(ln(1000)*(1/x))}; 
+	\addplot[color=blue!50!black,samples=300,domain=-40:-0.001] {exp(ln(10)*(1/x))}; 
+	\addplot[color=green!50!black,samples=300,domain=-40:-0.001] {exp(ln(100)*(1/x))}; 
+	\addplot[color=red!50!black,samples=300,domain=-40:-0.001] {exp(ln(1000)*(1/x))}; 
 	\legend{$\mu=10$,$\mu=100$,$\mu=1000$};
 	\end{axis} \end{tikzpicture} 
 \end{center}
