@@ -14,8 +14,8 @@ using namespace std;
 const int MAXN=3000010;
 const int MAXQ=3000010;
 
-const double c_eta=10.;
-const double c_mu=10;
+const double c_eta=1000.;
+const double c_mu=0.2;
 
 bool b_deg, b_con, b_act;
 bool b_vio, b_info;
@@ -43,8 +43,8 @@ void add_edge(int x, int y, double w) {
 	}
 	// about activity
 	if(b_act) {
-		ez[x].push_back(min(0., ez[x].back()-c_eta*w+cur_time-et[x][ez[x].size()-1]));
-		ez[y].push_back(min(0., ez[y].back()-c_eta*w+cur_time-et[y][ez[y].size()-1]));
+		ez[x].push_back(min(0., ez[x].back()+cur_time-et[x][ez[x].size()-1])-c_eta*w);
+		ez[y].push_back(min(0., ez[y].back()+cur_time-et[y][ez[y].size()-1])-c_eta*w);
 	}
 	// about connecting
 	if(b_con) {
@@ -86,10 +86,10 @@ double vio_act_query(int t, int x) {
 	if(!b_act) return 0.;
 	double z=0; int e=0;
 	for(int i=1; i<=edge_n && edge_t[i]<=t; ++i) {
-		if(edge_x[i]==x) z-=c_eta*edge_w[i];
-		if(edge_y[i]==x) z-=c_eta*edge_w[i];
 		z=min(0., z+edge_t[i]-e);
 		e=edge_t[i];
+		if(edge_x[i]==x) z-=c_eta*edge_w[i];
+		if(edge_y[i]==x) z-=c_eta*edge_w[i];
 	}
 	z=min(0., z+t-e);
 	return pow(c_mu, 1./z);
@@ -126,7 +126,7 @@ void print_usage(char *s) {
 }
 
 int main(int argc, char *argv[]) {
-	b_con=b_deg=b_vio=b_info=false;
+	b_con=b_deg=b_vio=b_act=b_info=false;
 	char *s_inf=NULL;
 	char *s_ouf=NULL;
 	for(int i=1; i<argc; ++i) {
@@ -149,18 +149,18 @@ int main(int argc, char *argv[]) {
 		print_usage(argv[0]);
 		return 0;
 	}
+	FILE *inf=fopen(s_inf, "r");
+	FILE *ouf=(s_ouf==NULL ? stdout : fopen(s_ouf, "w"));
+	fscanf(inf, "%d", &n);
 	cur_time=0;
 	edge_n=0;
-	for(int i=0; i<MAXN; ++i) {
+	for(int i=1; i<=n; ++i) {
 		et[i].clear(); et[i].push_back(0);
 		ed[i].clear(); ed[i].push_back(0.);
 		ez[i].clear(); ez[i].push_back(0.);
 		ufs_fa[i]=0;
 		ufs_sz[i]=1;
 	}
-	FILE *inf=fopen(s_inf, "r");
-	FILE *ouf=(s_ouf==NULL ? stdout : fopen(s_ouf, "w"));
-	fscanf(inf, "%d", &n);
 	int n_yes=0, n_tot=0;
 	while(1) {
 		char op[99], sop[99];
@@ -171,7 +171,7 @@ int main(int argc, char *argv[]) {
 			++cur_time;
 			add_edge(x, y, w);
 			if(b_info)
-				fprintf(ouf, "%d: a %d %d\n", cur_time, x, y);
+				fprintf(ouf, "%d: a %d %d %.3lf\n", cur_time, x, y, w);
 		}
 		if(op[0]=='q') {
 			fscanf(inf, "%s", sop);
@@ -208,12 +208,12 @@ int main(int argc, char *argv[]) {
 				fscanf(inf, "%d%d", &t,&x);
 				double ans=act_query(t, x);
 				if(b_info)
-					fprintf(ouf, "%d: qd %d %d -> %.3lf", cur_time, t,x, ans);
+					fprintf(ouf, "%d: qa %d %d -> %.6lf", cur_time, t,x, ans);
 				if(b_vio) {
 					double std=vio_act_query(t, x);
-					bool ok=(fabs(std-ans)<0.001);
+					bool ok=(fabs(std-ans)<1E-6);
 					if(b_info)
-						fprintf(ouf, " / %.3lf [%s]", std, ok?"yes":"error");
+						fprintf(ouf, " / %.6lf [%s]", std, ok?"yes":"error");
 					if(ok) ++n_yes; ++n_tot;
 				}
 				if(b_info)
