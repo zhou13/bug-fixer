@@ -161,7 +161,7 @@ network data and compare our metrics to static metrics. The results could imply
 that dynamic centrality is more capable in spotting hot social events.\\[1.5em]
 
 \noindent \textbf{Keywords:} social network, dynamic graph, vertex activity,
-vertex centrality, online algorithm.
+centrality, online algorithm.
 \end{abstract}
 % \tableofcontents
 \newpage
@@ -586,21 +586,22 @@ Denote the sum of weights of these new edges by $w(t_i)$, so $z$ decreases to $-
 
 \begin{equation}
 \begin{split}
-\int_{t_i}^{t_i+\eta w(t_i)} a(G_t,v) dt &= \int_{t_i}^{t_i+\eta w(t_i)} e^{\frac{1}{t-t_i-\eta w(t_i)}} dt \\
-&= \int_{-\eta w(t_i)}^{0} e^{\frac{1}{t}} dt.
+\int_{t_i}^{t_i+\eta w(t_i)} a(G_t,v) \mathrm{d}t &= \int_{t_i}^{t_i+\eta
+w(t_i)} e^{\frac{1}{t-t_i-\eta w(t_i)}} \mathrm{d}t \\
+&= \int_{-\eta w(t_i)}^{0} e^{\frac{1}{t}} \mathrm{d}t.
 \end{split}
 \end{equation}
 
 Notice that $e^{1/t}<1(t<0)$, so it's easy for this direction
 \begin{equation}
-\int_{-\eta w(t_i)}^{0} e^{\frac{1}{t}} dt< \eta w(t_i).
+\int_{-\eta w(t_i)}^{0} e^{\frac{1}{t}} \mathrm{d}t< \eta w(t_i).
 \end{equation}
 
-Define $f(x)=\int_{-x}^{0} e^{1/t} dt - \frac{x}{10}$, from $f'(x)=e^{-1/x}-\frac{1}{10}$, at least we can see $f(x)$ increases when $x\ge 1$. So $f(x)\ge f(1)\approx 0.05>0$.
+Define $f(x)=\int_{-x}^{0} e^{1/t} \mathrm{d}t - \frac{x}{10}$, from $f'(x)=e^{-1/x}-\frac{1}{10}$, at least we can see $f(x)$ increases when $x\ge 1$. So $f(x)\ge f(1)\approx 0.05>0$.
 
 Now we have the other direction: 
 \begin{equation}
-\int_{-\eta w(t_i)}^{0} e^{\frac{1}{t}} dt>\frac{\eta w(t_i)}{10},
+\int_{-\eta w(t_i)}^{0} e^{\frac{1}{t}} \mathrm{d}t>\frac{\eta w(t_i)}{10},
 \end{equation}
 as long as $\eta w(t_i)\ge 1$.
 
@@ -610,13 +611,14 @@ We show the theorem holds for each "phase", where we call the period of time whe
 
 One can verify that
 \begin{equation}
-\int_{t_i}^{t_j} a(G_t,v) dt< \eta \sum_{k=i}^j w(t_k),
+\int_{t_i}^{t_j} a(G_t,v) \mathrm{d}t< \eta \sum_{k=i}^j w(t_k),
 \end{equation}
 easily since we still have $\mu^{1/z(t)}<1$.
 
 As for the other direction, notice that at time $t_{k+1}$, there are two cases. One is that $z(t_{k+1})$ has increased equal or above $z(t_k)$, namely we can find some $t_k^*\in (t_k, t_{k+1})$, where $t_k^*$ is defined to satisfy that $z(t_k)=z(t_k^*)$ for all $k$. So we have
 \begin{equation}
-\int_{t_k}^{t_{k+1}} \mu^{\frac{1}{z(t)}} dt \ge \int_{t_k}^{t_k^*} \mu^{\frac{1}{z(t_k)+t-t_k}} - \mu^{\frac{1}{z(t_{k})}}dt.
+\int_{t_k}^{t_{k+1}} \mu^{\frac{1}{z(t)}} \mathrm{d}t \ge \int_{t_k}^{t_k^*}
+\mu^{\frac{1}{z(t_k)+t-t_k}} - \mu^{\frac{1}{z(t_{k})}}\mathrm{d}t.
 \end{equation}
 The other case is that $z(t_{k+1})$ is still less than $z(t_{k})$, in other words, we will find $t_k^*>t_{k+1}$.  
 
@@ -632,14 +634,19 @@ z(t_{k+1})+t-t_{k+1}& t\in (t_{k+1}, t_{k+2})
 we have:
 \begin{equation}
 \begin{split}
-\int_{t_k}^{t_{k+2}} \mu^{\frac{1}{z(t)}} dt &\ge \int_{t_k}^{t_{k+1}^*} \mu^{\frac{1}{z(t)}} dt \\
-&= \int_{t_k}^{t_{k+1}} \mu^{\frac{1}{z(t_k)+t-t_k}} - \mu^{\frac{1}{z(t_{k})}}  dt + \int_{t_{k+1}}^{t_{k+1}^*} \mu^{\frac{1}{z(t_{k+1})+t-t_{k+1}}} -  \mu^{\frac{1}{z(t_{k+1})}} dt + (t_{k+1}^*-t_{k+1})\mu^{\frac{1}{z(t_{k+1})}}\\
-&\ge \int_{t_k}^{t_{k}^*} \mu^{\frac{1}{z(t_k)+t-t_k}} - \mu^{\frac{1}{z(t_{k})}}dt + \int_{t_{k+1}}^{t_{k+1}^*} \mu^{\frac{1}{z(t_{k+1})+t-t_{k+1}}} - \mu^{\frac{1}{z(t_{k+1})}}dt,
+&\int_{t_k}^{t_{k+2}} \mu^{\frac{1}{z(t)}} \mathrm{d}t\\
+\ge{}& \int_{t_k}^{t_{k+1}^*} \mu^{\frac{1}{z(t)}} \mathrm{d}t \\
+={}&\int_{t_k}^{t_{k+1}} \mu^{\frac{1}{z(t_k)+t-t_k}} - \mu^{\frac{1}{z(t_{k})}}
+\mathrm{d}t+ \int_{t_{k+1}}^{t_{k+1}^*} \mu^{\frac{1}{z(t_{k+1})+t-t_{k+1}}}\\& -
+\mu^{\frac{1}{z(t_{k+1})}} \mathrm{d}t + (t_{k+1}^*-t_{k+1})\mu^{\frac{1}{z(t_{k+1})}}\\
+\ge{}& \int_{t_k}^{t_{k}^*} \mu^{\frac{1}{z(t_k)+t-t_k}} -
+\mu^{\frac{1}{z(t_{k})}}\mathrm{d}t + \int_{t_{k+1}}^{t_{k+1}^*}
+\mu^{\frac{1}{z(t_{k+1})+t-t_{k+1}}} - \mu^{\frac{1}{z(t_{k+1})}}\mathrm{d}t,
 \end{split}
 \end{equation}
 by an easy induction, one can split a "phase" into integrals in the form 
 \begin{equation}
-\int_{t_k}^{t_{k}^*} \mu^{\frac{1}{z(t_k)+t-t_k}} - \mu^{\frac{1}{z(t_{k})}}dt
+\int_{t_k}^{t_{k}^*} \mu^{\frac{1}{z(t_k)+t-t_k}} - \mu^{\frac{1}{z(t_{k})}}\mathrm{d}t
 \end{equation}
  Since $ \mu^{1/z}$ decreases as $z$ becomes larger, we can reduce it to the base case now.
 
@@ -987,12 +994,21 @@ Our data generation is base on real social networks provided by \cite{database1,
 database2}. Unfortunately, those databases do not contain evolving history
 recorded data, so we simulate the evolving history by use the
 authentic graph as the final state of the tested dynamic graph.
-We give a random permutation to the edges, in a way such that there will always
-be just one component -- known as the giant component. Because the final state
+We give a random permutation to the edges, in a way such that:
+\begin{itemize}
+\item There will always
+be just one component -- known as the giant component. We never add an edge out
+of the giant component, so the evolving of the network seems to have increasing
+vertices joining to the network.
+\item The time delay of two adjacent new edges is inversely proportional to the
+size of the giant component. So the average activity of any indivitual node do
+not change tremendously.
+\end{itemize}
+Because the final state
 is from real world data, it is ensured 
 the evolving graph generated by our model will satisfy all the property that we
-discussed in section 2.2. In addition, Kumar introduced another way to generate
-artificial data of evolving social networks\cite{kumar2010structure}.
+discussed in section 2.2. In addition, Kumar introduced how to generate
+an artificial evolving social networks\cite{kumar2010structure}.
 
 \subsection{Program}
 We have implemented the algorithms using C++ language without compiler
@@ -1096,7 +1112,89 @@ We also calculate the static PageRank centrality in parallel, which do not have
 the activity metric as coefficients. All of our calculation assumes
 $\alpha=0.8$, and $\beta=1$.
 
-The centrality trace graph for an representative node, when $s$:
+The centrality trace graph for some representative node, when $\mu=4096$ and
+$\eta=1000$:
+\begin{center} \begin{tikzpicture}[y=.4cm, x=.5cm, font=\sffamily]
+	\draw (0,0) -- coordinate (x axis mid) (21, 0);
+	\draw (0,0) -- coordinate (y axis mid) (0, 11);
+	\node[below=0.5cm] at (x axis mid) {\scriptsize Time ($\times10^3$)};
+	\node[rotate=90, left=0.8cm] at (0, 10) {\scriptsize Magnitude of
+	Centrality};
+	\foreach \x in {1,2,...,20}
+	\draw (\x,1pt) -- (\x,-3pt) node[anchor=north] {\scriptsize \x};
+		\foreach \y in {1,2,...,11}
+		\draw (1pt,\y) -- (-3pt,\y) node[anchor=east] {\scriptsize \y};
+	\draw[color=red!70!black,line width=1pt] plot file {exp-g3-1};
+	\draw[color=blue!70!black] plot file {exp-g3-2};
+	\begin{scope}[shift={(2,8)}]
+	\draw[color=red!70!black,line width=1pt] (0,0) -- (2,0)
+		node[right]{\scriptsize evolving centrality};
+	\draw[color=blue!50!black] (0,1) -- (2,1)
+		node[right]{\scriptsize static centrality};
+	\end{scope}
+\end{tikzpicture} \end{center}
+
+\begin{center} \begin{tikzpicture}[y=.4cm, x=.5cm, font=\sffamily]
+	\draw (0,0) -- coordinate (x axis mid) (21, 0);
+	\draw (0,0) -- coordinate (y axis mid) (0, 11);
+	\node[below=0.5cm] at (x axis mid) {\scriptsize Time ($\times10^3$)};
+	\node[rotate=90, left=0.8cm] at (0, 10) {\scriptsize Magnitude of
+	Centrality};
+	\foreach \x in {1,2,...,20}
+	\draw (\x,1pt) -- (\x,-3pt) node[anchor=north] {\scriptsize \x};
+		\foreach \y in {1,2,...,11}
+		\draw (1pt,\y) -- (-3pt,\y) node[anchor=east] {\scriptsize \y};
+	\draw[color=red!70!black,line width=1pt] plot file {exp-g9-1};
+	\draw[color=blue!70!black] plot file {exp-g9-2};
+	\begin{scope}[shift={(2,8)}]
+	\draw[color=red!70!black,line width=1pt] (0,0) -- (2,0)
+		node[right]{\scriptsize evolving centrality};
+	\draw[color=blue!50!black] (0,1) -- (2,1)
+		node[right]{\scriptsize static centrality};
+	\end{scope}
+\end{tikzpicture} \end{center}
+
+
+The centrality trace graph for some representative node, when $\mu=2^{20}$ and
+$\eta=2000$:
+\begin{center} \begin{tikzpicture}[y=.4cm, x=.5cm, font=\sffamily]
+	\draw (0,0) -- coordinate (x axis mid) (21, 0);
+	\draw (0,0) -- coordinate (y axis mid) (0, 11);
+	\node[below=0.5cm] at (x axis mid) {\scriptsize Time ($\times10^3$)};
+	\node[rotate=90, left=0.8cm] at (0, 10) {\scriptsize Magnitude of
+	Centrality};
+	\foreach \x in {1,2,...,20}
+	\draw (\x,1pt) -- (\x,-3pt) node[anchor=north] {\scriptsize \x};
+		\foreach \y in {1,2,...,11}
+		\draw (1pt,\y) -- (-3pt,\y) node[anchor=east] {\scriptsize \y};
+	\draw[color=red!70!black,line width=1pt] plot file {exp-g8-1};
+	\draw[color=blue!70!black] plot file {exp-g8-2};
+	\begin{scope}[shift={(2,8)}]
+	\draw[color=red!70!black,line width=1pt] (0,0) -- (2,0)
+		node[right]{\scriptsize evolving centrality};
+	\draw[color=blue!50!black] (0,1) -- (2,1)
+		node[right]{\scriptsize static centrality};
+	\end{scope}
+\end{tikzpicture} \end{center}
+\begin{center} \begin{tikzpicture}[y=.4cm, x=.5cm, font=\sffamily]
+	\draw (0,0) -- coordinate (x axis mid) (21, 0);
+	\draw (0,0) -- coordinate (y axis mid) (0, 11);
+	\node[below=0.5cm] at (x axis mid) {\scriptsize Time ($\times10^3$)};
+	\node[rotate=90, left=0.8cm] at (0, 10) {\scriptsize Magnitude of
+	Centrality};
+	\foreach \x in {1,2,...,20}
+	\draw (\x,1pt) -- (\x,-3pt) node[anchor=north] {\scriptsize \x};
+		\foreach \y in {1,2,...,11}
+		\draw (1pt,\y) -- (-3pt,\y) node[anchor=east] {\scriptsize \y};
+	\draw[color=red!70!black,line width=1pt] plot file {exp-g11-1};
+	\draw[color=blue!70!black] plot file {exp-g11-2};
+	\begin{scope}[shift={(2,8)}]
+	\draw[color=red!70!black,line width=1pt] (0,0) -- (2,0)
+		node[right]{\scriptsize evolving centrality};
+	\draw[color=blue!50!black] (0,1) -- (2,1)
+		node[right]{\scriptsize static centrality};
+	\end{scope}
+\end{tikzpicture} \end{center}
 
 \section{Conclusion and Perspective}
 So far, we have established and verified the framework for analysing an

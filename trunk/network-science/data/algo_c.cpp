@@ -17,9 +17,9 @@ const int MAXM=30010;
 const int INTERVAL=20;
 const int num=20;
 
-const double c_eta=1000.;
+const double c_eta=2000.;
 const double c_mu=2;
-const double c_mup=12;
+const double c_mup=20;
 const double c_alpha=0.8;
 const double c_beta=1.;
 
@@ -162,7 +162,5 @@ fprintf(f, "\\end{document}\n");
 
 	system("pdflatex exp");
         
-	system("del exp-g*.tex");
-	
 	return 0;
 }
