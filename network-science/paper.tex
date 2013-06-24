@@ -476,7 +476,7 @@ for static network named Katz centrality\cite{katz1953new}, which is actually
 a generalized version of eigenvalue centrality which estimate the influence
 of a node in social networks by counting the total number of walks between a pair of
 node. We try to combine the activity and the classical centrality metric and
-expect to define a new centrality model that is mode sensitive to immediate
+expect to define a new centrality model that is more sensitive to immediate
 effect.
 
 \subsection{Design and Analysis}
@@ -765,7 +765,7 @@ union-find algorithm\cite{tarjan1975efficiency} (a weakened model), which
 will be discussed later. Each of the elements contains:
 \begin{itemize}
 \item $u$, the identity of $v_i$'s father node if $u>0$, otherwise $v_i$
-is a root node, and $-u$ is the size of the tree.
+is a root node, and $(-u)$ is the size of the tree.
 \item $t$, the time when $u$ becomes non-zero.
 \end{itemize}
 
@@ -824,8 +824,8 @@ current $\eta$ is inappropriate, defined in algorithm \ref{alg-eta}.
 \State $z_1\gets z_1-\eta\cdot w$;
 \State $z_2\gets\mathit{edgeList}[j].\mathrm{lastElement}.z$;
 \State $t_2\gets\mathit{edgeList}[j].\mathrm{lastElement}.t$;
-\State $z_2\gets z_2+\mathit{currentTime}-t_2$;
 \State $s_2\gets\mathit{edgeList}[j].\mathrm{lastElement}.s$;
+\State $z_2\gets z_2+\mathit{currentTime}-t_2$;
 \If {$z_2>0$} \State $z_2\gets 0$;\EndIf
 \State $z_2\gets z_2-\eta\cdot w$;
 \State append ($j$, $t$, $w$, $s_2+w$, $z_2$) to \textit{edgeList}[$i$];
@@ -852,7 +852,7 @@ current $\eta$ is inappropriate, defined in algorithm \ref{alg-eta}.
 \Ensure return the root of the union tree containing $v_i$ at time $t$.
 \State $\mathit{currentTime}\gets t$;
 \If {$\mathit{father}[i].u>0$ and $\mathit{father}[i].t\leq t$}
-	\State \Return{\Call{FindRoot}{$\mathit{father}[i].u$}};
+	\State \Return{\Call{FindRoot}{$\mathit{father}[i].u$, $t$}};
 \Else
 	\State \Return{$i$};
 \EndIf
@@ -970,7 +970,7 @@ $\lambda_1(A)$ is the maximal positive eigenvalue of matrix $A$.
 \Ensure return the active centrality $\mathbf{x}(G_t)$.
 \For{$i\gets 1\dots|V|$}
 \State $a[i]\gets \Call{Query Activity}{t,v_i}$;
-\State $d[i]\gets \mathrm{size}(\mathit{edgeListReduced}[i])$;
+\State $k[i]\gets \mathrm{size}(\mathit{edgeListReduced}[i])$;
 \State $\mathbf{x}[i]\gets \mathbf{x}_0[i]$;
 \EndFor
 \For{$\mathit{count}\gets 1\dots m$}
@@ -980,7 +980,7 @@ $\lambda_1(A)$ is the maximal positive eigenvalue of matrix $A$.
 \For{$i\gets 1\dots|V|$}
 \ForAll{$j\in\mathit{edgeListReduced}[i]$}
 \State $\mathbf{x'}[i]\gets \mathbf{x'}[i]+\alpha\cdot
-a[j]\cdot\mathbf{x}[j]/d[j]$
+a[j]\cdot\mathbf{x}[j]/k[j]$
 \EndFor\EndFor
 \For{$i\gets 1\dots|V|$}
 \State $\mathbf{x}[i]\gets \mathbf{x'}[i]$;
