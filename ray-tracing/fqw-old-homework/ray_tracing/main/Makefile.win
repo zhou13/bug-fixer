@@ -1,0 +1,48 @@
+# Project: ray_tracing
+# Makefile created by Dev-C++ 4.9.9.2
+
+CPP  = g++.exe -D__DEBUG__
+CC   = gcc.exe -D__DEBUG__
+WINDRES = windres.exe
+RES  = 
+OBJ  = main.o model.o treenode.o item.o objreader.o texture.o koala.o $(RES)
+LINKOBJ  = main.o model.o treenode.o item.o objreader.o texture.o koala.o $(RES)
+LIBS =  -L"C:/Dev-Cpp/lib" -mwindows  -g3 
+INCS =  -I"C:/Dev-Cpp/include" 
+CXXINCS =  -I"C:/Dev-Cpp/lib/gcc/mingw32/3.4.2/include"  -I"C:/Dev-Cpp/include/c++/3.4.2/backward"  -I"C:/Dev-Cpp/include/c++/3.4.2/mingw32"  -I"C:/Dev-Cpp/include/c++/3.4.2"  -I"C:/Dev-Cpp/include" 
+BIN  = ../../../bin/scenes/ray_tracing_main.exe
+CXXFLAGS = $(CXXINCS)   -g3
+CFLAGS = $(INCS)   -g3
+RM = rm -f
+
+.PHONY: all all-before all-after clean clean-custom
+
+all: all-before ../../../bin/scenes/ray_tracing_main.exe all-after
+
+
+clean: clean-custom
+	${RM} $(OBJ) $(BIN)
+
+$(BIN): $(OBJ)
+	$(CPP) $(LINKOBJ) -o "..\..\..\bin\scenes\ray_tracing_main.exe" $(LIBS)
+
+main.o: main.cpp
+	$(CPP) -c main.cpp -o main.o $(CXXFLAGS)
+
+model.o: model.cpp
+	$(CPP) -c model.cpp -o model.o $(CXXFLAGS)
+
+treenode.o: treenode.cpp
+	$(CPP) -c treenode.cpp -o treenode.o $(CXXFLAGS)
+
+item.o: item.cpp
+	$(CPP) -c item.cpp -o item.o $(CXXFLAGS)
+
+objreader.o: objreader.cpp
+	$(CPP) -c objreader.cpp -o objreader.o $(CXXFLAGS)
+
+texture.o: texture.cpp
+	$(CPP) -c texture.cpp -o texture.o $(CXXFLAGS)
+
+koala.o: koala.cpp
+	$(CPP) -c koala.cpp -o koala.o $(CXXFLAGS)
