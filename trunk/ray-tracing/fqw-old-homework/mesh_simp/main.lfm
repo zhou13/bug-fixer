@@ -1,0 +1,221 @@
+object Mainform: TMainform
+  Left = 355
+  Height = 601
+  Top = 18
+  Width = 826
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
+  Caption = '图形学作业  网格简化 - by Feng Qiwei'
+  ClientHeight = 581
+  ClientWidth = 826
+  Menu = MainMenu
+  OnClose = FormClose
+  OnShow = FormShow
+  Position = poDesktopCenter
+  LCLVersion = '0.9.30'
+  object Panel1: TPanel
+    Left = 0
+    Height = 559
+    Top = 0
+    Width = 216
+    Align = alLeft
+    BevelOuter = bvNone
+    ClientHeight = 559
+    ClientWidth = 216
+    TabOrder = 0
+    object GroupBox1: TGroupBox
+      Left = 8
+      Height = 120
+      Top = 8
+      Width = 201
+      Caption = '面片'
+      ClientHeight = 102
+      ClientWidth = 197
+      TabOrder = 1
+      object Label1: TLabel
+        Left = 14
+        Height = 13
+        Top = 16
+        Width = 25
+        Caption = '原始'
+        ParentColor = False
+      end
+      object EdOriginal: TEdit
+        Left = 54
+        Height = 25
+        Top = 8
+        Width = 96
+        ParentBidiMode = False
+        ReadOnly = True
+        TabOrder = 0
+        Text = '0'
+      end
+      object Label2: TLabel
+        Left = 14
+        Height = 13
+        Top = 46
+        Width = 25
+        Caption = '当前'
+        ParentColor = False
+      end
+      object EdCurrent: TEdit
+        Left = 54
+        Height = 25
+        Top = 40
+        Width = 96
+        ReadOnly = True
+        TabOrder = 1
+        Text = '0'
+      end
+      object Label3: TLabel
+        Left = 14
+        Height = 13
+        Top = 76
+        Width = 25
+        Caption = '目标'
+        ParentColor = False
+      end
+      object EdTarget: TSpinEdit
+        Left = 54
+        Height = 25
+        Top = 70
+        Width = 96
+        MaxValue = 0
+        TabOrder = 2
+      end
+      object BtRecover: TButton
+        Left = 158
+        Height = 86
+        Top = 6
+        Width = 32
+        Caption = '恢复'
+        OnClick = BtRecoverClick
+        TabOrder = 3
+      end
+    end
+    object BtRun: TBitBtn
+      Left = 16
+      Height = 30
+      Top = 136
+      Width = 184
+      Caption = '执行简化'
+      OnClick = BtRunClick
+      TabOrder = 0
+    end
+    object ProgressBar: TProgressBar
+      Left = 16
+      Height = 12
+      Top = 168
+      Width = 184
+      Max = 1000
+      Smooth = True
+      TabOrder = 2
+    end
+    object StaticText1: TStaticText
+      Left = 8
+      Height = 369
+      Top = 192
+      Width = 201
+      Caption = '  您可以使用鼠标选择模型，使用鼠标滚轮缩放模型。'#13#10#13#10'  您可以在『文件』菜单里打开模型文件或保存当前模型文件。'#13#10'  您可以使用『恢复原始模型』恢复到当前文件最开始的状态。此时的模型将会清除，请注意保存。'#13#10#13#10'  如果模型读入时不是正向的，您可以使用『操作-旋转XY/XZ轴』调整坐标轴。朝上的是Y轴。'#13#10#13#10'  如果不能显示三维效果，您可以尝试『操作-反向法向量』。'#13#10#13#10'  您可以在『显示』菜单选择是否使用光滑显示。如果选择光滑显示，将对面片的法向量进行插值显示；如果不选择光滑显示，将显示出原始的面片。'
+      TabOrder = 3
+    end
+  end
+  object DisplayPanel: TPanel
+    Left = 216
+    Height = 559
+    Top = 0
+    Width = 610
+    Align = alClient
+    BevelOuter = bvLowered
+    BevelWidth = 3
+    TabOrder = 1
+  end
+  object StatusBar: TStatusBar
+    Left = 0
+    Height = 22
+    Top = 559
+    Width = 826
+    Panels = <    
+      item
+        Width = 500
+      end>
+    SimplePanel = False
+  end
+  object MainMenu: TMainMenu
+    left = 120
+    top = 65528
+    object MenuFile: TMenuItem
+      Caption = '文件(&F)'
+      object MenuOpen: TMenuItem
+        Caption = '打开(&O)..'
+        ShortCut = 16463
+        OnClick = MenuOpenClick
+      end
+      object MenuSave: TMenuItem
+        Caption = '保存当前模型(&S)'
+        ShortCut = 16467
+        OnClick = MenuSaveClick
+      end
+      object MenuItem1: TMenuItem
+        Caption = '-'
+      end
+      object MenuQuit: TMenuItem
+        Caption = '退出(&Q)'
+        OnClick = MenuQuitClick
+      end
+    end
+    object MenuOperation: TMenuItem
+      Caption = '操作(&P)'
+      object MenuRun: TMenuItem
+        Caption = '执行简化(&S)'
+        ShortCut = 16466
+        OnClick = MenuRunClick
+      end
+      object MenuItem4: TMenuItem
+        Caption = '-'
+      end
+      object MenuRecover: TMenuItem
+        Caption = '恢复原始模型(&O)'
+        OnClick = MenuRecoverClick
+      end
+      object MenuItem3: TMenuItem
+        Caption = '-'
+      end
+      object MenuRevNormal: TMenuItem
+        Caption = '反向法向量(&N)'
+        OnClick = MenuRevNormalClick
+      end
+      object MenuItem2: TMenuItem
+        Caption = '-'
+      end
+      object MenuExchangeXY: TMenuItem
+        Caption = '将X轴和Y轴互换(&X)'
+        OnClick = MenuExchangeXYClick
+      end
+      object MenuExchangeZY: TMenuItem
+        Caption = '将Z轴和Y轴互换(&Z)'
+        OnClick = MenuExchangeZYClick
+      end
+    end
+    object MenuDisplay: TMenuItem
+      Caption = '显示(&D)'
+      object MenuSmooth: TMenuItem
+        Caption = '光滑显示(法向量插值)(&S)'
+        Checked = True
+        OnClick = MenuSmoothClick
+      end
+    end
+  end
+  object OpenDialog: TOpenDialog
+    Filter = 'Obj模型文件|*.obj|*.*|*.*'
+    left = 96
+    top = 65528
+  end
+  object SaveDialog: TSaveDialog
+    DefaultExt = '.obj'
+    Filter = 'Obj模型文件|*.obj|*.*|*.*'
+    Options = [ofOverwritePrompt, ofEnableSizing, ofViewDetail]
+    left = 64
+    top = 65520
+  end
+end
