@@ -1,0 +1,293 @@
+\documentclass[12pt,abstract=true]{scrartcl}
+
+\usepackage{tikz}
+\usepackage{array}
+\usepackage{pifont}
+\usepackage{engord}
+\usepackage{listings}
+\usepackage{titlesec}
+\usepackage{fancyhdr}
+\usepackage{fancyvrb}
+\usepackage{multicol}
+\usepackage{pgfplots}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage[plain]{fancyref}
+\usepackage[unicode]{hyperref}
+\usepackage{graphicx,tabularx}
+\usepackage[shortlabels]{enumitem}
+\usepackage[retainorgcmds]{IEEEtrantools}
+\usepackage{amsmath,amssymb,amsthm,amscd,amstext}
+\usepackage{mathtools}
+\usepackage{exscale}
+\usepackage{relsize}
+\usepackage{mathrsfs}
+\usepackage{tocloft}
+
+\usepackage{setspace}
+\usepackage{lastpage}
+\usepackage{extramarks}
+\usepackage{chngpage}
+
+\usepackage{charter}
+
+%\pgfplotsset{compat=1.6}
+\usetikzlibrary{arrows}
+\usetikzlibrary{patterns}
+\usetikzlibrary{positioning}
+\usetikzlibrary{automata}
+\usetikzlibrary{plotmarks}
+\usepackage{tikz-3dplot}
+
+\tikzset{ alert/.style={ very thick, draw=red!80, fill=red!20 } }
+\tikzset{ fancy/.style={ very thick, draw=blue!80, fill=blue!20 } }
+\tikzset{
+  dot/.style={
+    very thick,circle,draw=black,fill=black,inner sep=0,minimum size=5pt
+  }
+}
+\tikzset { every state/.style={fancy} }
+\tikzset {
+  general/.style = {
+    shorten >=2pt, node distance=2.5cm, on grid, thick,>=stealth', auto
+  }
+}
+\newcommand{\mathhuge}[1]{\mathlarger{\mathlarger{\mathlarger{#1}}}}
+\newcommand{\mathtiny}[1]{\mathsmaller{\mathlarger{\mathlarger{#1}}}}
+
+\renewcommand\cftsecfont{\normalsize}
+\renewcommand\cftsecpagefont{\normalsize}
+\renewcommand\cftsecafterpnum{\par}
+\setlength{\cftbeforesecskip}{0.2em}
+
+\renewcommand\cftsubsecfont{\small}
+\renewcommand\cftsubsecpagefont{\small}
+\renewcommand\cftsubsecafterpnum{\par}
+
+\newcommand\upper[1]{\textsuperscript#1}
+\numberwithin{equation}{section}
+\mathtoolsset{centercolon}
+\bibliographystyle{plain}
+
+% Theorem environment <<<
+\theoremstyle{definition}   \newtheorem{definition}{Definition}[section]
+\theoremstyle{plain}        \newtheorem{theorem}{Theorem}[section]
+\theoremstyle{plain}        \newtheorem{observation}{Observation}[section]
+\theoremstyle{plain}        \newtheorem{fact}{Fact}[section]
+\theoremstyle{plain}        \newtheorem{claim}{Claim}[section]
+\theoremstyle{plain}        \newtheorem{lemma}[theorem]{Lemma}
+\theoremstyle{plain}        \newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{remark}       \newtheorem{example}{Example}[section]
+\theoremstyle{remark}       \newtheorem{remark}{Remark}[section]
+\newcommand*{\fancyrefdeflabelprefix}{def}
+\newcommand*{\fancyrefthmlabelprefix}{thm}
+\newcommand*{\fancyreflemlabelprefix}{lem}
+\newcommand*{\fancyrefcorlabelprefix}{cor}
+\newcommand*{\fancyrefalglabelprefix}{alg}
+\newcommand*{\fancyreflnlabelprefix}{ln}
+\frefformat{plain}{\fancyreflnlabelprefix}{line #1}
+\Frefformat{plain}{\fancyreflnlabelprefix}{Line #1}
+\frefformat{plain}{\fancyrefalglabelprefix}{algorithm (#1)}
+\Frefformat{plain}{\fancyrefalglabelprefix}{Algorithm (#1)}
+\frefformat{plain}{\fancyrefdeflabelprefix}{definition (#1)}
+\Frefformat{plain}{\fancyrefdeflabelprefix}{Definition (#1)}
+\frefformat{plain}{\fancyrefthmlabelprefix}{theorem (#1)}
+\Frefformat{plain}{\fancyrefthmlabelprefix}{Theorem (#1)}
+\frefformat{plain}{\fancyreflemlabelprefix}{lemma (#1)}
+\Frefformat{plain}{\fancyreflemlabelprefix}{Lemma (#1)}
+\frefformat{plain}{\fancyrefcorlabelprefix}{corollary (#1)}
+\Frefformat{plain}{\fancyrefcorlabelprefix}{Corollary (#1)}
+%>>>
+% Alter some LaTeX Float for better treatment of figures: <<<
+% See p.105 of "TeX Unbound" for suggested values.
+% See pp. 199-200 of Lamport's "LaTeX" book for details.
+%   General parameters, for ALL pages:
+\renewcommand{\topfraction}{0.9}	% max fraction of floats at top
+\renewcommand{\bottomfraction}{0.8}	% max fraction of floats at bottom
+\setcounter{topnumber}{2}
+\setcounter{bottomnumber}{2}
+\setcounter{totalnumber}{4}     % 2 may work better
+\setcounter{dbltopnumber}{2}    % for 2-column pages
+\renewcommand{\dbltopfraction}{0.9}	% fit big float above 2-col. text
+\renewcommand{\textfraction}{0.07}	% allow minimal text w. figs
+\renewcommand{\floatpagefraction}{0.7}	% require fuller float pages
+\renewcommand{\dblfloatpagefraction}{0.7}	% require fuller float pages
+
+\newcommand{\scorebest}{$83.59\%$}
+\newcommand{\scorebasic}{$78.37\%$}
+\newcommand{\rankbest}{$9$}
+
+\allowdisplaybreaks[4]
+
+\begin{document}
+
+\begin{center} %<<< Title
+	\textsc{
+		\LARGE Machine Learning Project Report
+	} \\[1em]
+	
+	\textrm{
+		{\Large CIFAR-10}
+	} \\[2em]
+	
+	\textit{
+		Kaggle ID: bug-fixer
+	} \\[1em]
+	
+	\normalsize 
+		Yuxing Zhang\upper{1}, Qipeng Liu\upper{2},
+		Yuan Deng\upper{3},	Qiwei Feng\upper{4}\\[1.5em]
+	\small
+	\begin{tabular}{*{2}{>{\centering}p{.32\textwidth}}}
+		\upper{1}\small\href{mailto:saintmakarovski@gmail.com}{saintmakarovski@gmail.com} &%
+		\upper{2}\href{mailto:lqp1831@gmail.com}{lqp1831@gmail.com}
+		\tabularnewline
+		\tabularnewline
+		\upper{3}\href{mailto:deng1227yuan@163.com}{deng1227yuan@163.com} &
+		\upper{4}\href{mailto:caiwaifung@gmail.com}{caiwaifung@gmail.com} 
+		%\upper{4}\href{mailto:lqp1831@gmail.com}{lqp1831@gmail.com}% \tabularnewline
+	\end{tabular} \\[1.5em]
+
+	\normalsize Institute for Interdisciplinary Information Sciences,
+	Tsinghua University \\[2em]
+	
+	\normalsize
+\end{center} \par %>>>
+
+\tableofcontents
+\newpage
+
+\section{Introduction}
+	We worked on the CIFAR-10 competetion on
+		\href{http://www.kaggle.com/c/cifar-10}{www.kaggle.com}.
+	A series of algorithms were used by us and we get the best result of \scorebest,
+		which toke the \rankbest-th place on Kaggle.
+	(Here is a link of the
+		\href{http://www.kaggle.com/c/cifar-10/leaderboard}{ranklist}.)
+		
+	The main method we use is K-Means clustering.
+	We use linear SVM for later model training and query answering.
+	We also use a lot of libraries to accelerate our program.
+	The details of the project would be discuss in later sections.
+	
+	\subsection{About Makarovski}
+		Well I think that you should notice Makarovski.
+		{\color{red}TODO: Mention some junk!}
+		
+
+\section{Algorithms}
+
+	\subsection{K-Means Clustering}
+		{\color{red}TODO: Mention classical K-Means algorithm!}
+	
+	\subsection{Feature Extracting}
+		The algorithm we used to extracting features is nearly the same
+			as A. Coates done in his 2010 NIPS paper \cite{singlelayer}.
+		It contains two parts.
+		First, we would calculate the "centroids" of the pictures by extracting
+			random patches from them and run K-Means on these patches.
+		Second, we would compute the feature vector of each picture using the centroids.
+		After these, we can get the features of all picture and we can label them for furthur usage.
+
+		We define a patch as a $d*d$ sub-picture of a large $h*w$ picture
+			(then the picture has $(h-d+1)*(w-d+1)$ patches totally).
+		For a three-channel (RGB) picture, a patch of it can be described as a vector in $R^{3d^2}$.
+		First step of the algorithm is to generate the "centroids" of the data set.
+		A centroid is also a vector in $R^{3d^2}$ and the centroids are the
+			"most common patches" in all the pictures.
+		We randomly extract $n$ patches from the picture set to get matrix $P$,
+			and then run the K-Means process to generate $k$ centroids $C_1,...,C_k$.
+		The K-Means algorithm contains $t$ iterations.
+		In each iteration, we just find the closest centroid for each patch in $P$,
+			then assign the patch to the centroid.
+		For each centroid $C_i$,
+			we take all patches that assigned to this centroid in the current iteration,
+			and modify the centroid into a new one $C'_i$ which is the mean of all these patches.
+		After running such iteration for $t$ rounds,
+			our centroids are supposed to well described the 'common features' of the patches.
+
+		Next, we can extract feature from a picture using the centroids.
+		Suppose the picture has dimension of $h*w$.
+		Know that it has $(h-d+1)*(w-d+1)$ patches.
+		For one patch $p\in R^{3d^2}$, we can map it to a $R^k$ vector $f(p)$,
+		where
+			$$ f_i(p) = \max \{0, \mu - z_i\}, $$
+		and $z_i = ||p-C^{(i)}||_2$, $\mu = (\sum_i z_i) / k$.
+		Thus we have $(h-d+1)*(w-d+1)$ vectors of dimension $k$.
+		We just divide the $(h-d+1)*(w-d+1)$ grids into four equal parts,
+			each contains $(h-d+1)*(w-d+1)/4$ grids.
+		By summing up all the vectors in each part,
+			we get $4$ vectors in $R^k$ which can be merge into a $4k$-dimension vector.
+		This vector is used as the feature of this picture.
+	
+	\subsection{SVM Classifier}
+		{\color{red}TODO: Mention some junk!}
+
+\section{Implements}
+
+	\subsection{Feature Extracting}
+		All codes for feature extracting are written in C++.
+		The codes are shown in /codes/.
+		We use a lot of libraries including MKL (Intel Math Kernel Library)
+			for matrix multiplying and eigen-value calculating,
+			and OpenCV for image processing.
+		Moreover, we use MPI as the framework of the project
+			in order to run the algorithm parallelly.
+		
+		\subsubsection{MPI Framework}
+			The Message Passing Interface Standard (MPI) is a message passing library standard.
+			We used Microsoft MPI (MS-MPI),
+				which is a Microsoft implementation of the MPI standard,
+				to develop and runn parallel applications on the Windows platform.
+			For the K-Means clustering part,
+				we communicate between nodes while summing the centroid matrix,
+				thus the centroids can be calculating quickly.
+			For the feature extracting part,
+				we just assign the extracting tasks to each node
+				and then the nodes extract them respectively.
+			The parallel implementation truly accelerate the program.
+			It took us about half an hour to get the features,
+				while it takes days if only one machine is used.
+		
+		\subsubsection{MKL Library}
+			The Intel Math Kernel Library (MKL) is a
+				fast and widely used math library for Intel and compatible processors.
+			We use this library for matrix multiplication and computing eigen-vectors.
+			It is so fast that it takes only about $1/50$ times of hand-written version.
+			Since we have met a lot of problems	while using this library,
+				it is still a good tool for basic math computations.
+				
+	\subsection{SVM Training and Testing}
+		All our SVM codes are written in MATLAB.
+		The code are written by standford as demo of their papers \cite{rf}\cite{singlelayer}.
+		It just write a loss function and use the minFunc library
+			to minimize the function,
+			thus get the support vectors as the model.
+		Since CIFAR-10 has 10 categories,
+			it just train $\binom{10}{2}$ 1-vs-1 models
+			in order to get the most-possible label for a picture.
+		MATLAB use MKL as its kernel thus it is fast and reliable.
+		We like it.
+
+\section{Results}
+	\subsection{Most Basic Results}
+		We run the code and train SVM with $C\in[1,100000]$,
+			and get results from $70\%$ to about $78\%$.
+		In this short range,
+			the performance increase when $C$ increase.
+		The best result, \scorebasic, comes from $C=100000$.
+	
+	\subsection{Major Results}
+		Since we have run the codes for several times with different parameters,
+			we get a number of result lists.
+		An idea is that, for a test picture, we can get the major answer from
+			these basic answers.
+		We do this and adjust some parameters, and get our
+			best result, \scorebest.
+
+\section{Conclusion}
+		{\color{red}TODO: Mention some junk!}
+	
+
+\bibliography{report}
+\end{document}
